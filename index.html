@@ -370,7 +370,7 @@
   .filter-modal-content {
     background: var(--card-bg);
     width: 96%; max-width: 720px;
-    margin: 36px auto; border-radius: 16px; padding: 8px 12px 12px;
+    margin: 36px auto; border-radius: 16px; padding: 3px 4px 4px;
     color: var(--text);
   }
   .filter-modal-content h3 { margin: 6px 4px 10px; }
@@ -384,22 +384,22 @@
   }
 
   /* Actress column controls */
-  .col-controls { display:flex; gap:8px; align-items:center; margin:6px 0 10px; }
-  .col-controls button { padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
+  .col-controls { display:flex; gap:2px; align-items:center; margin:6px 0 10px; }
+  .col-controls button { padding:2px 3px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
   .col-controls button.active { background-image: var(--grad-primary); color:#fff; border-color:transparent; transform: translateY(-1px); }
 
   /* Grid: dynamic columns via inline styles; default to 3 */
   .grid-3 {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    padding: 6px;
+    gap: 1px;
+    padding: 1px;
   }
   .grid-3 .opt {
     text-align:center; cursor:pointer;
     border: 2px solid transparent;
     border-radius: 10px;
-    padding: 6px;
+    padding: 1px;
     transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
     background: #ffffff08;
   }
@@ -411,7 +411,7 @@
   .grid-3 .count { display:block; font-size: 12px; color: #94a3b8; }
 
   /* small utility */
-  .row { display:flex; gap:8px; align-items:center; }
+  .row { display:flex; gap:2px; align-items:center; }
 
   /* small responsive tweak: if modal narrower, shrink image container slightly */
   @media (max-width:600px){
