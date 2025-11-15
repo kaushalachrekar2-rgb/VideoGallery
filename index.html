@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Viewing Website</title>
+<style>
+  /* =============== THEME =============== */
+  :root {
+    /* Light */
+    --bg: #f8fafc;
+    --text: #0f172a;
+    --card-bg: #ffffff;
+
+    /* Gradients - Updated to violet gradient */
+    --grad-primary: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    --grad-primary-hover: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+    --grad-header-accent: linear-gradient(90deg, rgba(139,92,246,.2), rgba(124,58,237,.2));
+
+    /* UI */
+    --primary: #7C3AED;
+    --primary-hover: #6D28D9;
+    --modal-bg: rgba(0,0,0,0.85);
+    --radius: 12px;
+    --ring: 0 0 0 3px rgba(139,92,246,.25);
+
+    /* rating row height (responsive) */
+    --row-height: clamp(240px, 40vw, 420px);
+
+    /* Button gradients (light theme) */
+    --btn-gallery-start: #06b6d4;  /* cyan */
+    --btn-gallery-end:   #3b82f6;  /* blue */
+    --btn-trailer-start: #7c3aed;  /* violet */
+    --btn-trailer-end:   #6d28d9;
+    --btn-censored-start:#06b6a4;  /* teal */
+    --btn-censored-end:  #10b981;  /* green */
+    --btn-uncensored-start:#f59e0b;/* amber */
+    --btn-uncensored-end:  #ef4444;/* red/orange */
+    --btn-english-start:#06b6d4;
+    --btn-english-end:#7c3aed;
+
+    /* Full button neutral border for non-primary full buttons */
+    --full-btn-border: rgba(148,163,184,.22);
+
+    /* Rating gradients (start/end) for each category - light */
+    --rating-actress-start: #f97316;  /* orange */
+    --rating-actress-end:   #fb923c;
+    --rating-production-start: #06b6d4; /* cyan */
+    --rating-production-end:   #3b82f6;
+    --rating-ex-start: #a78bfa; /* soft violet */
+    --rating-ex-end:   #8b5cf6;
+    --rating-plot-start: #10b981; /* green */
+    --rating-plot-end:   #34d399;
+    --rating-tech-start: #f43f5e; /* rose */
+    --rating-tech-end:   #f973a4;
+
+    /* Star background gradient */
+    --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
+  }
+
+  body.dark {
+    /* Dark overrides */
+    --bg: #0b1221;
+    --text: #e5e7eb;
+    --card-bg: #121a2b;
+
+    --grad-primary: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+    --grad-primary-hover: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    --grad-header-accent: linear-gradient(90deg, rgba(167,139,250,.18), rgba(139,92,246,.18));
+
+    --modal-bg: rgba(0,0,0,0.92);
+
+    /* Buttons darker / richer */
+    --btn-gallery-start: #0891b2;
+    --btn-gallery-end:   #2563eb;
+    --btn-trailer-start: #8b5cf6;
+    --btn-trailer-end:   #6d28d9;
+    --btn-censored-start:#04967f;
+    --btn-censored-end:  #059669;
+    --btn-uncensored-start:#f59e0b;
+    --btn-uncensored-end:#ef4444;
+    --btn-english-start:#06b6d4;
+    --btn-english-end:#7c3aed;
+
+    /* Rating colors adjusted for dark */
+    --rating-actress-start: #fb923c;
+    --rating-actress-end:   #f97316;
+    --rating-production-start: #06b6d4;
+    --rating-production-end:   #2563eb;
+    --rating-ex-start: #a78bfa;
+    --rating-ex-end:   #7c3aed;
+    --rating-plot-start: #34d399;
+    --rating-plot-end:   #10b981;
+    --rating-tech-start: #fb7185;
+    --rating-tech-end:   #f43f5e;
+
+    --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
+  }
+
+  /* =============== BASE =============== */
+  * { box-sizing: border-box; }
+  html, body { width:100%; }
+  body {
+    margin:0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .3s ease, color .3s ease;
+    overflow-x: hidden; /* prevent mobile overflow */
+  }
+
+  /* =============== HEADER =============== */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+  header::after {
+    content:""; display:block; position:absolute; left:0; right:0; bottom:0; height:4px;
+    background: var(--grad-header-accent);
+  }
+  #searchBar {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: var(--radius);
+    font-size: 15px;
+    background: #ffffff10;
+    color: var(--text);
+    outline: none;
+  }
+  #searchBar:focus { box-shadow: var(--ring); border-color: transparent; }
+  .header-actions { display:flex; gap:8px; align-items:center; flex-shrink:0; }
+
+  .icon-btn {
+    border: none; cursor: pointer; padding: 8px 10px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius: var(--radius);
+    background-image: var(--grad-primary);
+    color: #fff;
+    transition: transform .2s ease, filter .2s ease, background-image .2s ease;
+  }
+  .icon-btn:hover { background-image: var(--grad-primary-hover); transform: translateY(-1px); }
+  .icon-btn:active { transform: translateY(0); }
+  .icon-btn svg { width: 20px; height: 20px; stroke: #fff; }
+
+  /* Theme toggle – keep inside bounds on mobile */
+  .theme-toggle {
+    width: 44px; height: 24px; flex-shrink:0;
+    background: #64748b;
+    border-radius: 999px;
+    position: relative; cursor: pointer;
+    transition: background .3s ease;
+  }
+  .theme-toggle::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 999px; background: #fff;
+    transition: transform .3s ease;
+  }
+  body.dark .theme-toggle { background: #8B5CF6; }
+  body.dark .theme-toggle::after { transform: translateX(20px); }
+
+  /* =============== FILTER BAR =============== */
+  .filter-buttons {
+    display:flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px;
+    justify-content: center;
+  }
+  .filter-buttons button {
+    display:flex; align-items:center; gap: 6px;
+    padding: 8px 12px; border: none; cursor: pointer;
+    border-radius: 999px;
+    background-image: var(--grad-primary);
+    color: #fff; font-size: 14px;
+    transition: background-image .2s ease, transform .15s ease;
+    white-space: nowrap;
+  }
+  .filter-buttons button:hover { background-image: var(--grad-primary-hover); transform: translateY(-1px); }
+  .filter-buttons button:active { transform: translateY(0); }
+  .filter-buttons button svg { width: 16px; height: 16px; stroke: #fff; }
+
+  /* =============== GRID / CARDS =============== */
+  .video-grid {
+    display:grid; gap: 10px; padding: 10px 12px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .video-grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      max-width: 100%; /* Use full width on desktop */
+      margin: 0 auto;
+    }
+  }
+  @media (min-width: 1024px) {
+    .video-grid {
+      grid-template-columns: repeat(4, 1fr); /* Maximum 4 columns on big screens */
+    }
+  }
+  .video-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0,0,0,.08);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .video-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,.12); }
+
+  /* ---- Image spacing (equal, small, consistent) ---- */
+  .video-card img {
+    display:block;
+    width: 100%;   /* equal side margins */             
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .video-card b {
+    display: block;
+    padding: 8px 10px;
+    font-size: 15px;
+    text-align: left; /* Align titles to the left */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    max-height: 3.5em; 
+    height: 3.5em;
+  }
+
+  /* =============== PAGINATION =============== */
+  .pagination {
+    display:flex; justify-content:center; gap: 6px; padding: 12px;
+    flex-wrap: wrap;
+  }
+  .pagination button {
+    min-width: 36px; padding: 6px 10px;
+    border: 1px solid rgba(148,163,184,.35);
+    background: var(--card-bg);
+    border-radius: 10px;
+    cursor: pointer; color: var(--text); font-size: 14px;
+    transition: transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .pagination button.active {
+    background-image: var(--grad-primary);
+    color: #fff; border-color: transparent;
+  }
+  .pagination button:hover { transform: translateY(-1px); }
+  .pagination .ellipsis {
+    border: none; background: transparent; cursor: default; color: #94a3b8;
+  }
+
+  /* =============== MODALS =============== */
+  .modal {
+    display:none; position:fixed; inset:0; z-index: 1000;
+    background: var(--modal-bg);
+    justify-content:center; align-items:flex-start; overflow-y:auto; padding: 16px;
+  }
+  .modal-content {
+    background: var(--card-bg);
+    width: 96%; max-width: 900px;
+    margin: 36px auto; border-radius: 16px; overflow: hidden;
+    color: var(--text); position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,.35);
+  }
+  .close {
+    position: fixed; top: 10px; right: 16px;
+    font-size: 34px; color: #fff; cursor: pointer; z-index: 1100;
+  }
+
+  /* Hidden player preserved for compatibility */
+  #videoPlayer { display:none; width:0; height:0; border:0; }
+
+  /* ====== New modal internal layout ====== */
+  .modal-inner {
+    padding: 12px;
+  }
+  .modal-thumb {
+    width:100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; display:block; margin-bottom:10px;
+  }
+  .modal-title {
+    font-size: 20px; font-weight:700; padding: 4px 2px 8px;
+  }
+  .meta-line { display:block; font-size:14px; margin: 4px 0; line-height:1.3; }
+  .meta-line span.clickable { cursor:pointer; padding: 4px 8px; border-radius: 999px; display:inline-block; transition: box-shadow .15s ease; }
+  .meta-line span.clickable:hover { box-shadow: var(--ring); }
+
+  /* Rating + Image Row - ALWAYS side-by-side */
+  .rating-image-row {
+    display:flex; gap: 18px; align-items:stretch; margin-top:12px;
+    height: var(--row-height); /* responsive consistent height */
+    flex-direction: row;
+  }
+
+  /* Left - Rating system */
+  .rating-left { flex:1; min-width: 0; display:flex; flex-direction:column; gap:14px; padding:8px 6px; }
+  /* main rating improved styling */
+  .main-rating {
+    display:flex; align-items:center; gap:14px; margin:0;
+  }
+  .main-rating .star-wrap {
+    display:flex; align-items:center; justify-content:center;
+    width:72px; height:72px; border-radius:14px;
+    background: var(--star-bg);
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    flex-shrink:0;
+  }
+  .main-rating svg { width:34px; height:34px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
+  .main-rating .score {
+    display:flex; flex-direction:column;
+    font-weight:800;
+  }
+  .main-rating .score .val { font-size:24px; line-height:1; }
+  .main-rating .score .max { font-size:12px; color:#94a3b8; margin-top:4px; }
+
+  .rating-bars { display:flex; flex-direction:column; gap:12px; overflow:auto; padding-right:6px; }
+
+  .rating-row { display:flex; align-items:center; gap:12px; }
+  .rating-row .label { width: 110px; min-width: 80px; font-size:14px; font-weight:700; color:var(--text); }
+  .rating-row .bar {
+    flex:1; height:14px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative;
+  }
+  .rating-row .bar .fill {
+    height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1);
+    /* background set inline in JS using CSS variables for per-category gradients */
+  }
+  .rating-row .value { width:52px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
+
+  /* Right - image */
+  .rating-image-right { width: 36%; max-width: 320px; min-width:120px; display:flex; align-items:center; justify-content:center; padding:6px; }
+  .rating-image-right img {
+    /* Do not crop: contain and center the image; keep 2:3 ratio */
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    aspect-ratio: 2/3;
+    border-radius: 10px;
+    display:block;
+    background: transparent;
+  }
+
+  /* Buttons - new gradients & variants */
+  .modal-buttons { margin-top: 12px; display:flex; gap:8px; flex-wrap:wrap; }
+  .modal-buttons .side-btn {
+    flex:1; min-width:120px; padding:10px; border-radius:10px; border:none; cursor:pointer;
+    color:#fff; font-weight:700; transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease;
+  }
+  .modal-buttons .side-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+
+  /* specific side button gradients */
+  #btnGallery { background-image: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
+  #btnTrailer { background-image: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
+
+  .modal-full-buttons { margin-top: 10px; display:flex; flex-direction:column; gap:8px; }
+  .modal-full-buttons .full-btn {
+    width:100%; padding:12px; border-radius:12px; border:none; cursor:pointer; font-weight:800;
+    color:var(--text); background: var(--card-bg); border: 1px solid var(--full-btn-border);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .modal-full-buttons .full-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+
+  /* primary (Censored) and other full buttons */
+  #btnCensored { background-image: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); color:#fff; border-color:transparent; }
+  #btnUncensored { background-image: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); color:#fff; border-color:transparent; }
+  #btnEnglish { background-image: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); color:#fff; border-color:transparent; }
+
+  /* =============== FILTER MODAL CONTENT =============== */
+  .filter-modal-content {
+    background: var(--card-bg);
+    width: 96%; max-width: 720px;
+    margin: 36px auto; border-radius: 16px; padding: 8px 12px 12px;
+    color: var(--text);
+  }
+  .filter-modal-content h3 { margin: 6px 4px 10px; }
+  .filter-search { margin: 0 4px 10px; }
+  .filter-search input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: 10px;
+    background: #ffffff10; color: var(--text);
+  }
+
+  /* Actress column controls */
+  .col-controls { display:flex; gap:8px; align-items:center; margin:6px 0 10px; }
+  .col-controls button { padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
+  .col-controls button.active { background-image: var(--grad-primary); color:#fff; border-color:transparent; transform: translateY(-1px); }
+
+  /* Grid: dynamic columns via inline styles; default to 3 */
+  .grid-3 {
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 6px;
+  }
+  .grid-3 .opt {
+    text-align:center; cursor:pointer;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 6px;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    background: #ffffff08;
+  }
+  .grid-3 .opt:hover { transform: translateY(-2px); }
+  .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.2); }
+  .grid-3 img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; }
+  /* actress name scales via CSS variable set inline by JS */
+  .grid-3 .name { display:block; font-weight: 700; margin-top: 6px; font-size: var(--actress-name-size,13px); }
+  .grid-3 .count { display:block; font-size: 12px; color: #94a3b8; }
+
+  /* small utility */
+  .row { display:flex; gap:8px; align-items:center; }
+
+  /* small responsive tweak: if modal narrower, shrink image container slightly */
+  @media (max-width:600px){
+    .rating-image-right { width: 40%; }
+    .rating-left .label { width: 90px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="icon-btn" id="homeBtn" title="Home" aria-label="Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3 9.5l9-7 9 7V20a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2V9.5z" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <input type="text" id="searchBar" placeholder="Search videos..." inputmode="search" />
+
+  <div class="header-actions">
+    <button class="icon-btn" id="shuffleBtn" title="Shuffle current list" aria-label="Shuffle">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M4 20l5-5m11-2h-3.5a2.5 2.5 0 0 1-2-4l5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></div>
+  </div>
+</header>
+
+<!-- Filter buttons with selected text - Only Actress filter remains -->
+<div class="filter-buttons">
+  <button onclick="openFilter('actress')" id="btn-actress" aria-label="Filter Actress">Actress: All</button>
+  <button class="icon-btn" id="randomBtn" title="Show 3 random videos" aria-label="Random 3">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<!-- Grid + Pagination -->
+<div class="video-grid" id="videoGrid"></div>
+<div class="pagination" id="pagination"></div>
+
+<!-- Video Modal -->
+<div class="modal" id="videoModal" role="dialog" aria-modal="true">
+  <span class="close" onclick="closeModal('videoModal')" aria-label="Close">&times;</span>
+  <div class="modal-content">
+    <!-- Hidden iframe kept for compatibility with existing code that sets/clears it -->
+    <iframe id="videoPlayer" class="player" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+
+    <!-- New modal inner content (matches requested layout) -->
+    <div class="modal-inner" id="modalInner">
+      <!-- 1. Thumbnail -->
+      <img id="modalThumb" class="modal-thumb" src="" alt="Thumbnail">
+
+      <!-- 2. Title -->
+      <div id="modalTitle" class="modal-title"></div>
+
+      <!-- 3. Metadata -->
+      <div id="modalMeta">
+        <div class="meta-line" id="metaActress"></div>
+        <div class="meta-line" id="metaStudioLabel" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+      </div>
+
+      <!-- 4. Rating system (left) + Image (right) - ALWAYS side-by-side -->
+      <div class="rating-image-row">
+        <div class="rating-left">
+          <div class="main-rating">
+            <div class="star-wrap" aria-hidden="true">
+              <!-- fancy SVG star for a cleaner look -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
+                <defs>
+                  <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0" stop-color="#FFD36B"/>
+                    <stop offset="1" stop-color="#F5B50A"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="score">
+              <div class="val" id="mainRatingText">0.0</div>
+              <div class="max">/ 10</div>
+            </div>
+          </div>
+
+          <div class="rating-bars" id="ratingBars">
+            <!-- Individual rating rows populated dynamically -->
+          </div>
+        </div>
+
+        <div class="rating-image-right">
+          <img id="modalCoverImage" src="" alt="Cover image">
+        </div>
+      </div>
+
+      <!-- 5. Buttons Section -->
+      <div class="modal-buttons" id="modalSideButtons">
+        <button class="side-btn" id="btnGallery">Gallery</button>
+        <button class="side-btn" id="btnTrailer">Trailer</button>
+      </div>
+
+      <div class="modal-full-buttons">
+        <button class="full-btn primary" id="btnCensored">Censored Video</button>
+        <button class="full-btn" id="btnUncensored">Uncensored Video</button>
+        <button class="full-btn" id="btnEnglish">English Sub Video</button>
+      </div>
+
+      <!-- gallery removed from modal per request -->
+    </div>
+  </div>
+</div>
+
+<!-- Filter Modal -->
+<div class="modal" id="filterModal" role="dialog" aria-modal="true">
+  <span class="close" onclick="closeModal('filterModal')" aria-label="Close">&times;</span>
+  <div class="filter-modal-content" id="filterContent">
+    <h3 id="filterTitle"></h3>
+    <div class="filter-search"><input type="text" id="filterSearch" placeholder="Search..." /></div>
+    <div id="filterControlsContainer"></div> <!-- for dynamic actress column controls -->
+    <div id="filterBody"></div>
+  </div>
+</div>
+
+<!-- Data sources -->
+<script src="filters.js"></script>
+<script src="videos.js"></script>
+
+<script>
+/* ================== Helpers ================== */
+function toArray(val){
+  if(!val) return [];
+  if(Array.isArray(val)) return val.map(v=>String(v).trim());
+  return String(val).split(",").map(v=>v.trim()).filter(Boolean);
+}
+function shuffleArray(arr){ return arr.slice().sort(()=>Math.random()-0.5); }
+
+/* ================== State ================== */
+const perPage = 12;
+let currentPage = 1;
+let activeFilters = {}; // { type: [value] } or empty array for All
+let filtered = [];
+
+/* Actress filter columns state */
+let actressColumns = 3; // default (preserve prior 3-column layout)
+const actressFontForCols = {1: '18px', 2: '15px', 3: '13px', 4: '12px'}; // scaling map
+
+/* ================== Init ================== */
+function init(){
+  filtered = shuffleArray([...videos]);
+  renderVideos();
+}
+document.addEventListener('DOMContentLoaded', init);
+
+/* ================== Apply Filters ================== */
+function applyAllFilters(){
+  filtered = videos.filter(v=>{
+    return Object.entries(activeFilters).every(([key,vals])=>{
+      if(!vals || !vals.length) return true; // All
+      return vals.some(val=>toArray(v[key]).includes(val));
+    });
+  });
+  filtered = shuffleArray(filtered);
+  currentPage = 1;
+  renderVideos();
+}
+
+/* ================== Render Grid + Pagination ================== */
+function renderVideos(){
+  const grid = document.getElementById("videoGrid");
+  grid.innerHTML = "";
+  const start = (currentPage-1)*perPage;
+  const pageItems = filtered.slice(start, start + perPage);
+  pageItems.forEach(v=>{
+    const card = document.createElement("div");
+    card.className = "video-card";
+    card.innerHTML = `<img src="${v.thumbnail}" loading="lazy" alt=""><b>${v.title}</b>`;
+    card.onclick = ()=>openVideo(v);
+    grid.appendChild(card);
+  });
+  renderPagination();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ===== Compact pagination: prev 3, current, next 3 ===== */
+function renderPagination(){
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const pag = document.getElementById("pagination");
+  pag.innerHTML = "";
+  if(totalPages <= 1) return;
+
+  const start = Math.max(1, currentPage - 3);
+  const end = Math.min(totalPages, currentPage + 3);
+
+  for(let p = start; p <= end; p++){
+    const btn = document.createElement("button");
+    btn.textContent = p;
+    if(p === currentPage) btn.classList.add("active");
+    btn.onclick = ()=>{ currentPage = p; renderVideos(); };
+    pag.appendChild(btn);
+  }
+}
+
+/* ================== Search ================== */
+document.getElementById("searchBar").addEventListener("input", e=>{
+  const q = e.target.value.toLowerCase();
+  activeFilters = {}; // reset filters when searching
+  updateFilterButtonsUI();
+  filtered = shuffleArray(videos.filter(v=>
+    v.title.toLowerCase().includes(q) ||
+    (v.code || "").toLowerCase().includes(q) ||
+    toArray(v.actress).some(a=>a.toLowerCase().includes(q)) ||
+    toArray(v.studio).some(s=>s.toLowerCase().includes(q)) ||
+    toArray(v.label).some(l=>l.toLowerCase().includes(q)) ||
+    toArray(v.series).some(s=>s.toLowerCase().includes(q)) ||
+    toArray(v.tags).some(t=>t.toLowerCase().includes(q))
+  ));
+  currentPage = 1; renderVideos();
+});
+
+/* ================== Video Modal (updated layout & colorized fills) ================== */
+function safeOpenInNewTab(url){
+  if(!url) return;
+  try { window.open(url, '_blank'); } catch(e){ console.warn('Open failed', e); }
+}
+
+/* Helper to compute rating average from ratings object. */
+function computeAverageRating(ratings){
+  const keys = ['actress','production','ex','plot','tech'];
+  const vals = keys.map(k => {
+    const v = ratings && typeof ratings[k] !== 'undefined' ? Number(ratings[k]) : 0;
+    return isFinite(v) ? Math.max(0, Math.min(10, v)) : 0;
+  });
+  const sum = vals.reduce((a,b)=>a+b,0);
+  return { avg: sum / vals.length, vals, keys };
+}
+
+/* Map rating key -> CSS var names for gradients */
+function ratingGradientFor(key){
+  // expects CSS variables to exist: --rating-<key>-start and --rating-<key>-end
+  return `linear-gradient(90deg, var(--rating-${key}-start), var(--rating-${key}-end))`;
+}
+
+function openVideo(v){
+  // Keep original iframe behavior for compatibility
+  const player = document.getElementById("videoPlayer");
+  if(player) player.src = v.videoUrl || "";
+
+  // 1. Thumbnail
+  const thumb = document.getElementById("modalThumb");
+  thumb.src = v.thumbnail || (v.gallery && v.gallery[0]) || "";
+  thumb.alt = v.title || "Thumbnail";
+
+  // 2. Title
+  document.getElementById("modalTitle").textContent = v.title || "";
+
+  // 3. Metadata
+  // Actress line (all names in one line, clickable)
+  const metaActress = document.getElementById("metaActress");
+  const actressList = toArray(v.actress);
+  if(actressList.length){
+    metaActress.innerHTML = '<strong>Actress:</strong> ' + actressList.map(a=>`<span class="clickable" onclick="setFilter('actress','${escapeHtml(a)}')">${escapeHtml(a)}</span>`).join(' ');
+  } else {
+    metaActress.innerHTML = '<strong>Actress:</strong> All';
+  }
+
+  // Studio and Label side by side
+  const metaStudioLabel = document.getElementById("metaStudioLabel");
+  const studios = toArray(v.studio);
+  const labels = toArray(v.label);
+
+  const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
+  const labelHTML = `<div style="flex:1;"><strong>Label:</strong> ${labels.length ? labels.map(l=>`<span class="clickable" onclick="setFilter('label','${escapeHtml(l)}')">${escapeHtml(l)}</span>`).join(' ') : 'All'}</div>`;
+  metaStudioLabel.innerHTML = studioHTML + labelHTML;
+
+  // 4. Rating System left + Image right
+  const ratingContainer = document.getElementById("ratingBars");
+  ratingContainer.innerHTML = "";
+
+  // Expecting v.ratings to be an object; fallback to any fields on v
+  const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot, tech: v.rating_tech };
+  const { avg, vals, keys } = computeAverageRating(ratingSource);
+  document.getElementById("mainRatingText").textContent = `${avg.toFixed(1)}`;
+
+  // Build 5 rating rows (and set each fill's gradient color using CSS variables)
+  const labelsPretty = { actress: "Actress", production: "Production", ex: "Ex", plot: "Plot", tech: "Tech" };
+  keys.forEach((k,i)=>{
+    const numeric = vals[i] || 0;
+    const row = document.createElement("div");
+    row.className = "rating-row";
+    row.innerHTML = `
+      <div class="label">${labelsPretty[k] || k}</div>
+      <div class="bar" aria-hidden="true"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
+      <div class="value">${numeric.toFixed(1)}</div>
+    `;
+    // set the fill gradient based on the category using CSS variables
+    const fillEl = row.querySelector('.fill');
+    if(fillEl){
+      // Apply gradient using CSS custom properties (works in both light & dark)
+      fillEl.style.background = ratingGradientFor(k);
+    }
+    ratingContainer.appendChild(row);
+  });
+
+  // Right image: prefer coverImage, else gallery[0], else thumbnail
+  const coverImg = document.getElementById("modalCoverImage");
+  coverImg.src = v.coverImage || (v.gallery && v.gallery[0]) || v.thumbnail || "";
+  coverImg.alt = v.title || "Cover image";
+
+  // 5. Buttons
+  const galleryBtn = document.getElementById("btnGallery");
+  const trailerBtn = document.getElementById("btnTrailer");
+  const censoredBtn = document.getElementById("btnCensored");
+  const uncensoredBtn = document.getElementById("btnUncensored");
+  const englishBtn = document.getElementById("btnEnglish");
+
+  // Ensure gallery/trailer buttons have slight pressed opacity effect via JS (no functionality change)
+  [galleryBtn, trailerBtn, censoredBtn, uncensoredBtn, englishBtn].forEach(b=>{
+    if(!b) return;
+    b.onmousedown = ()=> b.style.opacity = '0.92';
+    b.onmouseup = ()=> b.style.opacity = '';
+    b.onmouseleave = ()=> b.style.opacity = '';
+  });
+
+  galleryBtn.onclick = ()=> {
+    const url = (v.gallery && v.gallery.length) ? v.gallery[0] : (v.thumbnail || v.videoUrl || '');
+    if(url) safeOpenInNewTab(url);
+  };
+  trailerBtn.onclick = ()=> {
+    const url = v.trailer || v.trailerUrl || v.preview || v.videoUrl || '';
+    if(url) safeOpenInNewTab(url);
+  };
+
+  censoredBtn.onclick = ()=> {
+    const url = v.censoredUrl || v.censored || v.videoUrl || '';
+    if(url) safeOpenInNewTab(url);
+  };
+  uncensoredBtn.onclick = ()=> {
+    const url = v.uncensoredUrl || v.uncensored || v.videoUrl || '';
+    if(url) safeOpenInNewTab(url);
+  };
+  englishBtn.onclick = ()=> {
+    const url = v.englishUrl || v.english || v.videoUrl || '';
+    if(url) safeOpenInNewTab(url);
+  };
+
+  // show modal
+  document.getElementById("videoModal").style.display = "flex";
+}
+
+/* HTML-escape helper */
+function escapeHtml(str){
+  if(typeof str !== 'string') return String(str || '');
+  return str.replace(/"/g, '&quot;').replace(/'/g, "\\'").replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function closeModal(id){
+  document.getElementById(id).style.display = "none";
+  if(id === "videoModal"){
+    const player = document.getElementById("videoPlayer");
+    if(player) player.src = "";
+  }
+}
+
+/* ================== Filter Modal ================== */
+/* Always show ALL options (even 0 videos). If filters.js has master maps, use them; fallback to values from data. */
+function getAllOptionsFor(type){
+  // Prefer master list from filters.js (if present)
+  const map = (type === "tags" ? (filters.tags || null) : (filters[type] || null));
+  let keys = map ? Object.keys(map) : null;
+
+  if(!keys || !keys.length){
+    // Fallback to unique values from dataset
+    keys = [...new Set(videos.flatMap(v=>toArray(v[type])))];
+  }
+  return keys.sort((a,b)=>a.localeCompare(b)); // stable base order
+}
+
+function setActressColumns(n, container){
+  actressColumns = n;
+  // update grid columns
+  container.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+  // scale actress name font-size using mapping
+  const font = actressFontForCols[n] || '13px';
+  container.style.setProperty('--actress-name-size', font);
+  // also adjust gap/padding a bit when many columns
+  if(n >= 4){
+    container.style.gap = '6px';
+    container.style.padding = '6px';
+  } else if(n === 1){
+    container.style.gap = '12px';
+    container.style.padding = '8px';
+  } else {
+    container.style.gap = '8px';
+    container.style.padding = '6px';
+  }
+  // reflect active button state in controls
+  const ctrl = document.querySelectorAll('#filterControlsContainer .col-controls button');
+  ctrl.forEach(b=>{
+    b.classList.toggle('active', Number(b.dataset.cols) === n);
+  });
+}
+
+function openFilter(type){
+  const modal = document.getElementById("filterModal");
+  const body = document.getElementById("filterBody");
+  const title = document.getElementById("filterTitle");
+  const controlsContainer = document.getElementById("filterControlsContainer");
+  body.innerHTML = "";
+  controlsContainer.innerHTML = "";
+  title.textContent = "Choose " + type;
+
+  // Selected handling
+  const selected = (activeFilters[type] && activeFilters[type][0]) || "All";
+
+  // Build options
+  const baseOptions = getAllOptionsFor(type);
+  // Shuffle others (excluding selected and All)
+  const others = shuffleArray(baseOptions.filter(it => it !== selected));
+
+  // Ordering: All first, selected next (if not All), then shuffled others
+  const allOptions = ["All", ...(selected !== "All" ? [selected] : []), ...others];
+
+  // Create container
+  const container = document.createElement("div");
+  container.className = "grid-3";
+
+  // If it's actress, add column controls UI
+  if(type === 'actress'){
+    const ctrlWrap = document.createElement("div");
+    ctrlWrap.className = "col-controls";
+    const label = document.createElement("div");
+    label.textContent = "Columns:";
+    ctrlWrap.appendChild(label);
+
+    for(let c=1;c<=4;c++){
+      const btn = document.createElement("button");
+      btn.textContent = c;
+      btn.dataset.cols = c;
+      if(c === actressColumns) btn.classList.add('active');
+      btn.onclick = ()=> setActressColumns(Number(btn.dataset.cols), container);
+      ctrlWrap.appendChild(btn);
+    }
+    controlsContainer.appendChild(ctrlWrap);
+    // initialize container based on current actressColumns
+    // (set after container exists)
+  }
+
+  // Populate options
+  allOptions.forEach(it=>{
+    const map = (type === "tags" ? (filters.tags || null) : (filters[type] || null));
+    const imgLink = (map && map[it]) ? map[it] : "https://via.placeholder.com/200x300.png?text=" + encodeURIComponent(it);
+    const div = document.createElement("div");
+    div.className = "opt" + (it === selected ? " selected" : "");
+    // Count based on current dataset (can be 0 and still shown)
+    const count = it === "All" ? videos.length : videos.filter(v=>toArray(v[type]).includes(it)).length;
+
+    div.innerHTML = `
+      <img src="${imgLink}" loading="lazy" alt="">
+      <span class="name">${it}</span>
+      <span class="count">${count} ${count===1?'video':'videos'}</span>
+    `;
+    div.onclick = ()=>setFilter(type, it);
+    container.appendChild(div);
+  });
+
+  body.appendChild(container);
+
+  // If actress, apply current columns settings now
+  if(type === 'actress'){
+    // give a tiny delay to ensure container inserted
+    setTimeout(()=> setActressColumns(actressColumns, container), 0);
+  }
+
+  // Search within the filter modal
+  const searchInput = document.getElementById("filterSearch");
+  searchInput.value = "";
+  searchInput.oninput = ()=>{
+    const q = searchInput.value.toLowerCase();
+    [...container.children].forEach(child=>{
+      const name = child.querySelector(".name").textContent.toLowerCase();
+      child.style.display = name.includes(q) ? "block" : "none";
+    });
+  };
+
+  modal.style.display = "flex";
+}
+
+function setFilter(type, val){
+  if(val === "All"){ activeFilters[type] = []; }
+  else { activeFilters[type] = [val]; }
+  updateFilterButtonsUI();
+  applyAllFilters();
+  closeModal("filterModal"); closeModal("videoModal");
+}
+
+function updateFilterButtonsUI(){
+  // Only update the actress button since others were removed
+  const btn = document.getElementById("btn-actress");
+  const sel = (activeFilters.actress && activeFilters.actress[0]) || "All";
+  btn.textContent = "Actress: " + sel;
+}
+
+/* ================== Header Buttons ================== */
+document.getElementById("shuffleBtn").addEventListener("click", ()=>{
+  filtered = shuffleArray(filtered.length ? filtered : videos);
+  currentPage = 1;
+  renderVideos();
+});
+
+document.getElementById("randomBtn").addEventListener("click", ()=>{
+  const pool = (Object.keys(activeFilters).length && filtered.length) ? filtered : videos;
+  const pick3 = shuffleArray(pool).slice(0,3);
+  filtered = pick3;
+  currentPage = 1;
+  renderVideos();
+});
+
+document.getElementById("homeBtn").addEventListener("click", ()=>{
+  activeFilters = {};
+  updateFilterButtonsUI();
+  filtered = shuffleArray([...videos]);
+  currentPage = 1;
+  renderVideos();
+});
+
+/* ================== Theme ================== */
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.addEventListener("click", ()=>{
+  document.body.classList.toggle("dark");
+  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+});
+if(localStorage.getItem("theme") === "dark"){ document.body.classList.add("dark"); }
+
+/* ================== Modal Close Helpers ================== */
+function closeOnBackgroundClick(e, id){
+  const modal = document.getElementById(id);
+  if(e.target === modal){ closeModal(id); }
+}
+document.getElementById("videoModal").addEventListener("click", e=>closeOnBackgroundClick(e, "videoModal"));
+document.getElementById("filterModal").addEventListener("click", e=>closeOnBackgroundClick(e, "filterModal"));
+</script>
+</body>
+</html>
