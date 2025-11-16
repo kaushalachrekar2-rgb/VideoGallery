@@ -699,7 +699,7 @@ function openVideo(v){
   document.getElementById("mainRatingText").textContent = `${avg.toFixed(1)}`;
 
   // Build rating rows (label above, bar below with numeric aligned right)
-  const labelsPretty = { actress: "Actress", production: "Production", ex: "Ex", plot: "Plot" };
+  const labelsPretty = { actress: "Actress", production: "Production", ex: "Sex", plot: "Plot" };
   keys.forEach((k,i)=>{
     const numeric = vals[i] || 0;
     const row = document.createElement("div");
@@ -961,3 +961,4 @@ document.getElementById("filterModal").addEventListener("click", e=>closeOnBackg
 </script>
 </body>
 </html>
+
