@@ -51,13 +51,10 @@
     --rating-ex-end:   #8b5cf6;
     --rating-plot-start: #10b981; /* green */
     --rating-plot-end:   #34d399;
-    --rating-tech-start: #f43f5e; /* rose */
-    --rating-tech-end:   #f973a4;
 
     /* Star background gradient */
     --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
   }
-
   body.dark {
     /* Dark overrides */
     --bg: #0b1221;
@@ -91,8 +88,6 @@
     --rating-ex-end:   #7c3aed;
     --rating-plot-start: #34d399;
     --rating-plot-end:   #10b981;
-    --rating-tech-start: #fb7185;
-    --rating-tech-end:   #f43f5e;
 
     --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
   }
@@ -288,38 +283,40 @@
 
   /* Rating + Image Row - ALWAYS side-by-side */
   .rating-image-row {
-    display:flex; gap: 18px; align-items:stretch; margin-top:12px;
+    display:flex; gap: 8px; align-items:stretch; margin-top:12px;
     height: var(--row-height); /* responsive consistent height */
     flex-direction: row;
   }
 
   /* Left - Rating system */
-  .rating-left { flex:1; min-width: 0; display:flex; flex-direction:column; gap:14px; padding:8px 6px; }
+  .rating-left { flex:1; min-width: 0; display:flex; flex-direction:column; gap:2px; padding:4px 3px; }
   /* main rating improved styling */
   .main-rating {
     display:flex; align-items:center; gap:14px; margin:0;
   }
   .main-rating .star-wrap {
     display:flex; align-items:center; justify-content:center;
-    width:72px; height:72px; border-radius:14px;
+    width:50px; height:50px; border-radius:12px;
     background: var(--star-bg);
     box-shadow: 0 8px 20px rgba(0,0,0,.07);
     flex-shrink:0;
   }
-  .main-rating svg { width:34px; height:34px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
+  .main-rating svg { width:25px; height:25px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
   .main-rating .score {
     display:flex; flex-direction:column;
     font-weight:800;
   }
-  .main-rating .score .val { font-size:24px; line-height:1; }
+  .main-rating .score .val { font-size:20px; line-height:1; }
   .main-rating .score .max { font-size:12px; color:#94a3b8; margin-top:4px; }
 
-  .rating-bars { display:flex; flex-direction:column; gap:12px; overflow:auto; padding-right:6px; }
+  .rating-bars { display:flex; flex-direction:column; gap:5px; overflow:auto; padding-right:3px; }
 
-  .rating-row { display:flex; align-items:center; gap:12px; }
-  .rating-row .label { width: 110px; min-width: 80px; font-size:14px; font-weight:700; color:var(--text); }
+  /* Each rating-row is now vertical: label above, bar below with numeric aligned right */
+  .rating-row { display:flex; flex-direction:column; gap:4px; }
+  .rating-row .label { font-size:12px; font-weight:700; color:var(--text); }
+  .rating-row .bar-row { display:flex; align-items:center; gap:4px; }
   .rating-row .bar {
-    flex:1; height:14px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative;
+    flex:1; height:10px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative;
   }
   .rating-row .bar .fill {
     height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1);
@@ -328,7 +325,7 @@
   .rating-row .value { width:52px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
 
   /* Right - image */
-  .rating-image-right { width: 36%; max-width: 320px; min-width:120px; display:flex; align-items:center; justify-content:center; padding:6px; }
+  .rating-image-right { width: 45%; max-width: 320px; min-width:120px; min-height: 250px; display:flex; align-items:center; justify-content:center; padding:2px; }
   .rating-image-right img {
     /* Do not crop: contain and center the image; keep 2:3 ratio */
     width: auto;
@@ -370,7 +367,7 @@
   .filter-modal-content {
     background: var(--card-bg);
     width: 96%; max-width: 720px;
-    margin: 36px auto; border-radius: 16px; padding: 3px 4px 4px;
+    margin: 36px auto; border-radius: 16px; padding: 8px 12px 12px;
     color: var(--text);
   }
   .filter-modal-content h3 { margin: 6px 4px 10px; }
@@ -384,34 +381,34 @@
   }
 
   /* Actress column controls */
-  .col-controls { display:flex; gap:2px; align-items:center; margin:6px 0 10px; }
-  .col-controls button { padding:2px 3px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
+  .col-controls { display:flex; gap:8px; align-items:center; margin:6px 0 10px; }
+  .col-controls button { padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
   .col-controls button.active { background-image: var(--grad-primary); color:#fff; border-color:transparent; transform: translateY(-1px); }
 
-  /* Grid: dynamic columns via inline styles; default to 3 */
+  /* Grid: dynamic columns; spacing made very compact per request */
   .grid-3 {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    padding: 1px;
+    gap: 4px;    /* reduced gap - compact */
+    padding: 4px;/* reduced padding - compact */
   }
   .grid-3 .opt {
     text-align:center; cursor:pointer;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    padding: 1px;
-    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-    background: #ffffff08;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 4px; /* compact internal padding */
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    background: #ffffff05;
   }
-  .grid-3 .opt:hover { transform: translateY(-2px); }
-  .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.2); }
-  .grid-3 img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; }
+  .grid-3 .opt:hover { transform: translateY(-1px); }
+  .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.12); }
+  .grid-3 img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 6px; }
   /* actress name scales via CSS variable set inline by JS */
-  .grid-3 .name { display:block; font-weight: 700; margin-top: 6px; font-size: var(--actress-name-size,13px); }
-  .grid-3 .count { display:block; font-size: 12px; color: #94a3b8; }
+  .grid-3 .name { display:block; font-weight: 700; margin-top: 6px; font-size: var(--actress-name-size,12px); }
+  .grid-3 .count { display:block; font-size: 11px; color: #94a3b8; }
 
   /* small utility */
-  .row { display:flex; gap:2px; align-items:center; }
+  .row { display:flex; gap:8px; align-items:center; }
 
   /* small responsive tweak: if modal narrower, shrink image container slightly */
   @media (max-width:600px){
@@ -543,6 +540,16 @@ function toArray(val){
 }
 function shuffleArray(arr){ return arr.slice().sort(()=>Math.random()-0.5); }
 
+/* small helper: get first present field variant from object */
+function getField(obj, ...names){
+  for(const n of names){
+    if(!obj) break;
+    const v = obj[n];
+    if(typeof v !== 'undefined' && v !== null && String(v).trim() !== '') return v;
+  }
+  return null;
+}
+
 /* ================== State ================== */
 const perPage = 12;
 let currentPage = 1;
@@ -551,7 +558,7 @@ let filtered = [];
 
 /* Actress filter columns state */
 let actressColumns = 3; // default (preserve prior 3-column layout)
-const actressFontForCols = {1: '18px', 2: '15px', 3: '13px', 4: '12px'}; // scaling map
+const actressFontForCols = {1: '18px', 2: '15px', 3: '12px', 4: '11px'}; // scaling map (slightly smaller to fit compact spacing)
 
 /* ================== Init ================== */
 function init(){
@@ -632,9 +639,9 @@ function safeOpenInNewTab(url){
   try { window.open(url, '_blank'); } catch(e){ console.warn('Open failed', e); }
 }
 
-/* Helper to compute rating average from ratings object. */
+/* Helper to compute rating average from ratings object. Now uses 4 categories: actress, production, ex, plot */
 function computeAverageRating(ratings){
-  const keys = ['actress','production','ex','plot','tech'];
+  const keys = ['actress','production','ex','plot']; // tech removed
   const vals = keys.map(k => {
     const v = ratings && typeof ratings[k] !== 'undefined' ? Number(ratings[k]) : 0;
     return isFinite(v) ? Math.max(0, Math.min(10, v)) : 0;
@@ -654,9 +661,10 @@ function openVideo(v){
   const player = document.getElementById("videoPlayer");
   if(player) player.src = v.videoUrl || "";
 
-  // 1. Thumbnail
+  // 1. Thumbnail (try multiple property names)
   const thumb = document.getElementById("modalThumb");
-  thumb.src = v.thumbnail || (v.gallery && v.gallery[0]) || "";
+  const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') || (v.gallery && v.gallery[0]) || '';
+  thumb.src = thumbSrc;
   thumb.alt = v.title || "Thumbnail";
 
   // 2. Title
@@ -686,33 +694,36 @@ function openVideo(v){
   ratingContainer.innerHTML = "";
 
   // Expecting v.ratings to be an object; fallback to any fields on v
-  const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot, tech: v.rating_tech };
+  const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
   const { avg, vals, keys } = computeAverageRating(ratingSource);
   document.getElementById("mainRatingText").textContent = `${avg.toFixed(1)}`;
 
-  // Build 5 rating rows (and set each fill's gradient color using CSS variables)
-  const labelsPretty = { actress: "Actress", production: "Production", ex: "Ex", plot: "Plot", tech: "Tech" };
+  // Build rating rows (label above, bar below with numeric aligned right)
+  const labelsPretty = { actress: "Actress", production: "Production", ex: "Ex", plot: "Plot" };
   keys.forEach((k,i)=>{
     const numeric = vals[i] || 0;
     const row = document.createElement("div");
     row.className = "rating-row";
+    // label above; bar-row includes bar and numeric value
     row.innerHTML = `
       <div class="label">${labelsPretty[k] || k}</div>
-      <div class="bar" aria-hidden="true"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
-      <div class="value">${numeric.toFixed(1)}</div>
+      <div class="bar-row">
+        <div class="bar" aria-hidden="true"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
+        <div class="value">${numeric.toFixed(1)}</div>
+      </div>
     `;
-    // set the fill gradient based on the category using CSS variables
+    // set gradient fill for category
     const fillEl = row.querySelector('.fill');
     if(fillEl){
-      // Apply gradient using CSS custom properties (works in both light & dark)
       fillEl.style.background = ratingGradientFor(k);
     }
     ratingContainer.appendChild(row);
   });
 
-  // Right image: prefer coverImage, else gallery[0], else thumbnail
+  // Right image: prefer coverimage/coverImage/cover_image, then gallery[0], then thumbnail
   const coverImg = document.getElementById("modalCoverImage");
-  coverImg.src = v.coverImage || (v.gallery && v.gallery[0]) || v.thumbnail || "";
+  const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') || (v.gallery && v.gallery[0]) || thumbSrc || '';
+  coverImg.src = coverSrc;
   coverImg.alt = v.title || "Cover image";
 
   // 5. Buttons
@@ -722,7 +733,7 @@ function openVideo(v){
   const uncensoredBtn = document.getElementById("btnUncensored");
   const englishBtn = document.getElementById("btnEnglish");
 
-  // Ensure gallery/trailer buttons have slight pressed opacity effect via JS (no functionality change)
+  // ensure small pressed opacity effect
   [galleryBtn, trailerBtn, censoredBtn, uncensoredBtn, englishBtn].forEach(b=>{
     if(!b) return;
     b.onmousedown = ()=> b.style.opacity = '0.92';
@@ -731,7 +742,7 @@ function openVideo(v){
   });
 
   galleryBtn.onclick = ()=> {
-    const url = (v.gallery && v.gallery.length) ? v.gallery[0] : (v.thumbnail || v.videoUrl || '');
+    const url = (v.gallery && v.gallery.length) ? v.gallery[0] : (thumbSrc || v.videoUrl || '');
     if(url) safeOpenInNewTab(url);
   };
   trailerBtn.onclick = ()=> {
@@ -789,18 +800,18 @@ function setActressColumns(n, container){
   // update grid columns
   container.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
   // scale actress name font-size using mapping
-  const font = actressFontForCols[n] || '13px';
+  const font = actressFontForCols[n] || '12px';
   container.style.setProperty('--actress-name-size', font);
-  // also adjust gap/padding a bit when many columns
+  // also adjust gap/padding slightly when many columns
   if(n >= 4){
-    container.style.gap = '6px';
-    container.style.padding = '6px';
+    container.style.gap = '4px';
+    container.style.padding = '4px';
   } else if(n === 1){
-    container.style.gap = '12px';
-    container.style.padding = '8px';
-  } else {
     container.style.gap = '8px';
     container.style.padding = '6px';
+  } else {
+    container.style.gap = '4px';
+    container.style.padding = '4px';
   }
   // reflect active button state in controls
   const ctrl = document.querySelectorAll('#filterControlsContainer .col-controls button');
