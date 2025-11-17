@@ -27,33 +27,52 @@
     /* rating row height (responsive) */
     --row-height: clamp(240px, 40vw, 420px);
 
-    /* Button gradients (light theme) */
-    --btn-gallery-start: #06b6d4;  /* cyan */
-    --btn-gallery-end:   #3b82f6;  /* blue */
-    --btn-trailer-start: #7c3aed;  /* violet */
+    /* Distinct button gradients (five unique palettes) */
+    /* 1) Gallery: Cyan → Blue */
+    --btn-gallery-start: #06b6d4;
+    --btn-gallery-end:   #3b82f6;
+
+    /* 2) Trailer: Violet → Indigo */
+    --btn-trailer-start: #8b5cf6;
     --btn-trailer-end:   #6d28d9;
-    --btn-censored-start:#06b6a4;  /* teal */
-    --btn-censored-end:  #10b981;  /* green */
-    --btn-uncensored-start:#f59e0b;/* amber */
-    --btn-uncensored-end:  #ef4444;/* red/orange */
-    --btn-english-start:#06b6d4;
-    --btn-english-end:#7c3aed;
+
+    /* 3) Censored: Green-teal → Emerald */
+    --btn-censored-start:#10b981;
+    --btn-censored-end:  #059669;
+
+    /* 4) Uncensored: Pink → Red (attention color) */
+    --btn-uncensored-start:#fb7185;
+    --btn-uncensored-end:  #ef4444;
+
+    /* 5) English Sub: Orange → Amber */
+    --btn-english-start:#f97316;
+    --btn-english-end:#f59e0b;
 
     /* Full button neutral border for non-primary full buttons */
     --full-btn-border: rgba(148,163,184,.22);
 
-    /* Rating gradients (start/end) for each category - light */
-    --rating-actress-start: #f97316;  /* orange */
+    /* Rating gradients (distinct for each rating bar) */
+    --rating-actress-start: #f97316;
     --rating-actress-end:   #fb923c;
-    --rating-production-start: #06b6d4; /* cyan */
+
+    --rating-production-start: #06b6d4;
     --rating-production-end:   #3b82f6;
-    --rating-ex-start: #a78bfa; /* soft violet */
+
+    --rating-ex-start: #a78bfa;
     --rating-ex-end:   #8b5cf6;
-    --rating-plot-start: #10b981; /* green */
+
+    --rating-plot-start: #10b981;
     --rating-plot-end:   #34d399;
+
+    /* Extra distinct accent (unused but available) */
+    --rating-accent-start: #f472b6;
+    --rating-accent-end:   #ef4444;
 
     /* Star background gradient */
     --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
+
+    /* Unavailable circle color (light) */
+    --circle-unavailable: #cbd5e1; /* slate-300 */
   }
   body.dark {
     /* Dark overrides */
@@ -70,26 +89,36 @@
     /* Buttons darker / richer */
     --btn-gallery-start: #0891b2;
     --btn-gallery-end:   #2563eb;
-    --btn-trailer-start: #8b5cf6;
-    --btn-trailer-end:   #6d28d9;
-    --btn-censored-start:#04967f;
-    --btn-censored-end:  #059669;
-    --btn-uncensored-start:#f59e0b;
+
+    --btn-trailer-start: #7c5cf6;
+    --btn-trailer-end:   #6b21a8;
+
+    --btn-censored-start:#059669;
+    --btn-censored-end:  #047857;
+
+    --btn-uncensored-start:#fb7185;
     --btn-uncensored-end:#ef4444;
-    --btn-english-start:#06b6d4;
-    --btn-english-end:#7c3aed;
+
+    --btn-english-start:#f97316;
+    --btn-english-end:#f59e0b;
 
     /* Rating colors adjusted for dark */
     --rating-actress-start: #fb923c;
     --rating-actress-end:   #f97316;
+
     --rating-production-start: #06b6d4;
     --rating-production-end:   #2563eb;
+
     --rating-ex-start: #a78bfa;
     --rating-ex-end:   #7c3aed;
+
     --rating-plot-start: #34d399;
     --rating-plot-end:   #10b981;
 
     --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
+
+    /* Unavailable circle color (dark) */
+    --circle-unavailable: #334155; /* slate-700 */
   }
 
   /* =============== BASE =============== */
@@ -105,7 +134,7 @@
   }
 
   /* =============== HEADER =============== */
-  header {
+ header {
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; gap: 10px;
     padding: 10px 12px;
@@ -199,20 +228,21 @@
     box-shadow: 0 6px 14px rgba(0,0,0,.08);
     cursor: pointer;
     transition: transform .2s ease, box-shadow .2s ease;
+    display:flex; flex-direction:column;
   }
   .video-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,.12); }
 
   /* ---- Image spacing (equal, small, consistent) ---- */
-  .video-card img {
+  .video-card img.thumb {
     display:block;
-    width: 100%;   /* equal side margins */             
+    width: 100%;   /* equal side margins */
     aspect-ratio: 3/2;
-    object-fit: contain;
-    border-radius: 8px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
   }
   .video-card b {
     display: block;
-    padding: 8px 10px;
+    padding: 8px 10px 4px;
     font-size: 15px;
     text-align: left; /* Align titles to the left */
     overflow: hidden;
@@ -223,6 +253,31 @@
     max-height: 3.5em; 
     height: 3.5em;
   }
+
+  /* =============== CARD FOOTER: status circles + rating =============== */
+  .card-footer {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 3px 5px 6px;
+    gap:8px;
+  }
+  .status-circles { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+  .status-circle {
+    width:12px; height:12px; border-radius:999px; display:inline-block;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    flex-shrink:0;
+  }
+  .status-circle.unavailable { background: var(--circle-unavailable); opacity: 0.95; }
+
+  /* color classes matching modal buttons (use gradients where possible) */
+  .status-circle.gallery { background: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
+  .status-circle.trailer { background: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
+  .status-circle.censored { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
+  .status-circle.uncensored { background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
+  .status-circle.english { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
+
+  .mini-rating { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:800; font-size:14px; }
+  .mini-rating .star { width:16px; height:16px; display:inline-block; background: var(--star-bg); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 0 rgba(0,0,0,0); display:flex; align-items:center; justify-content:center; border-radius:4px; padding:1px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+  .mini-rating .score { font-weight:700; font-size:13px; color:var(--text); }
 
   /* =============== PAGINATION =============== */
   .pagination {
@@ -254,7 +309,7 @@
   }
   .modal-content {
     background: var(--card-bg);
-    width: 96%; max-width: 900px;
+    width: 98%; max-width: 1000px;
     margin: 36px auto; border-radius: 16px; overflow: hidden;
     color: var(--text); position: relative;
     box-shadow: 0 20px 40px rgba(0,0,0,.35);
@@ -269,13 +324,13 @@
 
   /* ====== New modal internal layout ====== */
   .modal-inner {
-    padding: 12px;
+    padding: 10px;
   }
   .modal-thumb {
-    width:100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 12px; display:block; margin-bottom:10px;
+    width:100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 12px; display:block; margin-bottom:10px;
   }
   .modal-title {
-    font-size: 20px; font-weight:700; padding: 4px 2px 8px;
+    font-size: 16px; font-weight:700; padding: 4px 2px 8px;
   }
   .meta-line { display:block; font-size:14px; margin: 4px 0; line-height:1.3; }
   .meta-line span.clickable { cursor:pointer; padding: 4px 8px; border-radius: 999px; display:inline-block; transition: box-shadow .15s ease; }
@@ -283,7 +338,7 @@
 
   /* Rating + Image Row - ALWAYS side-by-side */
   .rating-image-row {
-    display:flex; gap: 8px; align-items:stretch; margin-top:12px;
+    display:flex; gap: 3px; align-items:stretch; margin-top:12px;
     height: var(--row-height); /* responsive consistent height */
     flex-direction: row;
   }
@@ -296,7 +351,7 @@
   }
   .main-rating .star-wrap {
     display:flex; align-items:center; justify-content:center;
-    width:50px; height:50px; border-radius:12px;
+    width:40px; height:40px; border-radius:12px;
     background: var(--star-bg);
     box-shadow: 0 8px 20px rgba(0,0,0,.07);
     flex-shrink:0;
@@ -314,7 +369,7 @@
   /* Each rating-row is now vertical: label above, bar below with numeric aligned right */
   .rating-row { display:flex; flex-direction:column; gap:4px; }
   .rating-row .label { font-size:12px; font-weight:700; color:var(--text); }
-  .rating-row .bar-row { display:flex; align-items:center; gap:4px; }
+  .rating-row .bar-row { display:flex; align-items:center; gap:2px; }
   .rating-row .bar {
     flex:1; height:10px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative;
   }
@@ -322,18 +377,23 @@
     height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1);
     /* background set inline in JS using CSS variables for per-category gradients */
   }
-  .rating-row .value { width:52px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
+  .rating-row .value { width:45px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
 
   /* Right - image */
-  .rating-image-right { width: 45%; max-width: 320px; min-width:120px; min-height: 250px; display:flex; align-items:center; justify-content:center; padding:2px; }
+  .rating-image-right {
+    width: 45%; max-width: 320px; min-width:120px; min-height: 200px; display:flex; align-items:center; justify-content:center; padding:2px; 
+    box-sizing: border-box;
+    /* ensure rounded corners are visible by clipping overflow */
+    overflow: hidden;
+    border-radius: 20px;
+    background: transparent;
+  }
   .rating-image-right img {
-    /* Do not crop: contain and center the image; keep 2:3 ratio */
-    width: auto;
-    height: 100%;
-    max-width: 100%;
+    /* Keep image centered & visible; allow contain so it doesn't crop content */
+    width: 100%;
+    height: 75%;
     object-fit: contain;
-    aspect-ratio: 2/3;
-    border-radius: 10px;
+    border-radius: 14px;
     display:block;
     background: transparent;
   }
@@ -366,8 +426,8 @@
   /* =============== FILTER MODAL CONTENT =============== */
   .filter-modal-content {
     background: var(--card-bg);
-    width: 96%; max-width: 720px;
-    margin: 36px auto; border-radius: 16px; padding: 8px 12px 12px;
+    width: 98%; max-width: 720px;
+    margin: 36px auto; border-radius: 16px; padding: 2px 3px 3px;
     color: var(--text);
   }
   .filter-modal-content h3 { margin: 6px 4px 10px; }
@@ -389,14 +449,14 @@
   .grid-3 {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 4px;    /* reduced gap - compact */
-    padding: 4px;/* reduced padding - compact */
+    gap: 1px;    /* reduced gap - compact */
+    padding: 1px;/* reduced padding - compact */
   }
   .grid-3 .opt {
     text-align:center; cursor:pointer;
     border: 1px solid transparent;
     border-radius: 8px;
-    padding: 4px; /* compact internal padding */
+    padding: 1px; /* compact internal padding */
     transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
     background: #ffffff05;
   }
@@ -404,16 +464,18 @@
   .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.12); }
   .grid-3 img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 6px; }
   /* actress name scales via CSS variable set inline by JS */
-  .grid-3 .name { display:block; font-weight: 700; margin-top: 6px; font-size: var(--actress-name-size,12px); }
+  .grid-3 .name { display:block; font-weight: 700; margin-top: 2px; font-size: var(--actress-name-size,12px); }
   .grid-3 .count { display:block; font-size: 11px; color: #94a3b8; }
 
   /* small utility */
-  .row { display:flex; gap:8px; align-items:center; }
+  .row { display:flex; gap:2px; align-items:center; }
 
   /* small responsive tweak: if modal narrower, shrink image container slightly */
   @media (max-width:600px){
     .rating-image-right { width: 40%; }
     .rating-left .label { width: 90px; }
+    .status-circle { width:10px; height:10px; }
+    .mini-rating { font-size:12px; }
   }
 </style>
 </head>
@@ -465,6 +527,8 @@
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
         <div class="meta-line" id="metaStudioLabel" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+        <!-- 3.5 Description ADDITION -->
+        <div class="meta-line" id="modalDescription" style="margin-top:8px; color: #0f172a;"></div>
       </div>
 
       <!-- 4. Rating system (left) + Image (right) - ALWAYS side-by-side -->
@@ -540,7 +604,7 @@ function toArray(val){
 }
 function shuffleArray(arr){ return arr.slice().sort(()=>Math.random()-0.5); }
 
-/* small helper: get first present field variant from object */
+/* small helper: get first present field from object among many names */
 function getField(obj, ...names){
   for(const n of names){
     if(!obj) break;
@@ -548,6 +612,42 @@ function getField(obj, ...names){
     if(typeof v !== 'undefined' && v !== null && String(v).trim() !== '') return v;
   }
   return null;
+}
+
+/* robust: given an object and a list of candidate keys, return the first URL (handles string or array) */
+function getFirstUrl(obj, candidates){
+  for(const key of candidates){
+    if(!obj) continue;
+    // direct property (case-sensitive)
+    if(typeof obj[key] !== 'undefined' && obj[key] !== null && String(obj[key]).trim() !== ''){
+      const val = obj[key];
+      if(Array.isArray(val) && val.length) return String(val[0]).trim();
+      return String(val).trim();
+    }
+    // try alternative casing variants (lower/upper camel and underscore)
+    const altKeys = [key.toLowerCase(), key.toUpperCase(), key.replace(/([A-Z])/g,'_$1').toLowerCase()];
+    for(const ak of altKeys){
+      if(typeof obj[ak] !== 'undefined' && obj[ak] !== null && String(obj[ak]).trim() !== ''){
+        const v = obj[ak];
+        if(Array.isArray(v) && v.length) return String(v[0]).trim();
+        return String(v).trim();
+      }
+    }
+  }
+  return null;
+}
+
+/* safe open with fallback to 404 if empty */
+function safeOpenInNewTabOr404(url){
+  const fallback = 'https://example.com/404';
+  const openUrl = (url && String(url).trim()) ? url : fallback;
+  try { window.open(openUrl, '_blank'); } catch(e){ console.warn('Open failed', e); window.open(fallback, '_blank'); }
+}
+
+/* helper to check existence of a link (true if non-empty) */
+function hasUrl(obj, candidates){
+  const u = getFirstUrl(obj, candidates);
+  return !!(u && String(u).trim());
 }
 
 /* ================== State ================== */
@@ -587,9 +687,41 @@ function renderVideos(){
   const start = (currentPage-1)*perPage;
   const pageItems = filtered.slice(start, start + perPage);
   pageItems.forEach(v=>{
+    // compute main rating (reuse computeAverageRating declared later - function hoisting ensures availability)
+    const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
+    const { avg } = computeAverageRating(ratingSource);
+
+    // check links presence (order: Gallery, Trailer, Censored, Uncensored, English)
+    const hasGallery = hasUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
+    const hasTrailer = hasUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
+    const hasCensored = hasUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
+    const hasUncensored = hasUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
+    const hasEnglish = hasUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
+
     const card = document.createElement("div");
     card.className = "video-card";
-    card.innerHTML = `<img src="${v.thumbnail}" loading="lazy" alt=""><b>${v.title}</b>`;
+
+    // Build HTML: thumb, title, footer (status circles left + rating right)
+    const thumb = v.thumbnail || '';
+    const titleEsc = (v.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    card.innerHTML = `
+      <img class="thumb" src="${thumb}" loading="lazy" alt="">
+      <b>${titleEsc}</b>
+      <div class="card-footer">
+        <div class="status-circles" aria-hidden="true">
+          <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
+          <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
+          <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
+          <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
+          <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
+        </div>
+        <div class="mini-rating" title="Main rating">
+          <div class="star" aria-hidden="true">★</div>
+          <div class="score">${avg.toFixed(1)}</div>
+        </div>
+      </div>
+    `;
     card.onclick = ()=>openVideo(v);
     grid.appendChild(card);
   });
@@ -634,10 +766,6 @@ document.getElementById("searchBar").addEventListener("input", e=>{
 });
 
 /* ================== Video Modal (updated layout & colorized fills) ================== */
-function safeOpenInNewTab(url){
-  if(!url) return;
-  try { window.open(url, '_blank'); } catch(e){ console.warn('Open failed', e); }
-}
 
 /* Helper to compute rating average from ratings object. Now uses 4 categories: actress, production, ex, plot */
 function computeAverageRating(ratings){
@@ -663,7 +791,7 @@ function openVideo(v){
 
   // 1. Thumbnail (try multiple property names)
   const thumb = document.getElementById("modalThumb");
-  const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') || (v.gallery && v.gallery[0]) || '';
+  const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
   thumb.src = thumbSrc;
   thumb.alt = v.title || "Thumbnail";
 
@@ -682,12 +810,24 @@ function openVideo(v){
 
   // Studio and Label side by side
   const metaStudioLabel = document.getElementById("metaStudioLabel");
-  const studios = toArray(v.studio);
   const labels = toArray(v.label);
+  const studios = toArray(v.studio);
 
-  const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
   const labelHTML = `<div style="flex:1;"><strong>Label:</strong> ${labels.length ? labels.map(l=>`<span class="clickable" onclick="setFilter('label','${escapeHtml(l)}')">${escapeHtml(l)}</span>`).join(' ') : 'All'}</div>`;
-  metaStudioLabel.innerHTML = studioHTML + labelHTML;
+  const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
+  metaStudioLabel.innerHTML = labelHTML + studioHTML ;
+
+  // 3.5 Description (added)
+  const descEl = document.getElementById("modalDescription");
+if (descEl) {
+  const descText = getField(v, 'description', 'desc') || '';
+  
+  // Use innerHTML so we can bold only the label
+  descEl.innerHTML = `<strong>Description:</strong> ${descText}`;
+
+  // Justify the full paragraph
+  descEl.style.textAlign = "justify";
+}
 
   // 4. Rating System left + Image right
   const ratingContainer = document.getElementById("ratingBars");
@@ -715,18 +855,20 @@ function openVideo(v){
     // set gradient fill for category
     const fillEl = row.querySelector('.fill');
     if(fillEl){
+      // map keys to css variable names:
+      // actress -> rating-actress, production -> rating-production, ex -> rating-ex, plot -> rating-plot
       fillEl.style.background = ratingGradientFor(k);
     }
     ratingContainer.appendChild(row);
   });
 
-  // Right image: prefer coverimage/coverImage/cover_image, then gallery[0], then thumbnail
+  // Right image: prefer coverimage/coverImage/cover_image, then gallery, then thumbnail
   const coverImg = document.getElementById("modalCoverImage");
-  const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') || (v.gallery && v.gallery[0]) || thumbSrc || '';
+  const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || thumbSrc || '';
   coverImg.src = coverSrc;
   coverImg.alt = v.title || "Cover image";
 
-  // 5. Buttons
+  // Buttons
   const galleryBtn = document.getElementById("btnGallery");
   const trailerBtn = document.getElementById("btnTrailer");
   const censoredBtn = document.getElementById("btnCensored");
@@ -741,26 +883,28 @@ function openVideo(v){
     b.onmouseleave = ()=> b.style.opacity = '';
   });
 
+  /* Build URLs robustly (checks multiple possible field names and supports string or array) */
+  const galleryUrl = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
+  const trailerUrl = getFirstUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
+  const censoredUrl = getFirstUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
+  const uncensoredUrl = getFirstUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
+  const englishUrl = getFirstUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
+
   galleryBtn.onclick = ()=> {
-    const url = (v.gallery && v.gallery.length) ? v.gallery[0] : (thumbSrc || v.videoUrl || '');
-    if(url) safeOpenInNewTab(url);
+    safeOpenInNewTabOr404(galleryUrl || thumbSrc || v.videoUrl || '');
   };
   trailerBtn.onclick = ()=> {
-    const url = v.trailer || v.trailerUrl || v.preview || v.videoUrl || '';
-    if(url) safeOpenInNewTab(url);
+    safeOpenInNewTabOr404(trailerUrl || v.videoUrl || '');
   };
 
   censoredBtn.onclick = ()=> {
-    const url = v.censoredUrl || v.censored || v.videoUrl || '';
-    if(url) safeOpenInNewTab(url);
+    safeOpenInNewTabOr404(censoredUrl || v.censored || v.censoredUrl || '');
   };
   uncensoredBtn.onclick = ()=> {
-    const url = v.uncensoredUrl || v.uncensored || v.videoUrl || '';
-    if(url) safeOpenInNewTab(url);
+    safeOpenInNewTabOr404(uncensoredUrl || v.uncensored || v.uncensoredUrl || '');
   };
   englishBtn.onclick = ()=> {
-    const url = v.englishUrl || v.english || v.videoUrl || '';
-    if(url) safeOpenInNewTab(url);
+    safeOpenInNewTabOr404(englishUrl || v.english || v.englishUrl || '');
   };
 
   // show modal
@@ -961,4 +1105,3 @@ document.getElementById("filterModal").addEventListener("click", e=>closeOnBackg
 </script>
 </body>
 </html>
-
