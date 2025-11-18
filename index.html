@@ -28,23 +28,18 @@
     --row-height: clamp(240px, 40vw, 420px);
 
     /* Distinct button gradients (five unique palettes) */
-    /* 1) Gallery: Cyan → Blue */
     --btn-gallery-start: #06b6d4;
     --btn-gallery-end:   #3b82f6;
 
-    /* 2) Trailer: Violet → Indigo */
     --btn-trailer-start: #8b5cf6;
     --btn-trailer-end:   #6d28d9;
 
-    /* 3) Censored: Green-teal → Emerald */
     --btn-censored-start:#10b981;
     --btn-censored-end:  #059669;
 
-    /* 4) Uncensored: Pink → Red (attention color) */
     --btn-uncensored-start:#fb7185;
     --btn-uncensored-end:  #ef4444;
 
-    /* 5) English Sub: Orange → Amber */
     --btn-english-start:#f97316;
     --btn-english-end:#f59e0b;
 
@@ -64,61 +59,23 @@
     --rating-plot-start: #10b981;
     --rating-plot-end:   #34d399;
 
-    /* Extra distinct accent (unused but available) */
-    --rating-accent-start: #f472b6;
-    --rating-accent-end:   #ef4444;
-
     /* Star background gradient */
     --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
 
-    /* Unavailable circle color (light) */
+    /* Unavailable circle color */
     --circle-unavailable: #cbd5e1; /* slate-300 */
-  }
-  body.dark {
-    /* Dark overrides */
-    --bg: #0b1221;
-    --text: #e5e7eb;
-    --card-bg: #121a2b;
 
-    --grad-primary: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-    --grad-primary-hover: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-    --grad-header-accent: linear-gradient(90deg, rgba(167,139,250,.18), rgba(139,92,246,.18));
+    /* Gold / Silver card/modal backgrounds (darker & more prominent) */
+    /* Gold: deeper warm gradient */
+    --gold-card-start: rgba(255,200,0,0.18);
+    --gold-card-end:   rgba(255,170,30,0.06);
+    --gold-modal-overlay: linear-gradient(135deg, rgba(255,200,0,0.14), rgba(255,170,30,0.06));
 
-    --modal-bg: rgba(0,0,0,0.92);
-
-    /* Buttons darker / richer */
-    --btn-gallery-start: #0891b2;
-    --btn-gallery-end:   #2563eb;
-
-    --btn-trailer-start: #7c5cf6;
-    --btn-trailer-end:   #6b21a8;
-
-    --btn-censored-start:#059669;
-    --btn-censored-end:  #047857;
-
-    --btn-uncensored-start:#fb7185;
-    --btn-uncensored-end:#ef4444;
-
-    --btn-english-start:#f97316;
-    --btn-english-end:#f59e0b;
-
-    /* Rating colors adjusted for dark */
-    --rating-actress-start: #fb923c;
-    --rating-actress-end:   #f97316;
-
-    --rating-production-start: #06b6d4;
-    --rating-production-end:   #2563eb;
-
-    --rating-ex-start: #a78bfa;
-    --rating-ex-end:   #7c3aed;
-
-    --rating-plot-start: #34d399;
-    --rating-plot-end:   #10b981;
-
-    --star-bg: linear-gradient(135deg,#FFD36B,#F5B50A);
-
-    /* Unavailable circle color (dark) */
-    --circle-unavailable: #334155; /* slate-700 */
+    /* Silver: stronger distinct cool gradient & more contrast */
+    /* made more visible compared to white card background */
+    --silver-card-start: rgba(160,166,173,0.18);  /* slightly darker cool-gray */
+    --silver-card-end:   rgba(210,213,218,0.08);  /* lighter edge */
+    --silver-modal-overlay: linear-gradient(135deg, rgba(140,144,150,0.12), rgba(190,193,199,0.06));
   }
 
   /* =============== BASE =============== */
@@ -134,7 +91,7 @@
   }
 
   /* =============== HEADER =============== */
- header {
+  header {
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; gap: 10px;
     padding: 10px 12px;
@@ -170,22 +127,6 @@
   .icon-btn:active { transform: translateY(0); }
   .icon-btn svg { width: 20px; height: 20px; stroke: #fff; }
 
-  /* Theme toggle – keep inside bounds on mobile */
-  .theme-toggle {
-    width: 44px; height: 24px; flex-shrink:0;
-    background: #64748b;
-    border-radius: 999px;
-    position: relative; cursor: pointer;
-    transition: background .3s ease;
-  }
-  .theme-toggle::after {
-    content: ""; position: absolute; top: 2px; left: 2px;
-    width: 20px; height: 20px; border-radius: 999px; background: #fff;
-    transition: transform .3s ease;
-  }
-  body.dark .theme-toggle { background: #8B5CF6; }
-  body.dark .theme-toggle::after { transform: translateX(20px); }
-
   /* =============== FILTER BAR =============== */
   .filter-buttons {
     display:flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px;
@@ -197,12 +138,28 @@
     border-radius: 999px;
     background-image: var(--grad-primary);
     color: #fff; font-size: 14px;
-    transition: background-image .2s ease, transform .15s ease;
+    transition: background-image .2s ease, transform .15s ease, box-shadow .12s ease;
     white-space: nowrap;
   }
   .filter-buttons button:hover { background-image: var(--grad-primary-hover); transform: translateY(-1px); }
   .filter-buttons button:active { transform: translateY(0); }
-  .filter-buttons button svg { width: 16px; height: 16px; stroke: #fff; }
+
+  /* Stronger visible active state for filter buttons */
+  .filter-buttons button.active {
+    /* darker, more visible appearance */
+    background-image: linear-gradient(90deg, rgba(30,30,60,0.95), rgba(50,50,90,0.95));
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.18);
+    transform: translateY(-1px);
+  }
+
+  /* keep gold/silver button variants so we can slightly tint active if needed */
+  .filter-buttons button.gold-btn.active {
+    background-image: linear-gradient(90deg, rgba(120,80,0,0.95), rgba(80,50,0,0.95));
+  }
+  .filter-buttons button.silver-btn.active {
+    background-image: linear-gradient(90deg, rgba(70,70,80,0.95), rgba(40,40,50,0.95));
+  }
 
   /* =============== GRID / CARDS =============== */
   .video-grid {
@@ -232,10 +189,13 @@
   }
   .video-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,.12); }
 
-  /* ---- Image spacing (equal, small, consistent) ---- */
+  /* Gold / Silver video-card backgrounds (darker & more visible) */
+  .video-card.gold { background-image: linear-gradient(135deg, var(--gold-card-start), var(--gold-card-end)); border: 1px solid rgba(220,170,10,0.12); }
+  .video-card.silver { background-image: linear-gradient(135deg, var(--silver-card-start), var(--silver-card-end)); border: 1px solid rgba(120,125,130,0.12); box-shadow: 0 8px 18px rgba(100,105,110,0.05); }
+
   .video-card img.thumb {
     display:block;
-    width: 100%;   /* equal side margins */
+    width: 100%;
     aspect-ratio: 3/2;
     object-fit: cover;
     border-radius: 8px 8px 0 0;
@@ -244,13 +204,13 @@
     display: block;
     padding: 8px 10px 4px;
     font-size: 15px;
-    text-align: left; /* Align titles to the left */
+    text-align: left;
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.4;
-    max-height: 3.5em; 
+    max-height: 3.5em;
     height: 3.5em;
   }
 
@@ -268,14 +228,13 @@
   }
   .status-circle.unavailable { background: var(--circle-unavailable); opacity: 0.95; }
 
-  /* color classes matching modal buttons (use gradients where possible) */
   .status-circle.gallery { background: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
   .status-circle.trailer { background: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
   .status-circle.censored { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
   .status-circle.uncensored { background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
   .status-circle.english { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
 
-  .mini-rating { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:800; font-size:14px; }
+  .mini-rating { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:800; font-size:14px; cursor: pointer; }
   .mini-rating .star { width:16px; height:16px; display:inline-block; background: var(--star-bg); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 0 rgba(0,0,0,0); display:flex; align-items:center; justify-content:center; border-radius:4px; padding:1px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
   .mini-rating .score { font-weight:700; font-size:13px; color:var(--text); }
 
@@ -314,6 +273,9 @@
     color: var(--text); position: relative;
     box-shadow: 0 20px 40px rgba(0,0,0,.35);
   }
+  .modal-content.gold-modal { background-image: var(--gold-modal-overlay); border: 1px solid rgba(220,170,10,0.12); }
+  .modal-content.silver-modal { background-image: var(--silver-modal-overlay); border: 1px solid rgba(120,125,130,0.12); box-shadow: 0 14px 30px rgba(100,105,110,0.04); }
+
   .close {
     position: fixed; top: 10px; right: 16px;
     font-size: 34px; color: #fff; cursor: pointer; z-index: 1100;
@@ -324,7 +286,7 @@
 
   /* ====== New modal internal layout ====== */
   .modal-inner {
-    padding: 10px;
+    padding: 6px;
   }
   .modal-thumb {
     width:100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 12px; display:block; margin-bottom:10px;
@@ -345,10 +307,7 @@
 
   /* Left - Rating system */
   .rating-left { flex:1; min-width: 0; display:flex; flex-direction:column; gap:2px; padding:4px 3px; }
-  /* main rating improved styling */
-  .main-rating {
-    display:flex; align-items:center; gap:14px; margin:0;
-  }
+  .main-rating { display:flex; align-items:center; gap:14px; margin:0; cursor: pointer; }
   .main-rating .star-wrap {
     display:flex; align-items:center; justify-content:center;
     width:40px; height:40px; border-radius:12px;
@@ -357,125 +316,99 @@
     flex-shrink:0;
   }
   .main-rating svg { width:25px; height:25px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
-  .main-rating .score {
-    display:flex; flex-direction:column;
-    font-weight:800;
-  }
+  .main-rating .score { display:flex; flex-direction:column; font-weight:800; }
   .main-rating .score .val { font-size:20px; line-height:1; }
   .main-rating .score .max { font-size:12px; color:#94a3b8; margin-top:4px; }
 
   .rating-bars { display:flex; flex-direction:column; gap:5px; overflow:auto; padding-right:3px; }
-
-  /* Each rating-row is now vertical: label above, bar below with numeric aligned right */
   .rating-row { display:flex; flex-direction:column; gap:4px; }
   .rating-row .label { font-size:12px; font-weight:700; color:var(--text); }
   .rating-row .bar-row { display:flex; align-items:center; gap:2px; }
-  .rating-row .bar {
-    flex:1; height:10px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative;
-  }
-  .rating-row .bar .fill {
-    height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1);
-    /* background set inline in JS using CSS variables for per-category gradients */
-  }
+  .rating-row .bar { flex:1; height:10px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative; cursor: pointer; }
+  .rating-row .bar .fill { height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1); }
   .rating-row .value { width:45px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
 
-  /* Right - image */
   .rating-image-right {
-    width: 45%; max-width: 320px; min-width:120px; min-height: 200px; display:flex; align-items:center; justify-content:center; padding:2px; 
-    box-sizing: border-box;
-    /* ensure rounded corners are visible by clipping overflow */
-    overflow: hidden;
-    border-radius: 20px;
-    background: transparent;
+    width: 45%; max-width: 320px; min-width:120px; min-height: 200px; display:flex; align-items:center; justify-content:center; padding:2px;
+    box-sizing: border-box; overflow: hidden; border-radius: 20px; background: transparent;
   }
-  .rating-image-right img {
-    /* Keep image centered & visible; allow contain so it doesn't crop content */
-    width: 95%;
-    height: 75%;
-    object-fit: contain;
-    border-radius: 14px;
-    display:block;
-    background: transparent;
+  .rating-image-right img { width: 95%; height: 75%; object-fit: contain; border-radius: 14px; display:block; background: transparent; }
+
+  /* Timestamps list (new) */
+  .timestamps {
+    margin-top: 14px;
+    display:flex; flex-direction:column; gap:8px;
+    padding: 8px;
+  }
+  .timestamps .time-row {
+    display:flex; gap:12px; align-items:flex-start;
+    padding: 10px; border-radius: 10px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+    border: 1px solid rgba(148,163,184,0.06);
+  }
+  .timestamps .time {
+    min-width: 82px; font-weight:800; color: #0f172a; font-size: 13px;
+    background: rgba(255,255,255,0.6); padding:6px 8px; border-radius:8px; text-align:center;
+    box-shadow: 0 6px 12px rgba(10,10,20,0.03);
+  }
+  .timestamps .title {
+    flex:1; font-size: 14px; color: #334155; line-height:1.35;
+  }
+  .timestamps .badge-star {
+    margin-left: 8px; color: #b45309; font-weight:800;
   }
 
-  /* Buttons - new gradients & variants */
   .modal-buttons { margin-top: 12px; display:flex; gap:8px; flex-wrap:wrap; }
-  .modal-buttons .side-btn {
-    flex:1; min-width:120px; padding:10px; border-radius:10px; border:none; cursor:pointer;
-    color:#fff; font-weight:700; transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease;
-  }
+  .modal-buttons .side-btn { flex:1; min-width:120px; padding:10px; border-radius:10px; border:none; cursor:pointer; color:#fff; font-weight:700; transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease; }
   .modal-buttons .side-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
 
-  /* specific side button gradients */
   #btnGallery { background-image: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
   #btnTrailer { background-image: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
 
   .modal-full-buttons { margin-top: 10px; display:flex; flex-direction:column; gap:8px; }
-  .modal-full-buttons .full-btn {
-    width:100%; padding:12px; border-radius:12px; border:none; cursor:pointer; font-weight:800;
-    color:var(--text); background: var(--card-bg); border: 1px solid var(--full-btn-border);
-    transition: transform .12s ease, box-shadow .12s ease;
-  }
+  .modal-full-buttons .full-btn { width:100%; padding:12px; border-radius:12px; border:none; cursor:pointer; font-weight:800; color:var(--text); background: var(--card-bg); border: 1px solid var(--full-btn-border); transition: transform .12s ease, box-shadow .12s ease; }
   .modal-full-buttons .full-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
 
-  /* primary (Censored) and other full buttons */
   #btnCensored { background-image: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); color:#fff; border-color:transparent; }
   #btnUncensored { background-image: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); color:#fff; border-color:transparent; }
   #btnEnglish { background-image: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); color:#fff; border-color:transparent; }
 
-  /* =============== FILTER MODAL CONTENT =============== */
-  .filter-modal-content {
+  /* Explanation popup (new) */
+  .explain-popup {
+    position: fixed;
+    z-index: 1200;
+    min-width: 220px;
+    max-width: 360px;
     background: var(--card-bg);
-    width: 98%; max-width: 720px;
-    margin: 36px auto; border-radius: 16px; padding: 2px 3px 3px;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.28);
+    border: 1px solid rgba(148,163,184,.10);
+    transform-origin: top left;
+    opacity: 0;
+    transform: scale(.95) translateY(6px);
+    transition: opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
+    font-size: 13px;
     color: var(--text);
   }
-  .filter-modal-content h3 { margin: 6px 4px 10px; }
-  .filter-search { margin: 0 4px 10px; }
-  .filter-search input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid rgba(148,163,184,.35);
-    border-radius: 10px;
-    background: #ffffff10; color: var(--text);
+  .explain-popup.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
+  .explain-popup .title { font-weight:800; margin-bottom:6px; font-size:14px; }
+  .explain-popup .body { color: #475569; line-height:1.4; font-size:13px; }
 
-  /* Actress column controls */
-  .col-controls { display:flex; gap:8px; align-items:center; margin:6px 0 10px; }
-  .col-controls button { padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
-  .col-controls button.active { background-image: var(--grad-primary); color:#fff; border-color:transparent; transform: translateY(-1px); }
-
-  /* Grid: dynamic columns; spacing made very compact per request */
-  .grid-3 {
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;    /* reduced gap - compact */
-    padding: 1px;/* reduced padding - compact */
-  }
-  .grid-3 .opt {
-    text-align:center; cursor:pointer;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    padding: 1px; /* compact internal padding */
-    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-    background: #ffffff05;
-  }
-  .grid-3 .opt:hover { transform: translateY(-1px); }
-  .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.12); }
-  .grid-3 img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 6px; }
-  /* actress name scales via CSS variable set inline by JS */
-  .grid-3 .name { display:block; font-weight: 700; margin-top: 2px; font-size: var(--actress-name-size,12px); }
-  .grid-3 .count { display:block; font-size: 11px; color: #94a3b8; }
-
-  /* small utility */
-  .row { display:flex; gap:2px; align-items:center; }
-
-  /* small responsive tweak: if modal narrower, shrink image container slightly */
+  /* small responsive tweak */
   @media (max-width:600px){
     .rating-image-right { width: 40%; }
     .rating-left .label { width: 90px; }
     .status-circle { width:10px; height:10px; }
     .mini-rating { font-size:12px; }
+    .grid-3 { gap:4px; }
+    .filter-top { padding: 8px; }
+
+    .explain-popup { position: fixed; left: 50%; transform: translateX(-50%) scale(.98) translateY(8px); bottom: 12px; max-width: 92%; min-width: auto; }
+    .explain-popup.open { transform: translateX(-50%) scale(1) translateY(0); }
   }
 </style>
 </head>
@@ -492,16 +425,19 @@
     <button class="icon-btn" id="shuffleBtn" title="Shuffle current list" aria-label="Shuffle">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M4 20l5-5m11-2h-3.5a2.5 2.5 0 0 1-2-4l5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <div class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme"></div>
+
+    <!-- Random button (replaces removed theme toggle) -->
+    <button class="icon-btn" id="randomBtn" title="Show 3 random videos" aria-label="Random 3">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 </header>
 
-<!-- Filter buttons with selected text - Only Actress filter remains -->
+<!-- Filter buttons: Actress + Gold + Silver (renamed and active state) -->
 <div class="filter-buttons">
   <button onclick="openFilter('actress')" id="btn-actress" aria-label="Filter Actress">Actress: All</button>
-  <button class="icon-btn" id="randomBtn" title="Show 3 random videos" aria-label="Random 3">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
-  </button>
+  <button id="btn-gold" class="gold-btn" onclick="toggleRatingCategory('gold')" aria-label="Gold">Gold</button>
+  <button id="btn-silver" class="silver-btn" onclick="toggleRatingCategory('silver')" aria-label="Silver">Silver</button>
 </div>
 
 <!-- Grid + Pagination -->
@@ -511,7 +447,7 @@
 <!-- Video Modal -->
 <div class="modal" id="videoModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('videoModal')" aria-label="Close">&times;</span>
-  <div class="modal-content">
+  <div class="modal-content" id="modalContentElement">
     <!-- Hidden iframe kept for compatibility with existing code that sets/clears it -->
     <iframe id="videoPlayer" class="player" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
 
@@ -527,16 +463,15 @@
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
         <div class="meta-line" id="metaStudioLabel" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
-        <!-- 3.5 Description ADDITION -->
+        <!-- 3.5 Description -->
         <div class="meta-line" id="modalDescription" style="margin-top:8px; color: #0f172a;"></div>
       </div>
 
-      <!-- 4. Rating system (left) + Image (right) - ALWAYS side-by-side -->
+      <!-- 4. Rating system (left) + Image (right) -->
       <div class="rating-image-row">
         <div class="rating-left">
-          <div class="main-rating">
+          <div class="main-rating" id="mainRatingBox" title="Click for explanation">
             <div class="star-wrap" aria-hidden="true">
-              <!-- fancy SVG star for a cleaner look -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
                 <defs>
@@ -553,15 +488,16 @@
             </div>
           </div>
 
-          <div class="rating-bars" id="ratingBars">
-            <!-- Individual rating rows populated dynamically -->
-          </div>
+          <div class="rating-bars" id="ratingBars"></div>
         </div>
 
         <div class="rating-image-right">
           <img id="modalCoverImage" src="" alt="Cover image">
         </div>
       </div>
+
+      <!-- 4.5 Timestamps (new): placed after rating area but before buttons -->
+      <div id="timestampsContainer" class="timestamps" aria-live="polite" style="display:none;"></div>
 
       <!-- 5. Buttons Section -->
       <div class="modal-buttons" id="modalSideButtons">
@@ -574,8 +510,6 @@
         <button class="full-btn" id="btnUncensored">Uncensored Video</button>
         <button class="full-btn" id="btnEnglish">English Sub Video</button>
       </div>
-
-      <!-- gallery removed from modal per request -->
     </div>
   </div>
 </div>
@@ -584,11 +518,24 @@
 <div class="modal" id="filterModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('filterModal')" aria-label="Close">&times;</span>
   <div class="filter-modal-content" id="filterContent">
-    <h3 id="filterTitle"></h3>
-    <div class="filter-search"><input type="text" id="filterSearch" placeholder="Search..." /></div>
-    <div id="filterControlsContainer"></div> <!-- for dynamic actress column controls -->
-    <div id="filterBody"></div>
+    <!-- Top area (sticky): title, search, column controls -->
+    <div class="filter-top">
+      <h3 id="filterTitle"></h3>
+      <div class="filter-search"><input type="text" id="filterSearch" placeholder="Search..." /></div>
+      <div class="filter-controls-holder">
+        <div id="filterControlsContainer"></div>
+      </div>
+    </div>
+
+    <!-- Scrollable options area -->
+    <div class="filter-body-scroll" id="filterBody"></div>
   </div>
+</div>
+
+<!-- explain popup (added to body by default hidden) -->
+<div id="explainPopup" class="explain-popup" role="dialog" aria-modal="false" style="display:none;">
+  <div class="title" id="explainTitle"></div>
+  <div class="body" id="explainBody"></div>
 </div>
 
 <!-- Data sources -->
@@ -618,13 +565,11 @@ function getField(obj, ...names){
 function getFirstUrl(obj, candidates){
   for(const key of candidates){
     if(!obj) continue;
-    // direct property (case-sensitive)
     if(typeof obj[key] !== 'undefined' && obj[key] !== null && String(obj[key]).trim() !== ''){
       const val = obj[key];
       if(Array.isArray(val) && val.length) return String(val[0]).trim();
       return String(val).trim();
     }
-    // try alternative casing variants (lower/upper camel and underscore)
     const altKeys = [key.toLowerCase(), key.toUpperCase(), key.replace(/([A-Z])/g,'_$1').toLowerCase()];
     for(const ak of altKeys){
       if(typeof obj[ak] !== 'undefined' && obj[ak] !== null && String(obj[ak]).trim() !== ''){
@@ -653,12 +598,13 @@ function hasUrl(obj, candidates){
 /* ================== State ================== */
 const perPage = 12;
 let currentPage = 1;
-let activeFilters = {}; // { type: [value] } or empty array for All
+let activeFilters = {}; // { type: [value], ratingCategories: ['gold','silver'] }
 let filtered = [];
 
-/* Actress filter columns state */
-let actressColumns = 3; // default (preserve prior 3-column layout)
-const actressFontForCols = {1: '18px', 2: '15px', 3: '12px', 4: '11px'}; // scaling map (slightly smaller to fit compact spacing)
+let actressColumns = 3; // for filter modal columns
+const actressFontForCols = {1: '18px', 2: '15px', 3: '12px', 4: '11px'};
+
+let activeSearch = ''; // new: homepage search query
 
 /* ================== Init ================== */
 function init(){
@@ -667,13 +613,62 @@ function init(){
 }
 document.addEventListener('DOMContentLoaded', init);
 
-/* ================== Apply Filters ================== */
+/* ================== Filter Utilities ================== */
+function toggleRatingCategory(cat){
+  activeFilters.ratingCategories = activeFilters.ratingCategories || [];
+  const idx = activeFilters.ratingCategories.indexOf(cat);
+  if(idx >= 0) activeFilters.ratingCategories.splice(idx,1);
+  else activeFilters.ratingCategories.push(cat);
+  // UI toggle
+  const btnGold = document.getElementById('btn-gold');
+  const btnSilver = document.getElementById('btn-silver');
+  btnGold.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold'));
+  btnSilver.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver'));
+  applyAllFilters();
+}
+
+/* ================== Apply Filters (handles actress + ratingCategories + search) ================== */
 function applyAllFilters(){
   filtered = videos.filter(v=>{
-    return Object.entries(activeFilters).every(([key,vals])=>{
-      if(!vals || !vals.length) return true; // All
-      return vals.some(val=>toArray(v[key]).includes(val));
-    });
+    // Search (if activeSearch present) — Title, Code, Actress, Studio, Label
+    if(activeSearch && String(activeSearch).trim() !== ''){
+      const q = String(activeSearch).toLowerCase();
+      const title = (v.title || '').toLowerCase();
+      const code = (v.code || '').toLowerCase();
+      const actressStr = toArray(v.actress).join(' ').toLowerCase();
+      const studioStr = toArray(v.studio).join(' ').toLowerCase();
+      const labelStr = toArray(v.label).join(' ').toLowerCase();
+      const matchesSearch = title.includes(q) || code.includes(q) || actressStr.includes(q) || studioStr.includes(q) || labelStr.includes(q);
+      if(!matchesSearch) return false;
+    }
+
+    // Actress filter
+    if(activeFilters.actress && activeFilters.actress.length){
+      const want = activeFilters.actress[0];
+      const list = toArray(v.actress);
+      if(!list.includes(want)) return false;
+    }
+
+    // Other generic filters (kept for compatibility)
+    for(const [key, vals] of Object.entries(activeFilters)){
+      if(key === 'actress' || key === 'ratingCategories') continue;
+      if(!vals || !vals.length) continue;
+      if(!vals.some(val=>toArray(v[key]).includes(val))) return false;
+    }
+
+    // Rating category filter (gold/silver)
+    if(activeFilters.ratingCategories && activeFilters.ratingCategories.length){
+      const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
+      const { avg } = computeAverageRating(ratingSource);
+      const matches = activeFilters.ratingCategories.some(cat=>{
+        if(cat === 'gold') return avg >= 9.0;
+        if(cat === 'silver') return avg >= 8.0 && avg < 9.0;
+        return false;
+      });
+      if(!matches) return false;
+    }
+
+    return true;
   });
   filtered = shuffleArray(filtered);
   currentPage = 1;
@@ -687,11 +682,9 @@ function renderVideos(){
   const start = (currentPage-1)*perPage;
   const pageItems = filtered.slice(start, start + perPage);
   pageItems.forEach(v=>{
-    // compute main rating (reuse computeAverageRating declared later - function hoisting ensures availability)
     const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
     const { avg } = computeAverageRating(ratingSource);
 
-    // check links presence (order: Gallery, Trailer, Censored, Uncensored, English)
     const hasGallery = hasUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
     const hasTrailer = hasUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
     const hasCensored = hasUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
@@ -701,7 +694,10 @@ function renderVideos(){
     const card = document.createElement("div");
     card.className = "video-card";
 
-    // Build HTML: thumb, title, footer (status circles left + rating right)
+    // add gold/silver classes based on avg
+    if(avg >= 9.0) card.classList.add('gold');
+    else if(avg >= 8.0 && avg < 9.0) card.classList.add('silver');
+
     const thumb = v.thumbnail || '';
     const titleEsc = (v.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
@@ -716,13 +712,25 @@ function renderVideos(){
           <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
           <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
         </div>
-        <div class="mini-rating" title="Main rating">
+        <div class="mini-rating" title="Main rating" data-video-index="">
           <div class="star" aria-hidden="true">★</div>
           <div class="score">${avg.toFixed(1)}</div>
         </div>
       </div>
     `;
+    // attach click: main card opens modal
     card.onclick = ()=>openVideo(v);
+
+    // attach click-to-explain on the mini-rating element (prevent card onclick)
+    const mini = card.querySelector('.mini-rating');
+    if(mini){
+      mini.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        const explanation = getRatingExplanation(v, 'main') || getRatingExplanationFromCommon(v) || `Overall rating: ${avg.toFixed(1)}`;
+        showExplainPopup(explanation, this, { title: 'Overall Rating' });
+      });
+    }
+
     grid.appendChild(card);
   });
   renderPagination();
@@ -748,28 +756,19 @@ function renderPagination(){
   }
 }
 
-/* ================== Search ================== */
-document.getElementById("searchBar").addEventListener("input", e=>{
-  const q = e.target.value.toLowerCase();
-  activeFilters = {}; // reset filters when searching
-  updateFilterButtonsUI();
-  filtered = shuffleArray(videos.filter(v=>
-    v.title.toLowerCase().includes(q) ||
-    (v.code || "").toLowerCase().includes(q) ||
-    toArray(v.actress).some(a=>a.toLowerCase().includes(q)) ||
-    toArray(v.studio).some(s=>s.toLowerCase().includes(q)) ||
-    toArray(v.label).some(l=>l.toLowerCase().includes(q)) ||
-    toArray(v.series).some(s=>s.toLowerCase().includes(q)) ||
-    toArray(v.tags).some(t=>t.toLowerCase().includes(q))
-  ));
-  currentPage = 1; renderVideos();
-});
+/* ================== Search (homepage) ================== */
+/* Replaced with robust search that integrates with other filters */
+const searchBarEl = document.getElementById("searchBar");
+if(searchBarEl){
+  searchBarEl.addEventListener("input", e=>{
+    activeSearch = (e.target.value || '').trim();
+    applyAllFilters();
+  });
+}
 
-/* ================== Video Modal (updated layout & colorized fills) ================== */
-
-/* Helper to compute rating average from ratings object. Now uses 4 categories: actress, production, ex, plot */
+/* ================== Video Modal (color fills + links) ================== */
 function computeAverageRating(ratings){
-  const keys = ['actress','production','ex','plot']; // tech removed
+  const keys = ['actress','production','ex','plot'];
   const vals = keys.map(k => {
     const v = ratings && typeof ratings[k] !== 'undefined' ? Number(ratings[k]) : 0;
     return isFinite(v) ? Math.max(0, Math.min(10, v)) : 0;
@@ -778,28 +777,143 @@ function computeAverageRating(ratings){
   return { avg: sum / vals.length, vals, keys };
 }
 
-/* Map rating key -> CSS var names for gradients */
 function ratingGradientFor(key){
-  // expects CSS variables to exist: --rating-<key>-start and --rating-<key>-end
   return `linear-gradient(90deg, var(--rating-${key}-start), var(--rating-${key}-end))`;
 }
 
+/* ================== Rating explanation lookup (robust) ================== */
+/* Looks into several possible field names that could be present in videos.js */
+function findExplanationsMap(v){
+  // possible top-level fields that may contain per-category explanations
+  const candidateNames = [
+    'rating_explanations','rating_explain','ratingDescriptions','rating_descriptions','explanations','rating_explains','ratingExplain','rating_description','rating_desc'
+  ];
+  for(const n of candidateNames){
+    if(v && typeof v[n] === 'object' && v[n] !== null) return v[n];
+  }
+  // maybe combined under 'ratingsInfo' or 'meta'
+  if(v && v.ratingsInfo && typeof v.ratingsInfo === 'object') return v.ratingsInfo;
+  if(v && v.meta && typeof v.meta === 'object' && v.meta.ratings) return v.meta.ratings;
+  return null;
+}
+
+function getRatingExplanation(v, key){
+  if(!v) return null;
+  // key might be 'actress','production','ex','plot','main'
+  const map = findExplanationsMap(v);
+  if(map && (map[key] || map[key.toLowerCase()] || map[key.toUpperCase()])) return (map[key] || map[key.toLowerCase()] || map[key.toUpperCase()]);
+  // also try e.g., v['explain_actress'], v['explain-production'] etc
+  const altKeys = [
+    `explain_${key}`, `explain${capitalize(key)}`, `${key}_explain`, `${key}_explanation`, `${key}Explanation`
+  ];
+  for(const ak of altKeys){
+    if(typeof v[ak] === 'string') return v[ak];
+  }
+  return null;
+}
+
+function getRatingExplanationFromCommon(v){
+  // fallback: maybe v.overallExplanation, v.description, etc
+  const fallbackFields = ['overallExplanation','overall_explanation','mainExplanation','main_explanation','explain','explain_main','description'];
+  for(const f of fallbackFields){
+    if(typeof v[f] === 'string' && v[f].trim()) return v[f];
+  }
+  return null;
+}
+
+function capitalize(s){ if(!s) return s; return String(s).charAt(0).toUpperCase() + String(s).slice(1); }
+
+/* ================== Explain popup (show/hide and positioning) ================== */
+const explainPopupEl = document.getElementById('explainPopup');
+const explainTitleEl = document.getElementById('explainTitle');
+const explainBodyEl = document.getElementById('explainBody');
+let explainHideTimeout = null;
+
+function showExplainPopup(text, anchorEl, opts = {}){
+  if(!explainPopupEl) return;
+  const title = opts.title || '';
+  explainTitleEl.textContent = title;
+  explainBodyEl.textContent = text || '';
+
+  // show
+  explainPopupEl.style.display = 'block';
+  // compute position (try to place near anchor)
+  const rect = anchorEl && anchorEl.getBoundingClientRect ? anchorEl.getBoundingClientRect() : null;
+  const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+  const viewportH = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+  // mobile: center-bottom styled in CSS - just open there
+  if(viewportW <= 600){
+    explainPopupEl.style.left = '';
+    explainPopupEl.style.top = '';
+    explainPopupEl.style.right = '';
+    explainPopupEl.style.bottom = '12px';
+    explainPopupEl.style.position = 'fixed';
+  } else {
+    explainPopupEl.style.position = 'fixed';
+    explainPopupEl.style.bottom = '';
+    // attempt to place top-left of popup near the anchor
+    let left = 12;
+    let top = 12;
+    if(rect){
+      left = Math.min(Math.max(8, rect.left + window.scrollX), viewportW - 380);
+      top = Math.min(Math.max(8, rect.top + window.scrollY + rect.height + 8), viewportH - 80);
+      // prefer below the element; if not enough space, place above
+      if(rect.top + rect.height + 160 > viewportH) {
+        top = Math.max(12, rect.top + window.scrollY - 160);
+      }
+    } else {
+      left = Math.max(12, viewportW / 2 - 160);
+      top = 80;
+    }
+    explainPopupEl.style.left = left + 'px';
+    explainPopupEl.style.top = top + 'px';
+  }
+
+  // add open class (animation)
+  requestAnimationFrame(()=> explainPopupEl.classList.add('open'));
+
+  // attach handlers to auto-close on outside click or escape
+  setTimeout(()=> {
+    document.addEventListener('click', explainOutsideClickHandler);
+    document.addEventListener('keydown', explainEscapeHandler);
+  }, 0);
+
+  // optionally auto-hide after some time (not enforced) - keep manual close for better UX
+}
+
+function closeExplainPopup(){
+  if(!explainPopupEl || explainPopupEl.style.display === 'none') return;
+  explainPopupEl.classList.remove('open');
+  setTimeout(()=> {
+    explainPopupEl.style.display = 'none';
+  }, 180);
+  document.removeEventListener('click', explainOutsideClickHandler);
+  document.removeEventListener('keydown', explainEscapeHandler);
+}
+
+function explainOutsideClickHandler(e){
+  if(!explainPopupEl) return;
+  if(!explainPopupEl.contains(e.target)) closeExplainPopup();
+}
+function explainEscapeHandler(e){
+  if(e.key === 'Escape') closeExplainPopup();
+}
+
+/* ================== openVideo (updated to add timestamps + rating click handlers) ================== */
 function openVideo(v){
-  // Keep original iframe behavior for compatibility
+  closeExplainPopup(); // close any existing explanation
+
   const player = document.getElementById("videoPlayer");
   if(player) player.src = v.videoUrl || "";
 
-  // 1. Thumbnail (try multiple property names)
   const thumb = document.getElementById("modalThumb");
   const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
   thumb.src = thumbSrc;
   thumb.alt = v.title || "Thumbnail";
 
-  // 2. Title
   document.getElementById("modalTitle").textContent = v.title || "";
 
-  // 3. Metadata
-  // Actress line (all names in one line, clickable)
   const metaActress = document.getElementById("metaActress");
   const actressList = toArray(v.actress);
   if(actressList.length){
@@ -808,16 +922,13 @@ function openVideo(v){
     metaActress.innerHTML = '<strong>Actress:</strong> All';
   }
 
-  // Studio and Label side by side
   const metaStudioLabel = document.getElementById("metaStudioLabel");
   const labels = toArray(v.label);
   const studios = toArray(v.studio);
-
   const labelHTML = `<div style="flex:1;"><strong>Label:</strong> ${labels.length ? labels.map(l=>`<span class="clickable" onclick="setFilter('label','${escapeHtml(l)}')">${escapeHtml(l)}</span>`).join(' ') : 'All'}</div>`;
   const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
   metaStudioLabel.innerHTML = labelHTML + studioHTML ;
 
-  // 3.5 Description (added)
   const descEl = document.getElementById("modalDescription");
 if (descEl) {
   const descText = getField(v, 'description', 'desc') || '';
@@ -829,53 +940,62 @@ if (descEl) {
   descEl.style.textAlign = "justify";
 }
 
-  // 4. Rating System left + Image right
   const ratingContainer = document.getElementById("ratingBars");
   ratingContainer.innerHTML = "";
 
-  // Expecting v.ratings to be an object; fallback to any fields on v
   const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
   const { avg, vals, keys } = computeAverageRating(ratingSource);
   document.getElementById("mainRatingText").textContent = `${avg.toFixed(1)}`;
 
-  // Build rating rows (label above, bar below with numeric aligned right)
   const labelsPretty = { actress: "Actress", production: "Production", ex: "Sex", plot: "Plot" };
   keys.forEach((k,i)=>{
     const numeric = vals[i] || 0;
     const row = document.createElement("div");
     row.className = "rating-row";
-    // label above; bar-row includes bar and numeric value
     row.innerHTML = `
       <div class="label">${labelsPretty[k] || k}</div>
       <div class="bar-row">
-        <div class="bar" aria-hidden="true"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
+        <div class="bar" aria-hidden="true" data-rating-key="${k}"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
         <div class="value">${numeric.toFixed(1)}</div>
       </div>
     `;
-    // set gradient fill for category
     const fillEl = row.querySelector('.fill');
     if(fillEl){
-      // map keys to css variable names:
-      // actress -> rating-actress, production -> rating-production, ex -> rating-ex, plot -> rating-plot
       fillEl.style.background = ratingGradientFor(k);
+    }
+    // add click-to-explain for this rating bar
+    const barEl = row.querySelector('.bar');
+    if(barEl){
+      barEl.addEventListener('click', function(e){
+        e.stopPropagation();
+        const explanation = getRatingExplanation(v, k) || getRatingExplanationFromCommon(v) || `${labelsPretty[k] || k} rating: ${numeric.toFixed(1)}`;
+        showExplainPopup(explanation, this, { title: `${labelsPretty[k] || k} Rating` });
+      });
     }
     ratingContainer.appendChild(row);
   });
 
-  // Right image: prefer coverimage/coverImage/cover_image, then gallery, then thumbnail
+  // main rating click handler (modal)
+  const mainRatingBox = document.getElementById('mainRatingBox');
+  if(mainRatingBox){
+    mainRatingBox.onclick = function(e){
+      e.stopPropagation();
+      const explanation = getRatingExplanation(v, 'main') || getRatingExplanationFromCommon(v) || `Overall rating: ${avg.toFixed(1)}`;
+      showExplainPopup(explanation, this, { title: 'Overall Rating' });
+    };
+  }
+
   const coverImg = document.getElementById("modalCoverImage");
   const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || thumbSrc || '';
   coverImg.src = coverSrc;
   coverImg.alt = v.title || "Cover image";
 
-  // Buttons
   const galleryBtn = document.getElementById("btnGallery");
   const trailerBtn = document.getElementById("btnTrailer");
   const censoredBtn = document.getElementById("btnCensored");
   const uncensoredBtn = document.getElementById("btnUncensored");
   const englishBtn = document.getElementById("btnEnglish");
 
-  // ensure small pressed opacity effect
   [galleryBtn, trailerBtn, censoredBtn, uncensoredBtn, englishBtn].forEach(b=>{
     if(!b) return;
     b.onmousedown = ()=> b.style.opacity = '0.92';
@@ -883,31 +1003,56 @@ if (descEl) {
     b.onmouseleave = ()=> b.style.opacity = '';
   });
 
-  /* Build URLs robustly (checks multiple possible field names and supports string or array) */
   const galleryUrl = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
   const trailerUrl = getFirstUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
   const censoredUrl = getFirstUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
   const uncensoredUrl = getFirstUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
   const englishUrl = getFirstUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
 
-  galleryBtn.onclick = ()=> {
-    safeOpenInNewTabOr404(galleryUrl || thumbSrc || v.videoUrl || '');
-  };
-  trailerBtn.onclick = ()=> {
-    safeOpenInNewTabOr404(trailerUrl || v.videoUrl || '');
-  };
+  galleryBtn.onclick = ()=> { safeOpenInNewTabOr404(galleryUrl || thumbSrc || v.videoUrl || ''); };
+  trailerBtn.onclick = ()=> { safeOpenInNewTabOr404(trailerUrl || v.videoUrl || ''); };
+  censoredBtn.onclick = ()=> { safeOpenInNewTabOr404(censoredUrl || v.censored || v.censoredUrl || ''); };
+  uncensoredBtn.onclick = ()=> { safeOpenInNewTabOr404(uncensoredUrl || v.uncensored || v.uncensoredUrl || ''); };
+  englishBtn.onclick = ()=> { safeOpenInNewTabOr404(englishUrl || v.english || v.englishUrl || ''); };
 
-  censoredBtn.onclick = ()=> {
-    safeOpenInNewTabOr404(censoredUrl || v.censored || v.censoredUrl || '');
-  };
-  uncensoredBtn.onclick = ()=> {
-    safeOpenInNewTabOr404(uncensoredUrl || v.uncensored || v.uncensoredUrl || '');
-  };
-  englishBtn.onclick = ()=> {
-    safeOpenInNewTabOr404(englishUrl || v.english || v.englishUrl || '');
-  };
+  // set modal background class based on avg
+  const modalContent = document.getElementById('modalContentElement');
+  modalContent.classList.remove('gold-modal','silver-modal');
+  if(avg >= 9.0) modalContent.classList.add('gold-modal');
+  else if(avg >= 8.0 && avg < 9.0) modalContent.classList.add('silver-modal');
 
-  // show modal
+  // TIMESTAMPS: build UI if timestamps available
+  const timestampsEl = document.getElementById('timestampsContainer');
+  timestampsEl.innerHTML = '';
+  const timestamps = (v.timestamps && Array.isArray(v.timestamps)) ? v.timestamps : (v.timepoints && Array.isArray(v.timepoints) ? v.timepoints : []);
+  if(timestamps && timestamps.length){
+    timestampsEl.style.display = 'flex';
+    timestamps.forEach(tp=>{
+      // tp may be {time: "00:00:00", title: "..." }
+      const timeStr = getField(tp, 'time', 't', 'timestamp') || tp;
+      const title = getField(tp, 'title', 'desc', 'label') || '';
+      const isStar = String(title || '').trim().startsWith('★') || String(title || '').toLowerCase().includes('scene');
+      const row = document.createElement('div');
+      row.className = 'time-row';
+      row.innerHTML = `
+        <div class="time">${escapeHtml(String(timeStr || '00:00:00'))}</div>
+        <div class="title">${escapeHtml(String(title || ''))}${isStar ? '<span class="badge-star">★</span>' : ''}</div>
+      `;
+      // clicking a timestamp could optionally open video at that time — feature kept simple: copy time to clipboard
+      row.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        // attempt to copy time to clipboard as a helpful action
+        try {
+          navigator.clipboard && navigator.clipboard.writeText(timeStr || '');
+        } catch(e){}
+        showExplainPopup(`Timestamp: ${timeStr}${title ? ' — ' + title : ''}`, row, { title: 'Timestamp' });
+      });
+      timestampsEl.appendChild(row);
+    });
+  } else {
+    timestampsEl.style.display = 'none';
+  }
+
   document.getElementById("videoModal").style.display = "flex";
 }
 
@@ -922,46 +1067,31 @@ function closeModal(id){
   if(id === "videoModal"){
     const player = document.getElementById("videoPlayer");
     if(player) player.src = "";
+    document.getElementById('modalContentElement').classList.remove('gold-modal','silver-modal');
   }
+  closeExplainPopup();
 }
 
 /* ================== Filter Modal ================== */
-/* Always show ALL options (even 0 videos). If filters.js has master maps, use them; fallback to values from data. */
 function getAllOptionsFor(type){
-  // Prefer master list from filters.js (if present)
   const map = (type === "tags" ? (filters.tags || null) : (filters[type] || null));
   let keys = map ? Object.keys(map) : null;
-
   if(!keys || !keys.length){
-    // Fallback to unique values from dataset
     keys = [...new Set(videos.flatMap(v=>toArray(v[type])))];
   }
-  return keys.sort((a,b)=>a.localeCompare(b)); // stable base order
+  return keys.sort((a,b)=>a.localeCompare(b));
 }
 
 function setActressColumns(n, container){
   actressColumns = n;
-  // update grid columns
   container.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
-  // scale actress name font-size using mapping
   const font = actressFontForCols[n] || '12px';
   container.style.setProperty('--actress-name-size', font);
-  // also adjust gap/padding slightly when many columns
-  if(n >= 4){
-    container.style.gap = '4px';
-    container.style.padding = '4px';
-  } else if(n === 1){
-    container.style.gap = '8px';
-    container.style.padding = '6px';
-  } else {
-    container.style.gap = '4px';
-    container.style.padding = '4px';
-  }
-  // reflect active button state in controls
+  if(n >= 4){ container.style.gap = '4px'; container.style.padding = '4px'; }
+  else if(n === 1){ container.style.gap = '8px'; container.style.padding = '6px'; }
+  else { container.style.gap = '4px'; container.style.padding = '4px'; }
   const ctrl = document.querySelectorAll('#filterControlsContainer .col-controls button');
-  ctrl.forEach(b=>{
-    b.classList.toggle('active', Number(b.dataset.cols) === n);
-  });
+  ctrl.forEach(b=>{ b.classList.toggle('active', Number(b.dataset.cols) === n); });
 }
 
 function openFilter(type){
@@ -973,29 +1103,20 @@ function openFilter(type){
   controlsContainer.innerHTML = "";
   title.textContent = "Choose " + type;
 
-  // Selected handling
   const selected = (activeFilters[type] && activeFilters[type][0]) || "All";
-
-  // Build options
   const baseOptions = getAllOptionsFor(type);
-  // Shuffle others (excluding selected and All)
   const others = shuffleArray(baseOptions.filter(it => it !== selected));
-
-  // Ordering: All first, selected next (if not All), then shuffled others
   const allOptions = ["All", ...(selected !== "All" ? [selected] : []), ...others];
 
-  // Create container
   const container = document.createElement("div");
   container.className = "grid-3";
 
-  // If it's actress, add column controls UI
   if(type === 'actress'){
     const ctrlWrap = document.createElement("div");
     ctrlWrap.className = "col-controls";
     const label = document.createElement("div");
     label.textContent = "Columns:";
     ctrlWrap.appendChild(label);
-
     for(let c=1;c<=4;c++){
       const btn = document.createElement("button");
       btn.textContent = c;
@@ -1005,19 +1126,14 @@ function openFilter(type){
       ctrlWrap.appendChild(btn);
     }
     controlsContainer.appendChild(ctrlWrap);
-    // initialize container based on current actressColumns
-    // (set after container exists)
   }
 
-  // Populate options
   allOptions.forEach(it=>{
     const map = (type === "tags" ? (filters.tags || null) : (filters[type] || null));
     const imgLink = (map && map[it]) ? map[it] : "https://via.placeholder.com/200x300.png?text=" + encodeURIComponent(it);
     const div = document.createElement("div");
     div.className = "opt" + (it === selected ? " selected" : "");
-    // Count based on current dataset (can be 0 and still shown)
     const count = it === "All" ? videos.length : videos.filter(v=>toArray(v[type]).includes(it)).length;
-
     div.innerHTML = `
       <img src="${imgLink}" loading="lazy" alt="">
       <span class="name">${it}</span>
@@ -1029,13 +1145,10 @@ function openFilter(type){
 
   body.appendChild(container);
 
-  // If actress, apply current columns settings now
   if(type === 'actress'){
-    // give a tiny delay to ensure container inserted
     setTimeout(()=> setActressColumns(actressColumns, container), 0);
   }
 
-  // Search within the filter modal
   const searchInput = document.getElementById("filterSearch");
   searchInput.value = "";
   searchInput.oninput = ()=>{
@@ -1058,10 +1171,15 @@ function setFilter(type, val){
 }
 
 function updateFilterButtonsUI(){
-  // Only update the actress button since others were removed
   const btn = document.getElementById("btn-actress");
   const sel = (activeFilters.actress && activeFilters.actress[0]) || "All";
   btn.textContent = "Actress: " + sel;
+  updateRatingButtonsUI();
+}
+
+function updateRatingButtonsUI(){
+  document.getElementById('btn-gold').classList.toggle('active', !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold')));
+  document.getElementById('btn-silver').classList.toggle('active', !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver')));
 }
 
 /* ================== Header Buttons ================== */
@@ -1081,19 +1199,13 @@ document.getElementById("randomBtn").addEventListener("click", ()=>{
 
 document.getElementById("homeBtn").addEventListener("click", ()=>{
   activeFilters = {};
+  activeSearch = '';
+  document.getElementById('searchBar').value = '';
   updateFilterButtonsUI();
   filtered = shuffleArray([...videos]);
   currentPage = 1;
   renderVideos();
 });
-
-/* ================== Theme ================== */
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.addEventListener("click", ()=>{
-  document.body.classList.toggle("dark");
-  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
-});
-if(localStorage.getItem("theme") === "dark"){ document.body.classList.add("dark"); }
 
 /* ================== Modal Close Helpers ================== */
 function closeOnBackgroundClick(e, id){
@@ -1102,6 +1214,10 @@ function closeOnBackgroundClick(e, id){
 }
 document.getElementById("videoModal").addEventListener("click", e=>closeOnBackgroundClick(e, "videoModal"));
 document.getElementById("filterModal").addEventListener("click", e=>closeOnBackgroundClick(e, "filterModal"));
+
+/* ensure explain popup hides if user navigates away or closes modals */
+window.addEventListener('scroll', ()=> closeExplainPopup(), { passive: true });
+window.addEventListener('resize', ()=> closeExplainPopup());
 </script>
 </body>
 </html>
