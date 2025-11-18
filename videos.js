@@ -175,6 +175,12 @@ const videos = [
     "studio": "Faleno",
     "label": "FNS",
     "description": "Breaking down the walls of 8 years as an AV actress!! A two-day, one-night slut awakening training camp where pleasure and domination intersect.1) Slut means motherhood and love 2) It's important to have a spirit of acceptance for each other 3) Being shy is bad 4) Accept everything about the other person 5) Expose your heart 6) Don't ever slack off!! Do your best. A hellish trial to train your hips, voice, physical strength, and movements... A new Yoshitaka slut is born in Spartan special training that overturns all Yoshitaka slut sex up until now!",
+    "ratings": {
+      "actress": 9,
+      "production": 9,
+      "ex": 9,
+      "plot": 8
+    },
     "gallery": "https://javct.net/v/fns-132",
     "trailer": "https://javtrailers.com/video/1fns00132",
     "censoredurl": "https://supjav.com/382209.html",
@@ -266,6 +272,115 @@ const videos = [
     "censoredurl": null,
     "uncensoredurl": null,
     "englishurl": null
+  },
+  {
+    "code": "START-406",
+    "title": "START-406 NTR During An Expedition: A Soccer Player's Beautiful Wife...",
+    "thumbnail": "https://via.placeholder.com/600x400.png?text=START-406+Thumb",
+    "coverimage": "https://via.placeholder.com/400x600.png?text=START-406+Cover",
+    "actress": ["Minamo"],
+    "studio": "SOD Create",
+    "label": "START",
+    "description": "Minamo, the wife of a popular professional soccer player, lives a fulfilling life in a luxury apartment in Tokyo. While her husband is away for games, tensions rise when a relative moves in.",
+    "ratings": {
+      "actress": 10,
+      "production": 9,
+      "ex": 9,
+      "plot": 8
+    },
+    "gallery": "https://javct.net/v/start-406",
+    "trailer": "https://javtrailers.com/video/1start00406",
+    "censoredurl": "https://supjav.com/377429.html",
+    "uncensoredurl": "https://supjav.com/377706.html",
+    "englishurl": "https://javenglish.cc/video/start-406-eng-sub-soccer-players-wife-secretly-fucked-by-brother-in-law-during-tour/",
+    "timestamps": [
+      { "time": "00:00:00", "title": "Opening + Husband leaves + Brother-in-law arrives" },
+      { "time": "00:10:25", "title": "Daily life & awkward tension (no contact)" },
+      { "time": "00:25:40", "title": "First deep kiss + heavy petting + undressing (foreplay only)" },
+      { "time": "00:42:15", "title": "★ ex Scene 1 – Missionary → Cowgirl → 1st Creampie" },
+      { "time": "01:02:50", "title": "Shower + short blowjob tease (no penetration)" },
+      { "time": "01:18:35", "title": "★ ex Scene 2 – 69 → Reverse Cowgirl → 2nd & 3rd Creampie" },
+      { "time": "01:38:20", "title": "★ ex Scene 3 – Standing Doggy → Prone Bone → 4th & 5th Creampie" },
+      { "time": "01:55:45", "title": "Ending + Husband returns + Final shot" }
+    ],
+    "explanations": {
+      "main": "Overall this title scores very high due to a strong performance, polished production, and multiple highlight scenes.",
+      "actress": "Actress score:an expressive and natural performance with strong chemistry and timing.",
+      "production": "Production score: polished cinematography, set design and sound mixing add to the experience.",
+      "ex": "Sex score: multiple varied scenes, good pacing and solid choreography.",
+      "plot": "Plot score: well structured storyline with a believable emotional arc."
+    }
+  },
+
+  {
+    "code": "SILV-112",
+    "title": "SILV-112 Cozy Drama: A Quiet Evening That Turns Unexpected",
+    "thumbnail": "https://via.placeholder.com/600x400.png?text=SILV-112+Thumb",
+    "coverimage": "https://via.placeholder.com/400x600.png?text=SILV-112+Cover",
+    "actress": ["Yoshitaka Nene"],
+    "studio": "Cozy Films",
+    "label": "SILV",
+    "description": "A quiet, moody story that builds tension slowly. The chemistry is subtle and the cinematography has a softer, intimate touch.",
+    "ratings": {
+      "actress": 8.5,
+      "production": 8.2,
+      "ex": 8.4,
+      "plot": 8.1
+    },
+    "gallery": "https://example.com/silv-112/gallery",
+    "trailer": "https://example.com/silv-112/trailer",
+    "censoredurl": "https://example.com/silv-112/censored",
+    "uncensoredurl": "",
+    "englishurl": "https://example.com/silv-112/english",
+    "timestamps": [
+      { "time": "00:00:00", "title": "Intro + Setup" },
+      { "time": "00:12:30", "title": "Tension grows – the first intimate scene" },
+      { "time": "00:36:07", "title": "Midpoint emotional scene" },
+      { "time": "00:52:10", "title": "Main sex scene – gentle, deliberate pacing" },
+      { "time": "01:10:00", "title": "Resolution and closing" }
+    ],
+    "explanations": {
+      "main": "Silver-tier title: consistent, solid across categories — a dependable, well-rounded production.",
+      "actress": "Actress score: nuanced and restrained performance that suits the film's tone.",
+      "production": "Production score: tasteful camera work and location choices create a pleasing atmosphere.",
+      "ex": "Sex score: well shot and paced, focused more on intimacy than variety.",
+      "plot": "Plot score: coherent narrative with a satisfying emotional payoff."
+    }
+  },
+
+  {
+    "code": "IND-009",
+    "title": "IND-009 Indie Short: Experimental Collage",
+    "thumbnail": "https://via.placeholder.com/600x400.png?text=IND-009+Thumb",
+    "coverimage": "https://via.placeholder.com/400x600.png?text=IND-009+Cover",
+    "actress": ["Yatsugake Umi", "Minamo"],
+    "studio": "IndieWorks",
+    "label": "IND",
+    "description": "An experimental short with emphasis on mood and texture. Not heavy on plot — more of a visual piece.",
+    "ratings": {
+      "actress": 7.2,
+      "production": 7.0,
+      "ex": 6.8,
+      "plot": 6.5
+    },
+    "gallery": "",
+    "trailer": "https://example.com/ind-009/trailer",
+    "censoredurl": "",
+    "uncensoredurl": "",
+    "englishurl": "",
+    "timestamps": [
+      { "time": "00:00:00", "title": "Opening visuals" },
+      { "time": "00:05:22", "title": "First short sequence" },
+      { "time": "00:11:44", "title": "Climactic montage" },
+      { "time": "00:14:10", "title": "Credits" }
+    ],
+    "explanations": {
+      "main": "A lower-key indie piece; scores reflect niche appeal and experimental style.",
+      "actress": "Actress score: solid performances, though intentionally understated.",
+      "production": "Production score: creative choices that may not suit mainstream tastes.",
+      "ex": "Sex score: minimal – the piece favors implication over explicit scenes.",
+      "plot": "Plot score: intentionally loose structure that focuses on tone and mood."
+    }
   }
 ];
 
