@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login - Video Viewing Website</title>
+<style>
+  /* =============== THEME (matches homepage) =============== */
+  :root {
+    --bg: #f8fafc;
+    --text: #0f172a;
+    --card-bg: #ffffff;
+
+    --grad-primary: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+    --grad-primary-hover: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+    --grad-header-accent: linear-gradient(90deg, rgba(139,92,246,.2), rgba(124,58,237,.2));
+
+    --primary: #7C3AED;
+    --primary-hover: #6D28D9;
+    --modal-bg: rgba(0,0,0,0.85);
+    --radius: 12px;
+    --ring: 0 0 0 3px rgba(139,92,246,.25);
+
+    --gold-card-start: rgba(255,200,0,0.18);
+    --gold-card-end:   rgba(255,170,30,0.06);
+
+    /* Cyan-rich blue used on homepage for “Blue” rating tier */
+    --silver-card-start: rgba(12,160,170,0.18);
+    --silver-card-end:   rgba(150,220,230,0.06);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+    background: radial-gradient(circle at top, rgba(139,92,246,0.15), transparent 55%), var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  /* =============== SIMPLE TOP BAR (for brand consistency) =============== */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    z-index: 10;
+  }
+  header::after {
+    content:""; position:absolute; left:0; right:0; bottom:0; height:4px;
+    background: var(--grad-header-accent);
+  }
+  .brand-mark {
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand-logo {
+    width: 28px; height: 28px;
+    border-radius: 10px;
+    background-image: var(--grad-primary);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.35);
+  }
+  .brand-title {
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* =============== LAYOUT =============== */
+  .page-wrap {
+    flex: 1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 80px 16px 24px; /* top padding because of fixed header */
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(248,250,252,0.98));
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(15,23,42,0.16);
+    padding: 20px 18px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .login-card::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at top left, rgba(139,92,246,0.12), transparent 50%);
+    opacity: 0.9;
+    pointer-events:none;
+  }
+  .login-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-heading {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom: 16px;
+  }
+  .login-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .login-subtitle {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  .pill-label {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:4px 10px;
+    border-radius:999px;
+    background: linear-gradient(135deg, rgba(12,160,170,0.12), rgba(150,220,230,0.08));
+    color: #075985;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .pill-dot {
+    width:8px; height:8px;
+    border-radius:999px;
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    box-shadow: 0 0 0 3px rgba(129,140,248,0.35);
+  }
+
+  /* =============== FORM =============== */
+  .form-group {
+    margin-bottom: 12px;
+  }
+  label {
+    display:block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color:#0f172a;
+  }
+  .input-wrap {
+    position: relative;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 9px 11px;
+    border-radius: 10px;
+    border: 1px solid rgba(148,163,184,0.65);
+    outline: none;
+    font-size: 14px;
+    background: rgba(255,255,255,0.95);
+    color: var(--text);
+    transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: transparent;
+    box-shadow: var(--ring);
+    background: #ffffff;
+  }
+
+  .hint {
+    font-size: 11px;
+    color:#94a3b8;
+    margin-top: 2px;
+  }
+
+  .error-message {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #b91c1c;
+    display:none;
+  }
+
+  .login-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color:#fff;
+    background-image: var(--grad-primary);
+    box-shadow: 0 10px 25px rgba(124,58,237,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+  }
+  .login-btn:hover {
+    background-image: var(--grad-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(124,58,237,0.5);
+  }
+  .login-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 18px rgba(124,58,237,0.35);
+    filter: brightness(0.98);
+  }
+  .login-btn span.icon-arrow {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 18px; height: 18px;
+    border-radius:999px;
+    background: rgba(255,255,255,0.16);
+    font-size: 11px;
+  }
+
+  .footer-note {
+    margin-top: 12px;
+    font-size: 11px;
+    color:#94a3b8;
+    text-align:center;
+  }
+
+  /* Simple little “badge” to show environment */
+  .env-badge {
+    margin-top: 4px;
+    font-size: 10px;
+    text-align:center;
+    color:#64748b;
+  }
+
+  /* =============== SMALL SHAKE ANIMATION FOR ERROR =============== */
+  .shake {
+    animation: shake .28s ease-in-out;
+  }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+  }
+
+  /* =============== RESPONSIVE =============== */
+  @media (min-width: 768px) {
+    .page-wrap {
+      padding-top: 96px;
+    }
+    .login-card {
+      padding: 24px 22px 20px;
+    }
+    .login-title {
+      font-size: 22px;
+    }
+  }
+</style>
+</head>
+<body>
+
+
+<div class="page-wrap">
+  <div class="login-card" id="loginCard">
+    <div class="login-inner">
+      <div class="pill-label">
+        <span class="pill-dot"></span>
+        Secure Access
+      </div>
+
+      <div class="login-heading">
+        <div class="login-title">Sign in to continue</div>
+        <div class="login-subtitle">
+          Please enter your login ID and password to access the homepage.
+        </div>
+      </div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="form-group">
+          <label for="loginId">Login ID</label>
+          <div class="input-wrap">
+            <input type="text" id="loginId" name="loginId" placeholder="Enter Login ID" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" name="password" placeholder="Enter Password" />
+          </div>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+          Invalid Login ID or Password. Please try again.
+        </div>
+
+        <button type="submit" class="login-btn">
+          <span>Login</span>
+          <span class="icon-arrow">➜</span>
+        </button>
+      </form>
+
+      <div class="footer-note">
+        Access is restricted. Please keep your credentials confidential.
+      </div>
+      <div class="env-badge">
+        Theme: Gold &amp; Blue • Optimized for mobile &amp; desktop
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const FORM = document.getElementById('loginForm');
+    const ERR = document.getElementById('errorMessage');
+    const CARD = document.getElementById('loginCard');
+
+    const VALID_ID = "Minamo";
+    const VALID_PW = "895";
+
+    FORM.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const idVal = (document.getElementById('loginId').value || '').trim();
+      const pwVal = (document.getElementById('password').value || '').trim();
+
+      if(idVal === VALID_ID && pwVal === VALID_PW){
+        ERR.style.display = 'none';
+        CARD.classList.remove('shake');
+
+        // small delay for a smoother feel (optional)
+        setTimeout(function(){
+          window.location.href = "homepage.html";
+        }, 120);
+      } else {
+        ERR.style.display = 'block';
+        CARD.classList.remove('shake');
+        void CARD.offsetWidth; // restart animation
+        CARD.classList.add('shake');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
