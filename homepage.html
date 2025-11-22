@@ -214,13 +214,33 @@
     height: 3.5em;
   }
 
-  /* =============== CARD FOOTER: status circles + rating =============== */
+  /* =============== CARD FOOTER: status circles + tags + rating =============== */
   .card-footer {
-    display:flex; align-items:center; justify-content:space-between;
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
     padding: 6px 10px 12px;
     gap:8px;
   }
-  .status-circles { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+
+  .card-footer-left {
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    flex:1;
+    min-width:0;
+  }
+
+  .status-row {
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:nowrap;
+  }
+
+  .status-circles {
+    display:flex; align-items:center; gap:6px; flex-shrink:0;
+  }
   .status-circle {
     width:12px; height:12px; border-radius:999px; display:inline-block;
     box-shadow: 0 2px 6px rgba(0,0,0,.08);
@@ -233,6 +253,37 @@
   .status-circle.censored { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
   .status-circle.uncensored { background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
   .status-circle.english { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
+
+  /* New: clock indicator */
+  .status-clock {
+    width:14px;
+    height:14px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:9px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    flex-shrink:0;
+  }
+  .status-clock.has-timestamps {
+    background-image: var(--grad-primary);
+    color:#fff;
+  }
+  .status-clock.no-timestamps {
+    background: var(--circle-unavailable);
+    color: transparent; /* no icon when gray */
+  }
+
+  /* Card tags row */
+  .card-tags {
+    font-size:11px;
+    color:#475569;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
+  }
 
   .mini-rating { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:800; font-size:14px; cursor: pointer; }
   .mini-rating .star { width:16px; height:16px; display:inline-block; background: var(--star-bg); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 0 rgba(0,0,0,0); display:flex; align-items:center; justify-content:center; border-radius:4px; padding:1px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
@@ -297,6 +348,31 @@
   .meta-line { display:block; font-size:14px; margin: 4px 0; line-height:1.3; }
   .meta-line span.clickable { cursor:pointer; padding: 4px 8px; border-radius: 999px; display:inline-block; transition: box-shadow .15s ease; }
   .meta-line span.clickable:hover { box-shadow: var(--ring); }
+
+  /* Tags section in modal */
+  #metaTags {
+    font-size:13px;
+  }
+  #metaTags .tags-inline {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:4px;
+  }
+  #metaTags .tag-chip {
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:999px;
+    background:rgba(148,163,184,0.15);
+    border:1px solid rgba(148,163,184,0.25);
+    cursor:pointer;
+    transition: box-shadow .15s ease, transform .12s ease, background .15s ease;
+  }
+  #metaTags .tag-chip:hover {
+    box-shadow: var(--ring);
+    background:rgba(129,140,248,0.18);
+    transform: translateY(-1px);
+  }
 
   /* Description formatting adjustment */
   #modalDescription { margin-top:8px; color: #0f172a; text-align: justify; }
@@ -449,6 +525,7 @@
     .rating-image-right { width: 40%; }
     .rating-left .label { width: 90px; }
     .status-circle { width:10px; height:10px; }
+    .status-clock { width:12px; height:12px; }
     .mini-rating { font-size:12px; }
     .grid-3 { gap:2px; }
     .filter-top { padding: 8px; }
@@ -532,6 +609,8 @@
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
         <div class="meta-line" id="metaStudioLabel" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+        <!-- NEW: Tags section -->
+        <div class="meta-line" id="metaTags"></div>
         <!-- 3.5 Description (updated formatting) -->
         <div class="meta-line" id="modalDescription"></div>
       </div>
@@ -718,7 +797,7 @@ function applyAllFilters(){
       if(!list.includes(want)) return false;
     }
 
-    // Other generic filters (kept for compatibility)
+    // Other generic filters (kept for compatibility, including "tags")
     for(const [key, vals] of Object.entries(activeFilters)){
       if(key === 'actress' || key === 'ratingCategories') continue;
       if(!vals || !vals.length) continue;
@@ -760,6 +839,12 @@ function renderVideos(){
     const hasUncensored = hasUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
     const hasEnglish = hasUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
 
+    const timestampsArr = Array.isArray(v.timestamps) ? v.timestamps : (Array.isArray(v.timepoints) ? v.timepoints : []);
+    const hasTimestamps = timestampsArr && timestampsArr.length > 0;
+
+    const tags = toArray(v.tags);
+    const tagsLine = tags.length ? tags.join(" • ") : "";
+
     const card = document.createElement("div");
     card.className = "video-card";
 
@@ -774,12 +859,18 @@ function renderVideos(){
       <img class="thumb" src="${thumb}" loading="lazy" alt="">
       <b>${titleEsc}</b>
       <div class="card-footer">
-        <div class="status-circles" aria-hidden="true">
-          <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
-          <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
-          <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
-          <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
-          <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
+        <div class="card-footer-left">
+          <div class="status-row">
+            <div class="status-circles" aria-hidden="true">
+              <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
+              <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
+              <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
+              <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
+              <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
+            </div>
+            <span class="status-clock ${hasTimestamps ? 'has-timestamps' : 'no-timestamps'}" title="${hasTimestamps ? 'Timestamps available' : 'No timestamps'}">${hasTimestamps ? '🕒' : ''}</span>
+          </div>
+          <div class="card-tags">${tagsLine ? escapeHtml(tagsLine) : ''}</div>
         </div>
         <div class="mini-rating" title="Main rating" data-video-index="">
           <div class="star" aria-hidden="true">★</div>
@@ -906,7 +997,7 @@ function showExplainPopup(text, anchorEl, opts = {}){
 
   // measure popup size
   const popupRect = explainPopupEl.getBoundingClientRect();
-  // if width/height are zero (not rendered), force a reflow by setting visibility then measuring
+  // if width/height are zero (not yet rendered), force a reflow by setting visibility then measuring
   let popupWidth = popupRect.width || explainPopupEl.offsetWidth || 240;
   let popupHeight = popupRect.height || explainPopupEl.offsetHeight || 120;
 
@@ -1014,6 +1105,17 @@ function openVideo(v){
   const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
   metaStudioLabel.innerHTML = labelHTML + studioHTML ;
 
+  // NEW: Tags in modal
+  const metaTags = document.getElementById("metaTags");
+  const tags = toArray(v.tags);
+  if(tags.length){
+    metaTags.innerHTML = '<strong>Tags:</strong> <div class="tags-inline">' +
+      tags.map(t=>`<span class="tag-chip" onclick="setFilter('tags','${escapeHtml(t)}')">${escapeHtml(t)}</span>`).join('') +
+      '</div>';
+  } else {
+    metaTags.innerHTML = '<strong>Tags:</strong> None';
+  }
+
   const descEl = document.getElementById("modalDescription");
   if(descEl){
     const descText = getField(v, 'description', 'desc') || '';
@@ -1106,13 +1208,21 @@ function openVideo(v){
   if(timestamps && timestamps.length){
     timestampsEl.style.display = 'flex';
     timestamps.forEach(tp=>{
-      const timeStr = getField(tp, 'time', 't', 'timestamp') || tp;
-      const title = getField(tp, 'title', 'desc', 'label') || '';
+      let timeStr;
+      let title;
+      if(typeof tp === 'string'){
+        // if a plain string, treat as time only
+        timeStr = tp;
+        title = '';
+      } else {
+        timeStr = getField(tp, 'time', 't', 'timestamp') || '';
+        title = getField(tp, 'scene', 'title', 'desc', 'label') || '';
+      }
       const isStar = String(title || '').trim().startsWith('★') || String(title || '').toLowerCase().includes('scene');
       const row = document.createElement('div');
       row.className = 'time-row';
       row.innerHTML = `
-        <div class="time">${escapeHtml(String(timeStr || '00:00:00'))}</div>
+        <div class="time">${escapeHtml(String(timeStr || '00:00'))}</div>
         <div class="title">${escapeHtml(String(title || ''))}${isStar ? '<span class="badge-star">★</span>' : ''}</div>
       `;
       row.addEventListener('click', (e)=>{
