@@ -3,7 +3,7 @@ const videos = [
     "title": "[START-406] NTR During An Expedition: A Soccer Player's Beautiful Wife Was Secretly Impregnated By Her Brother-in-Law.",
     "thumbnail": "https://lh3.googleusercontent.com/d/1RkZIGVLSxWZHrTWC0902TV9uNuLKExA3",
     "coverimage": "https://lh3.googleusercontent.com/d/1WUvNczcE7571PWwQkvMpmPs6jBMfWEM8",
-    "description": "Minamo leads a glamorous life as the wife of a rising professional soccer star, basking in the comforts of their upscale Tokyo apartment. But with her husband's demanding away games keeping him on the road for months, loneliness creeps in, and an unexpected visitor changes everything. Her unassuming brother-in-law, a reclusive part-timer who's always lingered in the family shadows, moves in temporarily—and what starts as innocent company spirals into a web of forbidden temptation and hidden desires. Over the course of one intense season, Minamo grapples with guilt, passion, and the thrill of secrecy, all while her husband's oblivious victories play out on distant fields. This slow-burning tale explores the fragile boundaries of loyalty and the intoxicating pull of the unattainable.",
+    "description": "Minamo, the stunning wife of a rising professional soccer star, enjoys a glamorous life in a sleek Tokyo high-rise, cheering from the stands during her husband's away games. But when he's frequently on the road for matches, her awkward, chubby brother-in-law—a freeloading otaku type—crashes at their place for \"support.\" What starts as innocent chores spirals into forbidden temptation as loneliness and his persistent advances lead to steamy, guilt-ridden encounters. Over one intense season, their secret affair escalates, culminating in risky creampies that leave her questioning her future—will the truth come out before the baby does?",
     "gallery": "https://javct.net/v/start-406",
     "trailer": "https://javtrailers.com/video/1start00406",
     "censoredurl": "https://supjav.com/377429.html",
@@ -18,9 +18,68 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": [],
+    "tags": [
+      "NTR",
+      "Creampie",
+      "Married Woman",
+      "Drama",
+      "Solowork",
+      "Cuckold"
+    ],
+    "timestamps": [
+      {
+        "time": "00:00:00",
+        "scene": "Opening + luxurious life introduction + Minamo and husband's daily routine"
+      },
+      {
+        "time": "00:05:13",
+        "scene": "Husband's away trip announcement + brother-in-law arrival + initial awkward family dinner"
+      },
+      {
+        "time": "00:15:46",
+        "scene": "Late-night conversation + sharing loneliness + subtle seduction begins"
+      },
+      {
+        "time": "00:30:22",
+        "scene": "First intimate contact + kissing and foreplay + building tension in bedroom"
+      },
+      {
+        "time": "00:45:39",
+        "scene": "Main sex scene 1 + missionary and cowgirl positions + creampie insemination"
+      },
+      {
+        "time": "01:05:05",
+        "scene": "Morning after reflection + daily teasing + brother-in-law's persistent advances"
+      },
+      {
+        "time": "01:20:30",
+        "scene": "Outdoor encounter during husband's practice + risky public fondling + no penetration"
+      },
+      {
+        "time": "01:35:56",
+        "scene": "Intense session 2 + doggy style focus + multiple orgasms and second creampie"
+      },
+      {
+        "time": "01:55:22",
+        "scene": "Pregnancy hint + emotional confrontation + acceptance of affair"
+      },
+      {
+        "time": "02:10:47",
+        "scene": "Closing + husband's return unaware + credits and teaser for season end"
+      }
+    ],
+    "ratings": {
+      "actress": 9.3,
+      "production": 9.2,
+      "ex": 8.5,
+      "plot": 8.5
+    },
     "rating_explanations": {
-      "main": "This entry excels as a premium drama-thriller hybrid, blending high production values with MINAMO's standout portrayal for an addictive watch. It rewards patient viewers with layered storytelling that amplifies the eroticism, though minor pacing hiccups prevent perfection. Ideal for fans of sophisticated NTR tales—strong recommendation for quality over quantity."
+      "main": "This entry excels as a premium drama-thriller hybrid, blending high production values with MINAMO's standout portrayal for an addictive watch. It rewards patient viewers with layered storytelling that amplifies the eroticism, though minor pacing hiccups prevent perfection. Ideal for fans of sophisticated NTR tales—strong recommendation for quality over quantity.",
+      "actress": "MINAMO shines with her elegant beauty, natural curves, and emotional depth in portraying conflicted desire; minor cut for occasional overacting in dramatic scenes.",
+      "production": "Intense, chemistry-fueled scenes with varied positions and raw creampie climaxes build escalating tension; docked a bit for censored mosaic in key moments.",
+      "ex": "Engaging seasonal arc with relatable betrayal themes and slow-burn buildup keeps viewers hooked; loses points for formulaic resolution.",
+      "plot": "A standout NTR drama blending high production with passionate performances, ideal for fans of emotional infidelity tales, though not groundbreaking."
     }
   },
   {
@@ -36,7 +95,7 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/199iQnrwRYKfU0aCSyV15MCta74VUR0Uv",
@@ -51,7 +110,7 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1Aehiz9CyRyj3l80tO5kV8vjOehgjE33x",
@@ -66,7 +125,7 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1nn5olfBt3lIg7vDNr_aobKcYfjex3PrX",
@@ -81,7 +140,7 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1lZt8ivmuiPTgBWmcnkaXTe-i5ADkzHaN",
@@ -96,7 +155,7 @@ const videos = [
     "label": [
       "START"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1bk95Wt07JInNCa1uor4vXLRrJNfRV6zj",
@@ -115,7 +174,45 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": [],
+    "timestamps": [
+      {
+        "time": "00:00:00",
+        "scene": "Opening + introduction to training camp concept + arrival at location"
+      },
+      {
+        "time": "00:15:21",
+        "scene": "Initial assessment + discussion of 8-year AV career barriers + light teasing and exposure play"
+      },
+      {
+        "time": "00:35:46",
+        "scene": "First domination lesson + cowgirl riding on submissive partner + pleasure building exercises"
+      },
+      {
+        "time": "01:00:13",
+        "scene": "Outdoor exposure walk + public tension building + no contact teasing"
+      },
+      {
+        "time": "01:25:39",
+        "scene": "Group introduction with actors + verbal domination training + light bondage setup"
+      },
+      {
+        "time": "01:50:05",
+        "scene": "Intense slut awakening session 1 + multiple positions + orgasm control"
+      },
+      {
+        "time": "02:20:30",
+        "scene": "Break + reflection on motherhood and accepting spirit themes + sensual massage"
+      },
+      {
+        "time": "02:45:56",
+        "scene": "Final domination climax + cowgirl and submissive men focus + full release"
+      },
+      {
+        "time": "03:10:22",
+        "scene": "Closing + post-training reflection + credits"
+      }
+    ]
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1RKCs6uiokIgMju9tIaaCL7HuMth64HMq",
@@ -129,7 +226,7 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/12zITokI0NFR3IIBWTq_7f6dtbh3Dh6Y-",
@@ -144,7 +241,13 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": [],
+    "ratings": {
+      "actress": 9.5,
+      "production": 9.3,
+      "ex": 9.5,
+      "plot": 8.7
+    }
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1rJm36A7rPYk05Kp94YDGyeFfvlcuZlgx",
@@ -158,7 +261,7 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/12flnXrT6OTrCk4xrhsx8K2R23QhUuYF6",
@@ -172,7 +275,7 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": []
   },
   {
     "thumbnail": "https://lh3.googleusercontent.com/d/1ORqTaRRcVbB49HfeXaaWjSf8D7TYT6uZ",
@@ -186,7 +289,7 @@ const videos = [
     "label": [
       "FNS"
     ],
-    "timestamps": []
+    "tags": []
   }
 ];
 
