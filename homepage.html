@@ -256,13 +256,13 @@
 
   /* New: clock indicator */
   .status-clock {
-    width:14px;
-    height:14px;
+    width:15px;
+    height:15px;
     border-radius:999px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:9px;
+    font-size:18px;
     box-shadow: 0 2px 6px rgba(0,0,0,.08);
     flex-shrink:0;
   }
@@ -870,7 +870,6 @@ function renderVideos(){
             </div>
             <span class="status-clock ${hasTimestamps ? 'has-timestamps' : 'no-timestamps'}" title="${hasTimestamps ? 'Timestamps available' : 'No timestamps'}">${hasTimestamps ? '🕒' : ''}</span>
           </div>
-          <div class="card-tags">${tagsLine ? escapeHtml(tagsLine) : ''}</div>
         </div>
         <div class="mini-rating" title="Main rating" data-video-index="">
           <div class="star" aria-hidden="true">★</div>
