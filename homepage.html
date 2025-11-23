@@ -66,15 +66,13 @@
     --circle-unavailable: #cbd5e1; /* slate-300 */
 
     /* Gold / Blue card/modal backgrounds (darker & more prominent) */
-    /* Gold: deeper warm gradient */
     --gold-card-start: rgba(255,200,0,0.18);
     --gold-card-end:   rgba(255,170,30,0.06);
     --gold-modal-overlay: linear-gradient(135deg, rgba(255,200,0,0.14), rgba(255,170,30,0.06));
 
-    /* Blue (cyan-rich) - replaces previous copper-blue */
-    /* More cyan tone for clearer blue/teal appearance while keeping distinct contrast */
-    --silver-card-start: rgba(12,160,170,0.18);   /* cyan-rich deep start */
-    --silver-card-end:   rgba(150,220,230,0.06);  /* light cyan edge */
+    /* Blue (cyan-rich) */
+    --silver-card-start: rgba(12,160,170,0.18);
+    --silver-card-end:   rgba(150,220,230,0.06);
     --silver-modal-overlay: linear-gradient(135deg, rgba(10,140,150,0.12), rgba(160,220,230,0.05));
   }
 
@@ -87,7 +85,7 @@
     background: var(--bg);
     color: var(--text);
     transition: background .3s ease, color .3s ease;
-    overflow-x: hidden; /* prevent mobile overflow */
+    overflow-x: hidden;
   }
 
   /* =============== HEADER =============== */
@@ -143,17 +141,12 @@
   }
   .filter-buttons button:hover { background-image: var(--grad-primary-hover); transform: translateY(-1px); }
   .filter-buttons button:active { transform: translateY(0); }
-
-  /* Stronger visible active state for filter buttons */
   .filter-buttons button.active {
-    /* darker, more visible appearance */
     background-image: linear-gradient(90deg, rgba(30,30,60,0.95), rgba(50,50,90,0.95));
     color: #fff;
     box-shadow: 0 8px 28px rgba(15,23,42,0.18);
     transform: translateY(-1px);
   }
-
-  /* keep gold/blue button variants so we can slightly tint active if needed */
   .filter-buttons button.gold-btn.active {
     background-image: linear-gradient(90deg, rgba(120,80,0,0.95), rgba(80,50,0,0.95));
   }
@@ -169,13 +162,13 @@
   @media (min-width: 640px) {
     .video-grid {
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      max-width: 100%; /* Use full width on desktop */
+      max-width: 100%;
       margin: 0 auto;
     }
   }
   @media (min-width: 1024px) {
     .video-grid {
-      grid-template-columns: repeat(4, 1fr); /* Maximum 4 columns on big screens */
+      grid-template-columns: repeat(4, 1fr);
     }
   }
   .video-card {
@@ -188,10 +181,15 @@
     display:flex; flex-direction:column;
   }
   .video-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,.12); }
-
-  /* Gold / Blue video-card backgrounds (darker & more visible) */
-  .video-card.gold { background-image: linear-gradient(135deg, var(--gold-card-start), var(--gold-card-end)); border: 1px solid rgba(220,170,10,0.12); }
-  .video-card.silver { background-image: linear-gradient(135deg, var(--silver-card-start), var(--silver-card-end)); border: 1px solid rgba(10,130,140,0.12); box-shadow: 0 8px 18px rgba(8,80,90,0.04); }
+  .video-card.gold {
+    background-image: linear-gradient(135deg, var(--gold-card-start), var(--gold-card-end));
+    border: 1px solid rgba(220,170,10,0.12);
+  }
+  .video-card.silver {
+    background-image: linear-gradient(135deg, var(--silver-card-start), var(--silver-card-end));
+    border: 1px solid rgba(10,130,140,0.12);
+    box-shadow: 0 8px 18px rgba(8,80,90,0.04);
+  }
 
   .video-card img.thumb {
     display:block;
@@ -201,41 +199,42 @@
     border-radius: 8px 8px 0 0;
   }
   .video-card b {
-    display: block;
+    display:block;
     padding: 8px 10px 4px;
     font-size: 15px;
-    text-align: left;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-height: 1.4;
-    max-height: 3.5em;
-    height: 3.5em;
+    text-align:left;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    line-height:1.4;
+    max-height:3.5em;
+    height:3.5em;
   }
 
-  /* =============== CARD FOOTER: status circles + tags + rating =============== */
+  /* Card tags under title */
+  .card-tags {
+    font-size:11px;
+    color:#475569;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding:0 10px 4px;
+    max-width:100%;
+  }
+
   .card-footer {
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
-    padding: 6px 10px 12px;
+    padding: 4px 10px 12px;
     gap:8px;
-  }
-
-  .card-footer-left {
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    flex:1;
-    min-width:0;
   }
 
   .status-row {
     display:flex;
     align-items:center;
-    gap:6px;
-    flex-wrap:nowrap;
+    gap:10px; /* extra gap so clock isn't stuck to last circle */
   }
 
   .status-circles {
@@ -246,23 +245,21 @@
     box-shadow: 0 2px 6px rgba(0,0,0,.08);
     flex-shrink:0;
   }
-  .status-circle.unavailable { background: var(--circle-unavailable); opacity: 0.95; }
+  .status-circle.unavailable { background: var(--circle-unavailable); opacity:0.95; }
+  .status-circle.gallery   { background: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
+  .status-circle.trailer   { background: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
+  .status-circle.censored  { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
+  .status-circle.uncensored{ background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
+  .status-circle.english   { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
 
-  .status-circle.gallery { background: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
-  .status-circle.trailer { background: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
-  .status-circle.censored { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
-  .status-circle.uncensored { background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
-  .status-circle.english { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
-
-  /* New: clock indicator */
   .status-clock {
-    width:15px;
-    height:15px;
+    width:16px;
+    height:16px;
     border-radius:999px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:18px;
+    font-size:20px;
     box-shadow: 0 2px 6px rgba(0,0,0,.08);
     flex-shrink:0;
   }
@@ -272,22 +269,27 @@
   }
   .status-clock.no-timestamps {
     background: var(--circle-unavailable);
-    color: transparent; /* no icon when gray */
+    color:transparent;
   }
 
-  /* Card tags row */
-  .card-tags {
-    font-size:11px;
-    color:#475569;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:100%;
+  .mini-rating {
+    display:flex; align-items:center; gap:6px;
+    color:var(--text); font-weight:800; font-size:14px;
+    cursor:pointer;
   }
-
-  .mini-rating { display:flex; align-items:center; gap:6px; color:var(--text); font-weight:800; font-size:14px; cursor: pointer; }
-  .mini-rating .star { width:16px; height:16px; display:inline-block; background: var(--star-bg); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 0 rgba(0,0,0,0); display:flex; align-items:center; justify-content:center; border-radius:4px; padding:1px; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
-  .mini-rating .score { font-weight:700; font-size:13px; color:var(--text); }
+  .mini-rating .star {
+    width:16px; height:16px; display:inline-block;
+    background: var(--star-bg);
+    -webkit-background-clip:text;
+    color:transparent;
+    text-shadow:0 0 0 rgba(0,0,0,0);
+    display:flex; align-items:center; justify-content:center;
+    border-radius:4px; padding:1px;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+  }
+  .mini-rating .score {
+    font-weight:700; font-size:13px; color:var(--text);
+  }
 
   /* =============== PAGINATION =============== */
   .pagination {
@@ -324,238 +326,475 @@
     color: var(--text); position: relative;
     box-shadow: 0 20px 40px rgba(0,0,0,.35);
   }
-  .modal-content.gold-modal { background-image: var(--gold-modal-overlay); border: 1px solid rgba(220,170,10,0.12); }
-  .modal-content.silver-modal { background-image: var(--silver-modal-overlay); border: 1px solid rgba(10,130,140,0.12); box-shadow: 0 14px 30px rgba(8,80,90,0.04); }
+  .modal-content.gold-modal {
+    background-image: var(--gold-modal-overlay);
+    border: 1px solid rgba(220,170,10,0.12);
+  }
+  .modal-content.silver-modal {
+    background-image: var(--silver-modal-overlay);
+    border: 1px solid rgba(10,130,140,0.12);
+    box-shadow: 0 14px 30px rgba(8,80,90,0.04);
+  }
 
   .close {
     position: fixed; top: 10px; right: 16px;
     font-size: 34px; color: #fff; cursor: pointer; z-index: 1100;
   }
 
-  /* Hidden player preserved for compatibility */
   #videoPlayer { display:none; width:0; height:0; border:0; }
 
-  /* ====== New modal internal layout ====== */
-  .modal-inner {
-    padding: 6px;
-  }
+  .modal-inner { padding: 6px; }
   .modal-thumb {
-    width:100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 12px; display:block; margin-bottom:10px;
+    width:100%; aspect-ratio: 3/2; object-fit: cover;
+    border-radius: 12px; display:block; margin-bottom:10px;
   }
   .modal-title {
-    font-size: 16px; font-weight:700; padding: 4px 2px 8px;
+    font-size: 16px; font-weight:700;
+    padding: 4px 2px 8px;
   }
-  .meta-line { display:block; font-size:14px; margin: 4px 0; line-height:1.3; }
-  .meta-line span.clickable { cursor:pointer; padding: 4px 8px; border-radius: 999px; display:inline-block; transition: box-shadow .15s ease; }
+  .meta-line {
+    display:block; font-size:14px;
+    margin: 4px 0; line-height:1.3;
+  }
+  .meta-line span.clickable {
+    cursor:pointer; padding: 4px 8px;
+    border-radius: 999px; display:inline-block;
+    transition: box-shadow .15s ease;
+  }
   .meta-line span.clickable:hover { box-shadow: var(--ring); }
 
-  /* Tags section in modal */
-  #metaTags {
-    font-size:13px;
+  #metaTags { font-size:14px; }
+
+  #modalDescription {
+    margin-top:8px;
+    color:#0f172a;
+    text-align:justify;
   }
-  #metaTags .tags-inline {
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-    margin-top:4px;
+  #modalDescription .desc-text {
+    display:inline-block;
   }
-  #metaTags .tag-chip {
+  #modalDescription.collapsed .desc-text {
+    display:-webkit-box;
+    -webkit-line-clamp:5;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  #modalDescription.expanded .desc-text {
+    -webkit-line-clamp:unset;
+  }
+  .desc-toggle {
+    color:#6b7280;
     font-size:12px;
-    padding:4px 8px;
-    border-radius:999px;
-    background:rgba(148,163,184,0.15);
-    border:1px solid rgba(148,163,184,0.25);
     cursor:pointer;
-    transition: box-shadow .15s ease, transform .12s ease, background .15s ease;
-  }
-  #metaTags .tag-chip:hover {
-    box-shadow: var(--ring);
-    background:rgba(129,140,248,0.18);
-    transform: translateY(-1px);
+    margin-left:6px;
+    white-space:nowrap;
   }
 
-  /* Description formatting adjustment */
-  #modalDescription { margin-top:8px; color: #0f172a; text-align: justify; }
-
-  /* Rating + Image Row - ALWAYS side-by-side */
   .rating-image-row {
-    display:flex; gap: 3px; align-items:stretch; margin-top:12px;
-    height: var(--row-height); /* responsive consistent height */
-    flex-direction: row;
+    display:flex; gap:3px; align-items:stretch;
+    margin-top:12px;
+    height:var(--row-height);
+    flex-direction:row;
   }
 
-  /* Left - Rating system */
-  .rating-left { flex:1; min-width: 0; display:flex; flex-direction:column; gap:2px; padding:4px 3px; }
-  .main-rating { display:flex; align-items:center; gap:14px; margin:0; cursor: pointer; }
+  .rating-left {
+    flex:1; min-width:0;
+    display:flex; flex-direction:column;
+    gap:4px; padding:4px 3px;
+  }
+
+  .rating-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+
+  .main-rating {
+    display:flex; align-items:center;
+    gap:16px; margin:0;
+    cursor:pointer;
+    flex:1;
+  }
   .main-rating .star-wrap {
     display:flex; align-items:center; justify-content:center;
-    width:40px; height:40px; border-radius:12px;
+    width:40px; height:40px;
+    border-radius:12px;
     background: var(--star-bg);
     box-shadow: 0 8px 20px rgba(0,0,0,.07);
     flex-shrink:0;
   }
-  .main-rating svg { width:25px; height:25px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.12)); }
-  .main-rating .score { display:flex; flex-direction:column; font-weight:800; }
-  .main-rating .score .val { font-size:20px; line-height:1; }
-  .main-rating .score .max { font-size:12px; color:#94a3b8; margin-top:4px; }
+  .main-rating svg {
+    width:25px; height:25px; display:block;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+  }
+  .main-rating .score {
+    display:flex; flex-direction:column; font-weight:800;
+  }
+  .main-rating .score .val {
+    font-size:20px; line-height:1;
+  }
+  .main-rating .score .max {
+    font-size:12px; color:#94a3b8; margin-top:4px;
+  }
 
-  .rating-bars { display:flex; flex-direction:column; gap:5px; overflow:auto; padding-right:3px; }
+  .rating-clock-btn {
+    width:30px;
+    height:30px;
+    border-radius:999px;
+    border:1px solid rgba(148,163,184,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    background:rgba(148,163,184,0.12);
+    cursor:pointer;
+    flex-shrink:0;
+    transition: background .15s ease, box-shadow .15s ease, transform .12s ease, border-color .15s ease, color .15s ease;
+    color:#6b7280;
+  }
+  .rating-clock-btn:hover {
+    transform: translateY(-1px);
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+  }
+  .rating-clock-btn.active {
+    background-image: var(--grad-primary);
+    border-color:transparent;
+    color:#fff;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  }
+
+  .rating-bars {
+    display:flex; flex-direction:column;
+    gap:5px; overflow:auto; padding-right:3px;
+  }
   .rating-row { display:flex; flex-direction:column; gap:4px; }
-  .rating-row .label { font-size:12px; font-weight:700; color:var(--text); }
-  .rating-row .bar-row { display:flex; align-items:center; gap:2px; }
-  .rating-row .bar { flex:1; height:10px; background: rgba(148,163,184,.08); border-radius: 999px; overflow:hidden; position:relative; cursor: pointer; }
-  .rating-row .bar .fill { height:100%; width:0%; border-radius: 999px; transition: width .45s cubic-bezier(.2,.9,.2,1); }
-  .rating-row .value { width:45px; text-align:right; font-weight:800; font-size:14px; color:var(--text); }
+  .rating-row .label {
+    font-size:12px; font-weight:700; color:var(--text);
+  }
+  .rating-row .bar-row {
+    display:flex; align-items:center; gap:2px;
+  }
+  .rating-row .bar {
+    flex:1; height:10px;
+    background: rgba(148,163,184,.08);
+    border-radius:999px; overflow:hidden;
+    position:relative; cursor:pointer;
+  }
+  .rating-row .bar .fill {
+    height:100%; width:0%;
+    border-radius:999px;
+    transition: width .45s cubic-bezier(.2,.9,.2,1);
+  }
+  .rating-row .value {
+    width:45px; text-align:right;
+    font-weight:800; font-size:14px;
+    color:var(--text);
+  }
 
   .rating-image-right {
-    width: 45%; max-width: 320px; min-width:120px; min-height: 200px; display:flex; align-items:center; justify-content:center; padding:2px;
-    box-sizing: border-box; overflow: hidden; border-radius: 20px; background: transparent;
+    width:45%; max-width:320px; min-width:120px; min-height:200px;
+    display:flex; align-items:center; justify-content:center;
+    padding:2px;
+    box-sizing:border-box; overflow:hidden;
+    border-radius:20px; background:transparent;
   }
-  .rating-image-right img { width: 95%; height: 75%; object-fit: contain; border-radius: 14px; display:block; background: transparent; }
+  .rating-image-right img {
+    width:95%; height:75%;
+    object-fit:contain;
+    border-radius:14px;
+    display:block; background:transparent;
+  }
 
-  /* Timestamps list (compact adjustments) */
   .timestamps {
-    margin-top: 10px;
-    display:flex; flex-direction:column; gap:5px;
-    padding: 3px;
+    margin-top:10px;
+    display:flex; flex-direction:column;
+    gap:5px;
+    padding:3px;
   }
   .timestamps .time-row {
     display:flex; gap:8px; align-items:center;
-    padding: 3px 4px; border-radius: 8px;
+    padding:3px 4px; border-radius:8px;
     background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
     border: 1px solid rgba(148,163,184,0.05);
     line-height:1.2;
   }
   .timestamps .time {
-    min-width: 68px; font-weight:800; color: #0f172a; font-size: 12px;
-    background: rgba(255,255,255,0.6); padding:2px 3px; border-radius:6px; text-align:center;
-    box-shadow: 0 6px 12px rgba(10,10,20,0.02);
+    min-width:68px; font-weight:800;
+    color:#0f172a; font-size:12px;
+    background:rgba(255,255,255,0.6);
+    padding:2px 3px; border-radius:6px;
+    text-align:center;
+    box-shadow:0 6px 12px rgba(10,10,20,0.02);
   }
   .timestamps .title {
-    flex:1; font-size: 13px; color: #334155; line-height:1.25; max-height: 2.5em; overflow: hidden;
+    flex:1; font-size:13px; color:#334155;
+    line-height:1.25; max-height:2.5em; overflow:hidden;
   }
   .timestamps .badge-star {
-    margin-left: 8px; color: #b45309; font-weight:800;
+    margin-left:8px; color:#b45309; font-weight:800;
   }
 
-  .modal-buttons { margin-top: 12px; display:flex; gap:8px; flex-wrap:wrap; }
-  .modal-buttons .side-btn { flex:1; min-width:120px; padding:10px; border-radius:10px; border:none; cursor:pointer; color:#fff; font-weight:700; transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease; }
-  .modal-buttons .side-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+  .modal-buttons {
+    margin-top: 12px;
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .modal-buttons .side-btn {
+    flex:1; min-width:120px; padding:10px;
+    border-radius:10px; border:none;
+    cursor:pointer; color:#fff; font-weight:700;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease;
+  }
+  .modal-buttons .side-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+  }
 
-  #btnGallery { background-image: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
-  #btnTrailer { background-image: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
+  #btnGallery { background-image:linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
+  #btnTrailer { background-image:linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
 
-  .modal-full-buttons { margin-top: 10px; display:flex; flex-direction:column; gap:8px; }
-  .modal-full-buttons .full-btn { width:100%; padding:12px; border-radius:12px; border:none; cursor:pointer; font-weight:800; color:var(--text); background: var(--card-bg); border: 1px solid var(--full-btn-border); transition: transform .12s ease, box-shadow .12s ease; }
-  .modal-full-buttons .full-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+  .modal-full-buttons {
+    margin-top:10px;
+    display:flex; flex-direction:column;
+    gap:8px;
+  }
+  .modal-full-buttons .full-btn {
+    width:100%; padding:12px;
+    border-radius:12px; border:none;
+    cursor:pointer; font-weight:800;
+    color:var(--text);
+    background:var(--card-bg);
+    border:1px solid var(--full-btn-border);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .modal-full-buttons .full-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
+  }
 
-  #btnCensored { background-image: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); color:#fff; border-color:transparent; }
-  #btnUncensored { background-image: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); color:#fff; border-color:transparent; }
-  #btnEnglish { background-image: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); color:#fff; border-color:transparent; }
+  #btnCensored {
+    background-image:linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end));
+    color:#fff; border-color:transparent;
+  }
+  #btnUncensored {
+    background-image:linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end));
+    color:#fff; border-color:transparent;
+  }
+  #btnEnglish {
+    background-image:linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end));
+    color:#fff; border-color:transparent;
+  }
 
-  /* =============== FILTER MODAL CONTENT (sticky top) =============== */
+  /* =============== EMBEDDED WEBSITE AREA =============== */
+  .embed-container {
+    margin-top:12px;
+    display:none;
+  }
+  .embed-inner {
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--card-bg);
+    box-shadow:0 14px 30px rgba(15,23,42,0.35);
+    border:1px solid rgba(148,163,184,0.18);
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .embed-inner.open {
+    opacity:1;
+    transform:translateY(0);
+  }
+  .embed-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:6px 10px;
+    border-bottom:1px solid rgba(148,163,184,0.18);
+    background:linear-gradient(90deg, rgba(148,163,184,0.12), rgba(148,163,184,0.06));
+  }
+  .embed-title {
+    font-size:13px;
+    font-weight:700;
+    color:#0f172a;
+  }
+  .embed-actions {
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .embed-icon-btn {
+    width:22px;
+    height:22px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    background:rgba(15,23,42,0.08);
+    color:#0f172a;
+    box-shadow:0 2px 6px rgba(15,23,42,0.18);
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .embed-icon-btn:hover {
+    transform:translateY(-1px);
+    box-shadow:0 4px 10px rgba(15,23,42,0.25);
+    background:rgba(15,23,42,0.12);
+  }
+
+  .embed-body {
+    position:relative;
+    width:100%;
+  }
+  .embed-body.portrait {
+    padding-top:140%; /* tall vertical */
+  }
+  .embed-body.landscape {
+    padding-top:56.25%; /* 16:9 */
+  }
+  .embed-body iframe {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+    background:#020617;
+  }
+
+  /* =============== FILTER MODAL CONTENT =============== */
   .filter-modal-content {
     background: var(--card-bg);
     width: 98%; max-width: 720px;
     margin: 36px auto; border-radius: 16px; padding: 0;
     color: var(--text);
-    display:flex; flex-direction:column; max-height: 80vh; overflow: hidden;
+    display:flex; flex-direction:column;
+    max-height:80vh; overflow:hidden;
   }
 
-  /* top area (title + search + controls) should be fixed inside modal */
   .filter-top {
-    position: sticky; top: 0; z-index: 6;
-    background: var(--card-bg);
-    padding: 10px;
-    border-bottom: 1px solid rgba(148,163,184,.06);
+    position:sticky; top:0; z-index:6;
+    background:var(--card-bg);
+    padding:10px;
+    border-bottom:1px solid rgba(148,163,184,.06);
   }
-  .filter-top h3 { margin: 0 0 8px 0; padding: 0 4px; }
-  .filter-search { margin-bottom: 8px; padding: 0 4px; }
+  .filter-top h3 {
+    margin:0 0 8px 0;
+    padding:0 4px;
+  }
+  .filter-search {
+    margin-bottom:8px; padding:0 4px;
+  }
   .filter-search input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid rgba(148,163,184,.35);
-    border-radius: 10px;
-    background: #ffffff10; color: var(--text);
+    width:100%; padding:8px 10px;
+    border:1px solid rgba(148,163,184,.35);
+    border-radius:10px;
+    background:#ffffff10; color:var(--text);
   }
 
-  .filter-controls-holder { padding: 6px 4px; display:flex; justify-content:flex-start; gap:8px; align-items:center; flex-wrap:wrap; }
+  .filter-controls-holder {
+    padding:6px 4px;
+    display:flex; justify-content:flex-start;
+    gap:8px; align-items:center;
+    flex-wrap:wrap;
+  }
 
-  /* scrollable body only */
   .filter-body-scroll {
-    overflow:auto;
-    padding: 8px;
+    overflow:auto; padding:8px;
   }
 
-  .col-controls { display:flex; gap:8px; align-items:center; margin:0; }
-  .col-controls button { padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.15); background:var(--card-bg); cursor:pointer; font-weight:700; }
-  .col-controls button.active { background-image: var(--grad-primary); color:#fff; border-color:transparent; transform: translateY(-1px); }
+  .col-controls {
+    display:flex; gap:8px; align-items:center; margin:0;
+  }
+  .col-controls button {
+    padding:6px 10px; border-radius:8px;
+    border:1px solid rgba(148,163,184,.15);
+    background:var(--card-bg);
+    cursor:pointer; font-weight:700;
+  }
+  .col-controls button.active {
+    background-image:var(--grad-primary);
+    color:#fff; border-color:transparent;
+    transform:translateY(-1px);
+  }
 
-  /* Grid: dynamic columns; spacing compact */
   .grid-3 {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    padding: 2px;
-    align-items: start;
+    gap:2px; padding:2px;
+    align-items:start;
   }
   .grid-3 .opt {
-    display:flex;
-    flex-direction:column;
-    gap:2px;
-    align-items:center;
+    display:flex; flex-direction:column;
+    gap:2px; align-items:center;
     text-align:center;
     cursor:pointer;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    padding: 2px;
+    border:1px solid transparent;
+    border-radius:8px;
+    padding:2px;
     transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-    background: #ffffff05;
-    min-height: 140px;
-    box-sizing: border-box;
+    background:#ffffff05;
+    min-height:140px;
+    box-sizing:border-box;
   }
-  .grid-3 .opt:hover { transform: translateY(-1px); }
-  .grid-3 .opt.selected { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,.06); }
-  .grid-3 img { width: 100%; height: auto; aspect-ratio: 2/3; object-fit: cover; border-radius: 6px; }
-  .grid-3 .name { display:block; font-weight: 700; margin-top: 6px; font-size: var(--actress-name-size,12px); }
-  .grid-3 .count { display:block; font-size: 11px; color: #94a3b8; }
+  .grid-3 .opt:hover { transform:translateY(-1px); }
+  .grid-3 .opt.selected {
+    border-color:#8B5CF6;
+    box-shadow:0 0 0 3px rgba(139,92,246,.06);
+  }
+  .grid-3 img {
+    width:100%; height:auto;
+    aspect-ratio:2/3; object-fit:cover;
+    border-radius:6px;
+  }
+  .grid-3 .name {
+    display:block; font-weight:700;
+    margin-top:6px;
+    font-size:var(--actress-name-size,12px);
+  }
+  .grid-3 .count {
+    display:block; font-size:11px;
+    color:#94a3b8;
+  }
 
-  /* small responsive tweak */
   @media (max-width:600px){
-    .rating-image-right { width: 40%; }
-    .rating-left .label { width: 90px; }
+    .rating-image-right { width:40%; }
+    .rating-left .label { width:90px; }
     .status-circle { width:10px; height:10px; }
     .status-clock { width:12px; height:12px; }
     .mini-rating { font-size:12px; }
     .grid-3 { gap:2px; }
-    .filter-top { padding: 8px; }
+    .filter-top { padding:8px; }
   }
 
-  /* Explanation popup (from earlier update) */
   .explain-popup {
-    position: fixed;
-    z-index: 1200;
-    min-width: 220px;
-    max-width: 360px;
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,.28);
-    border: 1px solid rgba(148,163,184,.10);
-    transform-origin: top left;
-    opacity: 0;
-    transform: scale(.95) translateY(6px);
-    transition: opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
-    font-size: 13px;
-    color: var(--text);
-    pointer-events: auto;
+    position:fixed;
+    z-index:1200;
+    min-width:220px; max-width:360px;
+    background:var(--card-bg);
+    border-radius:12px;
+    padding:12px;
+    box-shadow:0 20px 40px rgba(0,0,0,.28);
+    border:1px solid rgba(148,163,184,.10);
+    transform-origin:top left;
+    opacity:0;
+    transform:scale(.95) translateY(6px);
+    transition:opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
+    font-size:13px;
+    color:var(--text);
+    pointer-events:auto;
   }
   .explain-popup.open {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    opacity:1;
+    transform:scale(1) translateY(0);
   }
-  .explain-popup .title { font-weight:800; margin-bottom:6px; font-size:14px; }
-  .explain-popup .body { color: #475569; line-height:1.4; font-size:13px; }
+  .explain-popup .title {
+    font-weight:800; margin-bottom:6px; font-size:14px;
+  }
+  .explain-popup .body {
+    color:#475569; line-height:1.4; font-size:13px;
+  }
 </style>
 </head>
 <body>
@@ -572,21 +811,18 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M4 20l5-5m11-2h-3.5a2.5 2.5 0 0 1-2-4l5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
 
-    <!-- Random button (replaces removed theme toggle) -->
     <button class="icon-btn" id="randomBtn" title="Show 3 random videos" aria-label="Random 3">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
   </div>
 </header>
 
-<!-- Filter buttons: Actress + Gold + Blue (label kept as Blue) -->
 <div class="filter-buttons">
   <button onclick="openFilter('actress')" id="btn-actress" aria-label="Filter Actress">Actress: All</button>
   <button id="btn-gold" class="gold-btn" onclick="toggleRatingCategory('gold')" aria-label="Gold">Gold</button>
   <button id="btn-silver" class="silver-btn" onclick="toggleRatingCategory('silver')" aria-label="Blue">Blue</button>
 </div>
 
-<!-- Grid + Pagination -->
 <div class="video-grid" id="videoGrid"></div>
 <div class="pagination" id="pagination"></div>
 
@@ -594,46 +830,40 @@
 <div class="modal" id="videoModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('videoModal')" aria-label="Close">&times;</span>
   <div class="modal-content" id="modalContentElement">
-    <!-- Hidden iframe kept for compatibility with existing code that sets/clears it -->
     <iframe id="videoPlayer" class="player" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
 
-    <!-- New modal inner content (matches requested layout) -->
     <div class="modal-inner" id="modalInner">
-      <!-- 1. Thumbnail -->
       <img id="modalThumb" class="modal-thumb" src="" alt="Thumbnail">
-
-      <!-- 2. Title -->
       <div id="modalTitle" class="modal-title"></div>
 
-      <!-- 3. Metadata -->
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
         <div class="meta-line" id="metaStudioLabel" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
-        <!-- NEW: Tags section -->
         <div class="meta-line" id="metaTags"></div>
-        <!-- 3.5 Description (updated formatting) -->
         <div class="meta-line" id="modalDescription"></div>
       </div>
 
-      <!-- 4. Rating system (left) + Image (right) -->
       <div class="rating-image-row">
         <div class="rating-left">
-          <div class="main-rating" id="mainRatingBox" title="Click for explanation">
-            <div class="star-wrap" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
-                <defs>
-                  <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0" stop-color="#FFD36B"/>
-                    <stop offset="1" stop-color="#F5B50A"/>
-                  </linearGradient>
-                </defs>
-              </svg>
+          <div class="rating-header">
+            <div class="main-rating" id="mainRatingBox" title="Click for explanation">
+              <div class="star-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
+                  <defs>
+                    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                      <stop offset="0" stop-color="#FFD36B"/>
+                      <stop offset="1" stop-color="#F5B50A"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div class="score">
+                <div class="val" id="mainRatingText">0.0</div>
+                <div class="max">/ 10</div>
+              </div>
             </div>
-            <div class="score">
-              <div class="val" id="mainRatingText">0.0</div>
-              <div class="max">/ 10</div>
-            </div>
+            <button type="button" class="rating-clock-btn" id="timestampsToggle" title="Show timestamps">🕒</button>
           </div>
 
           <div class="rating-bars" id="ratingBars"></div>
@@ -644,10 +874,8 @@
         </div>
       </div>
 
-      <!-- 4.5 Timestamps (compact) -->
       <div id="timestampsContainer" class="timestamps" aria-live="polite" style="display:none;"></div>
 
-      <!-- 5. Buttons Section -->
       <div class="modal-buttons" id="modalSideButtons">
         <button class="side-btn" id="btnGallery">Gallery</button>
         <button class="side-btn" id="btnTrailer">Trailer</button>
@@ -658,6 +886,23 @@
         <button class="full-btn" id="btnUncensored">Uncensored Video</button>
         <button class="full-btn" id="btnEnglish">English Sub Video</button>
       </div>
+
+      <!-- Embedded website area -->
+      <div id="embedContainer" class="embed-container">
+        <div id="embedInner" class="embed-inner">
+          <div class="embed-header">
+            <div id="embedTitle" class="embed-title">Preview</div>
+            <div class="embed-actions">
+              <button id="embedOpenNew" class="embed-icon-btn" type="button" title="Open in new tab">↗</button>
+              <button id="embedClose" class="embed-icon-btn" type="button" title="Close">✕</button>
+            </div>
+          </div>
+          <div id="embedBody" class="embed-body landscape">
+            <iframe id="embedFrame" src="" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -666,7 +911,6 @@
 <div class="modal" id="filterModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('filterModal')" aria-label="Close">&times;</span>
   <div class="filter-modal-content" id="filterContent">
-    <!-- Top area (sticky): title, search, column controls -->
     <div class="filter-top">
       <h3 id="filterTitle"></h3>
       <div class="filter-search"><input type="text" id="filterSearch" placeholder="Search..." /></div>
@@ -674,19 +918,15 @@
         <div id="filterControlsContainer"></div>
       </div>
     </div>
-
-    <!-- Scrollable options area -->
     <div class="filter-body-scroll" id="filterBody"></div>
   </div>
 </div>
 
-<!-- explain popup (added to body by default hidden) -->
 <div id="explainPopup" class="explain-popup" role="dialog" aria-modal="false" style="display:none;">
   <div class="title" id="explainTitle"></div>
   <div class="body" id="explainBody"></div>
 </div>
 
-<!-- Data sources -->
 <script src="filters.js"></script>
 <script src="videos.js"></script>
 
@@ -699,7 +939,6 @@ function toArray(val){
 }
 function shuffleArray(arr){ return arr.slice().sort(()=>Math.random()-0.5); }
 
-/* small helper: get first present field from object among many names */
 function getField(obj, ...names){
   for(const n of names){
     if(!obj) break;
@@ -709,7 +948,6 @@ function getField(obj, ...names){
   return null;
 }
 
-/* robust: given an object and a list of candidate keys, return the first URL (handles string or array) */
 function getFirstUrl(obj, candidates){
   for(const key of candidates){
     if(!obj) continue;
@@ -730,29 +968,90 @@ function getFirstUrl(obj, candidates){
   return null;
 }
 
-/* safe open with fallback to 404 if empty */
 function safeOpenInNewTabOr404(url){
   const fallback = 'https://example.com/404';
   const openUrl = (url && String(url).trim()) ? url : fallback;
   try { window.open(openUrl, '_blank'); } catch(e){ console.warn('Open failed', e); window.open(fallback, '_blank'); }
 }
 
-/* helper to check existence of a link (true if non-empty) */
 function hasUrl(obj, candidates){
   const u = getFirstUrl(obj, candidates);
   return !!(u && String(u).trim());
 }
 
+/* ================== Embedded website helpers ================== */
+function closeEmbedded(){
+  const container = document.getElementById('embedContainer');
+  const inner = document.getElementById('embedInner');
+  const frame = document.getElementById('embedFrame');
+  if(container){
+    container.style.display = 'none';
+  }
+  if(inner){
+    inner.classList.remove('open');
+  }
+  if(frame){
+    frame.src = '';
+  }
+  if(container){
+    container.dataset.currentUrl = '';
+  }
+}
+
+function openEmbeddedInModal(url, mode, label){
+  if(!url){ return; }
+  const container = document.getElementById('embedContainer');
+  const inner = document.getElementById('embedInner');
+  const body = document.getElementById('embedBody');
+  const frame = document.getElementById('embedFrame');
+  const titleEl = document.getElementById('embedTitle');
+  if(!container || !inner || !body || !frame) return;
+
+  body.classList.remove('portrait','landscape');
+  body.classList.add(mode === 'portrait' ? 'portrait' : 'landscape');
+
+  frame.src = url;
+  if(titleEl){
+    titleEl.textContent = label || 'Preview';
+  }
+
+  container.style.display = 'block';
+  container.dataset.currentUrl = url;
+
+  requestAnimationFrame(()=> inner.classList.add('open'));
+}
+
+/* Bind embed icon actions */
+document.addEventListener('DOMContentLoaded', ()=>{
+  const openBtn = document.getElementById('embedOpenNew');
+  const closeBtn = document.getElementById('embedClose');
+  if(openBtn){
+    openBtn.onclick = function(e){
+      e.stopPropagation();
+      const container = document.getElementById('embedContainer');
+      const frame = document.getElementById('embedFrame');
+      const url = (container && container.dataset.currentUrl) || (frame ? frame.src : '');
+      if(url) safeOpenInNewTabOr404(url);
+    };
+  }
+  if(closeBtn){
+    closeBtn.onclick = function(e){
+      e.stopPropagation();
+      closeEmbedded();
+    };
+  }
+});
+
 /* ================== State ================== */
 const perPage = 12;
 let currentPage = 1;
-let activeFilters = {}; // { type: [value], ratingCategories: ['gold','silver'] }
+let activeFilters = {};
 let filtered = [];
 
-let actressColumns = 3; // for filter modal columns
+let actressColumns = 3;
 const actressFontForCols = {1: '18px', 2: '15px', 3: '12px', 4: '11px'};
 
-let activeSearch = ''; // new: homepage search query
+let activeSearch = '';
 
 /* ================== Init ================== */
 function init(){
@@ -767,7 +1066,6 @@ function toggleRatingCategory(cat){
   const idx = activeFilters.ratingCategories.indexOf(cat);
   if(idx >= 0) activeFilters.ratingCategories.splice(idx,1);
   else activeFilters.ratingCategories.push(cat);
-  // UI toggle
   const btnGold = document.getElementById('btn-gold');
   const btnSilver = document.getElementById('btn-silver');
   btnGold.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold'));
@@ -775,10 +1073,8 @@ function toggleRatingCategory(cat){
   applyAllFilters();
 }
 
-/* ================== Apply Filters (handles actress + ratingCategories + search) ================== */
 function applyAllFilters(){
   filtered = videos.filter(v=>{
-    // Search (if activeSearch present) — Title, Code, Actress, Studio, Label
     if(activeSearch && String(activeSearch).trim() !== ''){
       const q = String(activeSearch).toLowerCase();
       const title = (v.title || '').toLowerCase();
@@ -790,21 +1086,18 @@ function applyAllFilters(){
       if(!matchesSearch) return false;
     }
 
-    // Actress filter
     if(activeFilters.actress && activeFilters.actress.length){
       const want = activeFilters.actress[0];
       const list = toArray(v.actress);
       if(!list.includes(want)) return false;
     }
 
-    // Other generic filters (kept for compatibility, including "tags")
     for(const [key, vals] of Object.entries(activeFilters)){
       if(key === 'actress' || key === 'ratingCategories') continue;
       if(!vals || !vals.length) continue;
       if(!vals.some(val=>toArray(v[key]).includes(val))) return false;
     }
 
-    // Rating category filter (gold/blue)
     if(activeFilters.ratingCategories && activeFilters.ratingCategories.length){
       const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
       const { avg } = computeAverageRating(ratingSource);
@@ -829,6 +1122,7 @@ function renderVideos(){
   grid.innerHTML = "";
   const start = (currentPage-1)*perPage;
   const pageItems = filtered.slice(start, start + perPage);
+
   pageItems.forEach(v=>{
     const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
     const { avg } = computeAverageRating(ratingSource);
@@ -848,7 +1142,6 @@ function renderVideos(){
     const card = document.createElement("div");
     card.className = "video-card";
 
-    // add gold/silver classes based on avg (silver now appears cyan-rich blue)
     if(avg >= 9.0) card.classList.add('gold');
     else if(avg >= 8.0 && avg < 9.0) card.classList.add('silver');
 
@@ -858,20 +1151,19 @@ function renderVideos(){
     card.innerHTML = `
       <img class="thumb" src="${thumb}" loading="lazy" alt="">
       <b>${titleEsc}</b>
+      <div class="card-tags">${tagsLine ? escapeHtml(tagsLine) : ''}</div>
       <div class="card-footer">
-        <div class="card-footer-left">
-          <div class="status-row">
-            <div class="status-circles" aria-hidden="true">
-              <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
-              <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
-              <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
-              <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
-              <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
-            </div>
-            <span class="status-clock ${hasTimestamps ? 'has-timestamps' : 'no-timestamps'}" title="${hasTimestamps ? 'Timestamps available' : 'No timestamps'}">${hasTimestamps ? '🕒' : ''}</span>
+        <div class="status-row">
+          <div class="status-circles" aria-hidden="true">
+            <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
+            <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
+            <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
+            <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
+            <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
           </div>
+          <span class="status-clock ${hasTimestamps ? 'has-timestamps' : 'no-timestamps'}" title="${hasTimestamps ? 'Timestamps available' : 'No timestamps'}">${hasTimestamps ? '🕒' : ''}</span>
         </div>
-        <div class="mini-rating" title="Main rating" data-video-index="">
+        <div class="mini-rating" title="Main rating">
           <div class="star" aria-hidden="true">★</div>
           <div class="score">${avg.toFixed(1)}</div>
         </div>
@@ -879,7 +1171,6 @@ function renderVideos(){
     `;
     card.onclick = ()=>openVideo(v);
 
-    // attach click-to-explain on mini rating
     const mini = card.querySelector('.mini-rating');
     if(mini){
       mini.addEventListener('click', function(ev){
@@ -891,11 +1182,11 @@ function renderVideos(){
 
     grid.appendChild(card);
   });
+
   renderPagination();
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
-/* ===== Compact pagination: prev 3, current, next 3 ===== */
 function renderPagination(){
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
   const pag = document.getElementById("pagination");
@@ -914,8 +1205,7 @@ function renderPagination(){
   }
 }
 
-/* ================== Search (homepage) ================== */
-/* Replaced with robust search that integrates with other filters */
+/* ================== Search ================== */
 const searchBarEl = document.getElementById("searchBar");
 if(searchBarEl){
   searchBarEl.addEventListener("input", e=>{
@@ -924,10 +1214,10 @@ if(searchBarEl){
   });
 }
 
-/* ================== Video Modal (color fills + links) ================== */
+/* ================== Ratings ================== */
 function computeAverageRating(ratings){
   const keys = ['actress','production','ex','plot'];
-  const vals = keys.map(k => {
+  const vals = keys.map(k=>{
     const v = ratings && typeof ratings[k] !== 'undefined' ? Number(ratings[k]) : 0;
     return isFinite(v) ? Math.max(0, Math.min(10, v)) : 0;
   });
@@ -939,10 +1229,11 @@ function ratingGradientFor(key){
   return `linear-gradient(90deg, var(--rating-${key}-start), var(--rating-${key}-end))`;
 }
 
-/* ================== Rating explanation lookup (robust) ================== */
+/* ================== Rating explanation lookup ================== */
 function findExplanationsMap(v){
   const candidateNames = [
-    'rating_explanations','rating_explain','ratingDescriptions','rating_descriptions','explanations','rating_explains','ratingExplain','rating_description','rating_desc'
+    'rating_explanations','rating_explain','ratingDescriptions','rating_descriptions','explanations',
+    'rating_explains','ratingExplain','rating_description','rating_desc'
   ];
   for(const n of candidateNames){
     if(v && typeof v[n] === 'object' && v[n] !== null) return v[n];
@@ -973,9 +1264,12 @@ function getRatingExplanationFromCommon(v){
   return null;
 }
 
-function capitalize(s){ if(!s) return s; return String(s).charAt(0).toUpperCase() + String(s).slice(1); }
+function capitalize(s){
+  if(!s) return s;
+  return String(s).charAt(0).toUpperCase() + String(s).slice(1);
+}
 
-/* ================== Explain popup (show/hide and intelligent positioning) ================== */
+/* ================== Explain popup ================== */
 const explainPopupEl = document.getElementById('explainPopup');
 const explainTitleEl = document.getElementById('explainTitle');
 const explainBodyEl = document.getElementById('explainBody');
@@ -986,7 +1280,6 @@ function showExplainPopup(text, anchorEl, opts = {}){
   explainTitleEl.textContent = title;
   explainBodyEl.textContent = text || '';
 
-  // ensure popup is visible (but hidden) so we can measure it
   explainPopupEl.style.display = 'block';
   explainPopupEl.style.opacity = '0';
   explainPopupEl.classList.remove('open');
@@ -994,15 +1287,10 @@ function showExplainPopup(text, anchorEl, opts = {}){
   explainPopupEl.style.left = '-9999px';
   explainPopupEl.style.top = '-9999px';
 
-  // measure popup size
-  const popupRect = explainPopupEl.getBoundingClientRect();
-  // if width/height are zero (not yet rendered), force a reflow by setting visibility then measuring
+  let popupRect = explainPopupEl.getBoundingClientRect();
   let popupWidth = popupRect.width || explainPopupEl.offsetWidth || 240;
   let popupHeight = popupRect.height || explainPopupEl.offsetHeight || 120;
 
-  // Sometimes getBoundingClientRect returns 0 if not yet rendered; make sure we have measurement
-  // Give browser one frame to compute accurate size
-  // Use requestAnimationFrame to ensure styles applied
   requestAnimationFrame(()=>{
     const measured = explainPopupEl.getBoundingClientRect();
     popupWidth = measured.width || popupWidth;
@@ -1011,45 +1299,33 @@ function showExplainPopup(text, anchorEl, opts = {}){
     const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
     const viewportH = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-    // Default position: near anchorEl's bounding rect (below it), using fixed positioning relative to viewport
     let left = 12;
     let top = 80;
 
     if(anchorEl && anchorEl.getBoundingClientRect){
       const rect = anchorEl.getBoundingClientRect();
-      // center horizontally on anchor
       left = rect.left + (rect.width / 2) - (popupWidth / 2);
-      // default below
       top = rect.top + rect.height + 8;
-      // if popup would overflow bottom of viewport, try placing above
       if(top + popupHeight > viewportH - 8){
         const altTop = rect.top - popupHeight - 8;
         if(altTop >= 8) top = altTop;
-        else {
-          // not enough room above or below - clamp top to fit in viewport
-          top = Math.max(8, viewportH - popupHeight - 8);
-        }
+        else top = Math.max(8, viewportH - popupHeight - 8);
       }
-      // clamp left to viewport edges with 8px padding
       left = Math.min(Math.max(8, left), Math.max(8, viewportW - popupWidth - 8));
     } else {
-      // no anchor supplied - center horizontally near top
       left = Math.max(8, (viewportW - popupWidth) / 2);
       top = 80;
     }
 
-    // Apply computed position (fixed coordinates relative to viewport)
-    explainPopupEl.style.left = (left) + 'px';
-    explainPopupEl.style.top = (top) + 'px';
+    explainPopupEl.style.left = left + 'px';
+    explainPopupEl.style.top = top + 'px';
     explainPopupEl.style.visibility = '';
-    // show with animation
-    requestAnimationFrame(()=> {
+    requestAnimationFrame(()=>{
       explainPopupEl.classList.add('open');
       explainPopupEl.style.opacity = '';
     });
 
-    // attach handlers to auto-close on outside click or escape
-    setTimeout(()=> {
+    setTimeout(()=>{
       document.addEventListener('click', explainOutsideClickHandler);
       document.addEventListener('keydown', explainEscapeHandler);
     }, 0);
@@ -1059,7 +1335,7 @@ function showExplainPopup(text, anchorEl, opts = {}){
 function closeExplainPopup(){
   if(!explainPopupEl || explainPopupEl.style.display === 'none') return;
   explainPopupEl.classList.remove('open');
-  setTimeout(()=> {
+  setTimeout(()=>{
     explainPopupEl.style.display = 'none';
     explainPopupEl.style.left = '-9999px';
     explainPopupEl.style.top = '-9999px';
@@ -1075,15 +1351,47 @@ function explainEscapeHandler(e){
   if(e.key === 'Escape') closeExplainPopup();
 }
 
-/* ================== openVideo (unchanged behavior + rating click handlers use showExplainPopup) ================== */
+/* ================== Description Show More/Less ================== */
+function setupDescription(descText){
+  const descEl = document.getElementById("modalDescription");
+  if(!descEl) return;
+  const safe = escapeHtml(descText || '');
+  descEl.classList.remove('expanded','collapsed');
+  descEl.innerHTML = `
+    <strong>Description:</strong>
+    <span id="descTextSpan" class="desc-text">${safe}</span>
+    <span id="descToggle" class="desc-toggle"> Show More</span>
+  `;
+  descEl.classList.add('collapsed');
+  const toggleEl = document.getElementById("descToggle");
+  if(toggleEl){
+    toggleEl.onclick = function(e){
+      e.stopPropagation();
+      const isExpanded = descEl.classList.contains('expanded');
+      if(isExpanded){
+        descEl.classList.remove('expanded');
+        descEl.classList.add('collapsed');
+        toggleEl.textContent = ' Show More';
+      } else {
+        descEl.classList.remove('collapsed');
+        descEl.classList.add('expanded');
+        toggleEl.textContent = ' Show Less';
+      }
+    };
+  }
+}
+
+/* ================== openVideo ================== */
 function openVideo(v){
   closeExplainPopup();
+  closeEmbedded();
 
   const player = document.getElementById("videoPlayer");
   if(player) player.src = v.videoUrl || "";
 
   const thumb = document.getElementById("modalThumb");
-  const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
+  const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') ||
+    (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
   thumb.src = thumbSrc;
   thumb.alt = v.title || "Thumbnail";
 
@@ -1092,7 +1400,8 @@ function openVideo(v){
   const metaActress = document.getElementById("metaActress");
   const actressList = toArray(v.actress);
   if(actressList.length){
-    metaActress.innerHTML = '<strong>Actress:</strong> ' + actressList.map(a=>`<span class="clickable" onclick="setFilter('actress','${escapeHtml(a)}')">${escapeHtml(a)}</span>`).join(' ');
+    metaActress.innerHTML = '<strong>Actress:</strong> ' +
+      actressList.map(a=>`<span class="clickable" onclick="setFilter('actress','${escapeHtml(a)}')">${escapeHtml(a)}</span>`).join(' ');
   } else {
     metaActress.innerHTML = '<strong>Actress:</strong> All';
   }
@@ -1100,27 +1409,25 @@ function openVideo(v){
   const metaStudioLabel = document.getElementById("metaStudioLabel");
   const labels = toArray(v.label);
   const studios = toArray(v.studio);
-  const labelHTML = `<div style="flex:1;"><strong>Label:</strong> ${labels.length ? labels.map(l=>`<span class="clickable" onclick="setFilter('label','${escapeHtml(l)}')">${escapeHtml(l)}</span>`).join(' ') : 'All'}</div>`;
-  const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'}</div>`;
-  metaStudioLabel.innerHTML = labelHTML + studioHTML ;
+  const labelHTML = `<div style="flex:1;"><strong>Label:</strong> ${
+    labels.length ? labels.map(l=>`<span class="clickable" onclick="setFilter('label','${escapeHtml(l)}')">${escapeHtml(l)}</span>`).join(' ') : 'All'
+  }</div>`;
+  const studioHTML = `<div style="flex:1;"><strong>Studio:</strong> ${
+    studios.length ? studios.map(s=>`<span class="clickable" onclick="setFilter('studio','${escapeHtml(s)}')">${escapeHtml(s)}</span>`).join(' ') : 'All'
+  }</div>`;
+  metaStudioLabel.innerHTML = labelHTML + studioHTML;
 
-  // NEW: Tags in modal
   const metaTags = document.getElementById("metaTags");
   const tags = toArray(v.tags);
   if(tags.length){
-    metaTags.innerHTML = '<strong>Tags:</strong> <div class="tags-inline">' +
-      tags.map(t=>`<span class="tag-chip" onclick="setFilter('tags','${escapeHtml(t)}')">${escapeHtml(t)}</span>`).join('') +
-      '</div>';
+    metaTags.innerHTML = '<strong>Tags:</strong> ' +
+      tags.map((t,idx)=>`<span class="clickable" onclick="setFilter('tags','${escapeHtml(t)}')">${escapeHtml(t)}</span>${idx < tags.length-1 ? ',' : ''} `).join('');
   } else {
     metaTags.innerHTML = '<strong>Tags:</strong> None';
   }
 
-  const descEl = document.getElementById("modalDescription");
-  if(descEl){
-    const descText = getField(v, 'description', 'desc') || '';
-    // format: bold "Description:" + justified text
-    descEl.innerHTML = `<strong>Description:</strong> ${escapeHtml(descText)}`;
-  }
+  const descText = getField(v, 'description', 'desc') || '';
+  setupDescription(descText);
 
   const ratingContainer = document.getElementById("ratingBars");
   ratingContainer.innerHTML = "";
@@ -1137,19 +1444,22 @@ function openVideo(v){
     row.innerHTML = `
       <div class="label">${labelsPretty[k] || k}</div>
       <div class="bar-row">
-        <div class="bar" aria-hidden="true" data-rating-key="${k}"><div class="fill" style="width:${(numeric*10) || 0}%"></div></div>
+        <div class="bar" aria-hidden="true" data-rating-key="${k}">
+          <div class="fill" style="width:${(numeric*10) || 0}%"></div>
+        </div>
         <div class="value">${numeric.toFixed(1)}</div>
       </div>
     `;
     const fillEl = row.querySelector('.fill');
-    if(fillEl){
-      fillEl.style.background = ratingGradientFor(k);
-    }
+    if(fillEl) fillEl.style.background = ratingGradientFor(k);
+
     const barEl = row.querySelector('.bar');
     if(barEl){
       barEl.addEventListener('click', function(e){
         e.stopPropagation();
-        const explanation = getRatingExplanation(v, k) || getRatingExplanationFromCommon(v) || `${labelsPretty[k] || k} rating: ${numeric.toFixed(1)}`;
+        const explanation = getRatingExplanation(v, k) ||
+          getRatingExplanationFromCommon(v) ||
+          `${labelsPretty[k] || k} rating: ${numeric.toFixed(1)}`;
         showExplainPopup(explanation, this, { title: `${labelsPretty[k] || k} Rating` });
       });
     }
@@ -1160,13 +1470,17 @@ function openVideo(v){
   if(mainRatingBox){
     mainRatingBox.onclick = function(e){
       e.stopPropagation();
-      const explanation = getRatingExplanation(v, 'main') || getRatingExplanationFromCommon(v) || `Overall rating: ${avg.toFixed(1)}`;
+      const explanation = getRatingExplanation(v, 'main') ||
+        getRatingExplanationFromCommon(v) ||
+        `Overall rating: ${avg.toFixed(1)}`;
       showExplainPopup(explanation, this, { title: 'Overall Rating' });
     };
   }
 
   const coverImg = document.getElementById("modalCoverImage");
-  const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') || (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || thumbSrc || '';
+  const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') ||
+    (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) ||
+    thumbSrc || '';
   coverImg.src = coverSrc;
   coverImg.alt = v.title || "Cover image";
 
@@ -1189,35 +1503,36 @@ function openVideo(v){
   const uncensoredUrl = getFirstUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
   const englishUrl = getFirstUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
 
-  galleryBtn.onclick = ()=> { safeOpenInNewTabOr404(galleryUrl || thumbSrc || v.videoUrl || ''); };
-  trailerBtn.onclick = ()=> { safeOpenInNewTabOr404(trailerUrl || v.videoUrl || ''); };
-  censoredBtn.onclick = ()=> { safeOpenInNewTabOr404(censoredUrl || v.censored || v.censoredUrl || ''); };
-  uncensoredBtn.onclick = ()=> { safeOpenInNewTabOr404(uncensoredUrl || v.uncensored || v.uncensoredUrl || ''); };
-  englishBtn.onclick = ()=> { safeOpenInNewTabOr404(englishUrl || v.english || v.englishUrl || ''); };
+  galleryBtn.onclick = ()=> { openEmbeddedInModal(galleryUrl || thumbSrc || v.videoUrl || '', 'portrait', 'Gallery'); };
+  trailerBtn.onclick = ()=> { openEmbeddedInModal(trailerUrl || v.videoUrl || '', 'landscape', 'Trailer'); };
+  censoredBtn.onclick = ()=> { openEmbeddedInModal(censoredUrl || v.censored || v.censoredUrl || '', 'landscape', 'Censored Video'); };
+  uncensoredBtn.onclick = ()=> { openEmbeddedInModal(uncensoredUrl || v.uncensored || v.uncensoredUrl || '', 'landscape', 'Uncensored Video'); };
+  englishBtn.onclick = ()=> { openEmbeddedInModal(englishUrl || v.english || v.englishUrl || '', 'landscape', 'English Sub Video'); };
 
   const modalContent = document.getElementById('modalContentElement');
   modalContent.classList.remove('gold-modal','silver-modal');
   if(avg >= 9.0) modalContent.classList.add('gold-modal');
   else if(avg >= 8.0 && avg < 9.0) modalContent.classList.add('silver-modal');
 
-  // TIMESTAMPS: build UI if timestamps available (compact)
   const timestampsEl = document.getElementById('timestampsContainer');
   timestampsEl.innerHTML = '';
-  const timestamps = (v.timestamps && Array.isArray(v.timestamps)) ? v.timestamps : (v.timepoints && Array.isArray(v.timepoints) ? v.timepoints : []);
-  if(timestamps && timestamps.length){
-    timestampsEl.style.display = 'flex';
+  const timestamps = (v.timestamps && Array.isArray(v.timestamps))
+    ? v.timestamps
+    : (v.timepoints && Array.isArray(v.timepoints) ? v.timepoints : []);
+  const hasTimestamps = timestamps && timestamps.length;
+
+  if(hasTimestamps){
     timestamps.forEach(tp=>{
-      let timeStr;
-      let title;
+      let timeStr, title;
       if(typeof tp === 'string'){
-        // if a plain string, treat as time only
         timeStr = tp;
         title = '';
       } else {
         timeStr = getField(tp, 'time', 't', 'timestamp') || '';
-        title = getField(tp, 'scene', 'title', 'desc', 'label') || '';
+        title   = getField(tp, 'scene', 'title', 'desc', 'label') || '';
       }
-      const isStar = String(title || '').trim().startsWith('★') || String(title || '').toLowerCase().includes('scene');
+      const isStar = String(title || '').trim().startsWith('★') ||
+        String(title || '').toLowerCase().includes('scene');
       const row = document.createElement('div');
       row.className = 'time-row';
       row.innerHTML = `
@@ -1231,8 +1546,33 @@ function openVideo(v){
       });
       timestampsEl.appendChild(row);
     });
+    timestampsEl.style.display = 'none';
   } else {
     timestampsEl.style.display = 'none';
+  }
+
+  const toggleBtn = document.getElementById('timestampsToggle');
+  if(toggleBtn){
+    if(hasTimestamps){
+      toggleBtn.style.display = 'flex';
+      toggleBtn.classList.remove('active');
+      toggleBtn.setAttribute('title','Show timestamps');
+      toggleBtn.onclick = function(e){
+        e.stopPropagation();
+        const isVisible = timestampsEl.style.display === 'flex';
+        if(isVisible){
+          timestampsEl.style.display = 'none';
+          toggleBtn.classList.remove('active');
+          toggleBtn.setAttribute('title','Show timestamps');
+        } else {
+          timestampsEl.style.display = 'flex';
+          toggleBtn.classList.add('active');
+          toggleBtn.setAttribute('title','Hide timestamps');
+        }
+      };
+    } else {
+      toggleBtn.style.display = 'none';
+    }
   }
 
   document.getElementById("videoModal").style.display = "flex";
@@ -1241,7 +1581,11 @@ function openVideo(v){
 /* HTML-escape helper */
 function escapeHtml(str){
   if(typeof str !== 'string') return String(str || '');
-  return str.replace(/"/g, '&quot;').replace(/'/g, "\\'").replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return str
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,"\\'")
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;');
 }
 
 function closeModal(id){
@@ -1250,6 +1594,7 @@ function closeModal(id){
     const player = document.getElementById("videoPlayer");
     if(player) player.src = "";
     document.getElementById('modalContentElement').classList.remove('gold-modal','silver-modal');
+    closeEmbedded();
   }
   closeExplainPopup();
 }
@@ -1315,7 +1660,9 @@ function openFilter(type){
     const imgLink = (map && map[it]) ? map[it] : "https://via.placeholder.com/200x300.png?text=" + encodeURIComponent(it);
     const div = document.createElement("div");
     div.className = "opt" + (it === selected ? " selected" : "");
-    const count = it === "All" ? videos.length : videos.filter(v=>toArray(v[type]).includes(it)).length;
+    const count = it === "All"
+      ? videos.length
+      : videos.filter(v=>toArray(v[type]).includes(it)).length;
     div.innerHTML = `
       <img src="${imgLink}" loading="lazy" alt="">
       <span class="name">${it}</span>
@@ -1349,7 +1696,8 @@ function setFilter(type, val){
   else { activeFilters[type] = [val]; }
   updateFilterButtonsUI();
   applyAllFilters();
-  closeModal("filterModal"); closeModal("videoModal");
+  closeModal("filterModal");
+  closeModal("videoModal");
 }
 
 function updateFilterButtonsUI(){
@@ -1360,8 +1708,10 @@ function updateFilterButtonsUI(){
 }
 
 function updateRatingButtonsUI(){
-  document.getElementById('btn-gold').classList.toggle('active', !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold')));
-  document.getElementById('btn-silver').classList.toggle('active', !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver')));
+  document.getElementById('btn-gold').classList.toggle('active',
+    !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold')));
+  document.getElementById('btn-silver').classList.toggle('active',
+    !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver')));
 }
 
 /* ================== Header Buttons ================== */
@@ -1397,8 +1747,7 @@ function closeOnBackgroundClick(e, id){
 document.getElementById("videoModal").addEventListener("click", e=>closeOnBackgroundClick(e, "videoModal"));
 document.getElementById("filterModal").addEventListener("click", e=>closeOnBackgroundClick(e, "filterModal"));
 
-/* ensure explain popup hides if user navigates away or closes modals */
-window.addEventListener('scroll', ()=> closeExplainPopup(), { passive: true });
+window.addEventListener('scroll', ()=> closeExplainPopup(), { passive:true });
 window.addEventListener('resize', ()=> closeExplainPopup());
 </script>
 </body>
