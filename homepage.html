@@ -237,45 +237,16 @@
     gap:10px; /* extra gap so clock isn't stuck to last circle */
   }
 
-  .status-circles {
-    display:flex; align-items:center; gap:6px; flex-shrink:0;
-  }
-  .status-circle {
-    width:12px; height:12px; border-radius:999px; display:inline-block;
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    flex-shrink:0;
-  }
-  .status-circle.unavailable { background: var(--circle-unavailable); opacity:0.95; }
-  .status-circle.gallery   { background: linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
-  .status-circle.trailer   { background: linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
-  .status-circle.censored  { background: linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end)); }
-  .status-circle.uncensored{ background: linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end)); }
-  .status-circle.english   { background: linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end)); }
-
-  .status-clock {
-    width:16px;
-    height:16px;
-    border-radius:999px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    flex-shrink:0;
-  }
-  .status-clock.has-timestamps {
-    background-image: var(--grad-primary);
-    color:#fff;
-  }
-  .status-clock.no-timestamps {
-    background: var(--circle-unavailable);
-    color:transparent;
+  .chapter-count {
+    font-size:13px;
+    color:#475569;
+    font-weight:700;
   }
 
   .mini-rating {
     display:flex; align-items:center; gap:6px;
     color:var(--text); font-weight:800; font-size:14px;
-    cursor:pointer;
+    cursor:default;
   }
   .mini-rating .star {
     width:16px; height:16px; display:inline-block;
@@ -341,7 +312,23 @@
     font-size: 34px; color: #fff; cursor: pointer; z-index: 1100;
   }
 
-  #videoPlayer { display:none; width:0; height:0; border:0; }
+  /* Top video area - 16:9 iframe + fallback thumbnail */
+  .modal-video-area {
+    width:100%;
+    position:relative;
+    aspect-ratio: 16/9;
+    background:#000;
+    overflow:hidden;
+  }
+  #modalTopIframe {
+    position:absolute; inset:0; width:100%; height:100%; border:0; display:block;
+    background:#000;
+  }
+  #modalTopThumb {
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; display:block;
+    border-radius:0;
+  }
 
   .modal-inner { padding: 6px; }
   .modal-thumb {
@@ -413,7 +400,7 @@
   .main-rating {
     display:flex; align-items:center;
     gap:16px; margin:0;
-    cursor:pointer;
+    cursor:default;
     flex:1;
   }
   .main-rating .star-wrap {
@@ -479,7 +466,7 @@
     flex:1; height:10px;
     background: rgba(148,163,184,.08);
     border-radius:999px; overflow:hidden;
-    position:relative; cursor:pointer;
+    position:relative; cursor:default;
   }
   .rating-row .bar .fill {
     height:100%; width:0%;
@@ -506,33 +493,43 @@
     display:block; background:transparent;
   }
 
-  .timestamps {
-    margin-top:10px;
-    display:flex; flex-direction:column;
-    gap:5px;
-    padding:3px;
+  /* Chapters strip (horizontal scroll) */
+  .chapters {
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+    padding:6px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+    align-items:flex-start;
   }
-  .timestamps .time-row {
-    display:flex; gap:8px; align-items:center;
-    padding:3px 4px; border-radius:8px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
-    border: 1px solid rgba(148,163,184,0.05);
+  .chapter-card {
+    flex: 0 0 55%; /* 50-60% modal width as requested */
+    max-width: 60%;
+    min-width: 45%;
+    box-sizing:border-box;
+    border-radius:12px;
+    background: var(--card-bg);
+    padding:6px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    cursor:pointer;
+  }
+  .chapter-card img {
+    width:100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius:8px;
+  }
+  .chapter-card .ch-title {
+    font-weight:800; font-size:13px; color:#0f172a;
     line-height:1.2;
   }
-  .timestamps .time {
-    min-width:68px; font-weight:800;
-    color:#0f172a; font-size:12px;
-    background:rgba(255,255,255,0.6);
-    padding:2px 3px; border-radius:6px;
-    text-align:center;
-    box-shadow:0 6px 12px rgba(10,10,20,0.02);
-  }
-  .timestamps .title {
-    flex:1; font-size:13px; color:#334155;
-    line-height:1.25; max-height:2.5em; overflow:hidden;
-  }
-  .timestamps .badge-star {
-    margin-left:8px; color:#b45309; font-weight:800;
+  .chapter-card .ch-desc {
+    font-size:13px; color:#475569; line-height:1.2;
+    max-height:3.2em; overflow:hidden;
   }
 
   .modal-buttons {
@@ -652,7 +649,7 @@
     padding-top:170%; /* tall vertical */
   }
   .embed-body.landscape {
-    padding-top:80%; 
+    padding-top:80%;
   }
   .embed-body iframe {
     position:absolute;
@@ -766,35 +763,9 @@
     .mini-rating { font-size:12px; }
     .grid-3 { gap:2px; }
     .filter-top { padding:8px; }
+    .chapter-card { flex: 0 0 80%; min-width: 70%; }
   }
 
-  .explain-popup {
-    position:fixed;
-    z-index:1200;
-    min-width:220px; max-width:360px;
-    background:var(--card-bg);
-    border-radius:12px;
-    padding:12px;
-    box-shadow:0 20px 40px rgba(0,0,0,.28);
-    border:1px solid rgba(148,163,184,.10);
-    transform-origin:top left;
-    opacity:0;
-    transform:scale(.95) translateY(6px);
-    transition:opacity .18s ease, transform .18s cubic-bezier(.2,.9,.2,1);
-    font-size:13px;
-    color:var(--text);
-    pointer-events:auto;
-  }
-  .explain-popup.open {
-    opacity:1;
-    transform:scale(1) translateY(0);
-  }
-  .explain-popup .title {
-    font-weight:800; margin-bottom:6px; font-size:14px;
-  }
-  .explain-popup .body {
-    color:#475569; line-height:1.4; font-size:13px;
-  }
 </style>
 </head>
 <body>
@@ -830,11 +801,14 @@
 <div class="modal" id="videoModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('videoModal')" aria-label="Close">&times;</span>
   <div class="modal-content" id="modalContentElement">
-    <iframe id="videoPlayer" class="player" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+    <!-- Top video area (16:9). iframe loads chapter/trailer; thumbnail shown initially -->
+    <div class="modal-video-area">
+      <iframe id="modalTopIframe" class="player" src="" frameborder="0" allowfullscreen loading="lazy" title="Player"></iframe>
+      <img id="modalTopThumb" src="" alt="Thumbnail" />
+    </div>
 
     <div class="modal-inner" id="modalInner">
-      <img id="modalThumb" class="modal-thumb" src="" alt="Thumbnail">
-      <div id="modalTitle" class="modal-title"></div>
+      <div class="modal-title" id="modalTitle"></div>
 
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
@@ -843,10 +817,13 @@
         <div class="meta-line" id="modalDescription"></div>
       </div>
 
+      <!-- Chapters (hidden by default) -->
+      <div id="chaptersContainer" class="chapters" aria-live="polite" style="display:none;"></div>
+
       <div class="rating-image-row">
         <div class="rating-left">
           <div class="rating-header">
-            <div class="main-rating" id="mainRatingBox" title="Click for explanation">
+            <div class="main-rating" id="mainRatingBox" title="Overall rating">
               <div class="star-wrap" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
@@ -863,7 +840,7 @@
                 <div class="max">/ 10</div>
               </div>
             </div>
-            <button type="button" class="rating-clock-btn" id="timestampsToggle" title="Show timestamps">🕒</button>
+            <button type="button" class="rating-clock-btn" id="timestampsToggle" title="Show chapters">🕒</button>
           </div>
 
           <div class="rating-bars" id="ratingBars"></div>
@@ -874,21 +851,12 @@
         </div>
       </div>
 
-      <div id="timestampsContainer" class="timestamps" aria-live="polite" style="display:none;"></div>
-
       <div class="modal-buttons" id="modalSideButtons">
         <button class="side-btn" id="btnGallery">Gallery</button>
         <button class="side-btn" id="btnTrailer">Trailer</button>
       </div>
 
-      <div class="modal-full-buttons">
-        <button class="full-btn primary" id="btnCensored">Censored Video</button>
-        <button class="full-btn" id="btnUncensored">Uncensored Video</button>
-        <button class="full-btn" id="btnEnglish">English Sub Video</button>
-      </div>
-
-      <!-- Embedded website area -->
-      <div id="embedContainer" class="embed-container">
+      <div class="embed-container" id="embedContainer">
         <div id="embedInner" class="embed-inner">
           <div class="embed-header">
             <div id="embedTitle" class="embed-title">Preview</div>
@@ -920,11 +888,6 @@
     </div>
     <div class="filter-body-scroll" id="filterBody"></div>
   </div>
-</div>
-
-<div id="explainPopup" class="explain-popup" role="dialog" aria-modal="false" style="display:none;">
-  <div class="title" id="explainTitle"></div>
-  <div class="body" id="explainBody"></div>
 </div>
 
 <script src="filters.js"></script>
@@ -977,6 +940,28 @@ function safeOpenInNewTabOr404(url){
 function hasUrl(obj, candidates){
   const u = getFirstUrl(obj, candidates);
   return !!(u && String(u).trim());
+}
+
+/* Attempt to find a Drive file ID for gallery PDFs */
+function findDriveIdFromObj(v){
+  // common fields: galleryDriveId, driveId, gallery_drive_id, galleryDrive, gallery (if full Drive URL)
+  const candidates = ['galleryDriveId','galleryDrive','driveId','gallery_drive_id','gallery_drive','galleryId','gallery_id'];
+  for(const c of candidates){
+    const val = getField(v, c);
+    if(val && String(val).trim()){
+      return String(val).trim();
+    }
+  }
+  // If gallery contains a full Drive URL like https://drive.google.com/file/d/ID/view
+  const maybe = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
+  if(maybe){
+    const m = maybe.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+    if(m && m[1]) return m[1];
+    // alternative forms: open?id=ID
+    const q = maybe.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+    if(q && q[1]) return q[1];
+  }
+  return null;
 }
 
 /* ================== Embedded website helpers ================== */
@@ -1102,8 +1087,8 @@ function applyAllFilters(){
       const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
       const { avg } = computeAverageRating(ratingSource);
       const matches = activeFilters.ratingCategories.some(cat=>{
-        if(cat === 'gold') return avg >= 9.0;
-        if(cat === 'silver') return avg >= 8.0 && avg < 9.0;
+        if(cat === 'gold') return avg >= 9.5;                // updated threshold
+        if(cat === 'silver') return avg >= 8.5 && avg < 9.5; // updated threshold (blue)
         return false;
       });
       if(!matches) return false;
@@ -1127,14 +1112,8 @@ function renderVideos(){
     const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
     const { avg } = computeAverageRating(ratingSource);
 
-    const hasGallery = hasUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
-    const hasTrailer = hasUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
-    const hasCensored = hasUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
-    const hasUncensored = hasUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
-    const hasEnglish = hasUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
-
-    const timestampsArr = Array.isArray(v.timestamps) ? v.timestamps : (Array.isArray(v.timepoints) ? v.timepoints : []);
-    const hasTimestamps = timestampsArr && timestampsArr.length > 0;
+    // chapters count
+    const chaptersCount = (Array.isArray(v.chapters) ? v.chapters.length : (Number(v.chaptersCount) || Number(v.chapter_count) || 0)) || 0;
 
     const tags = toArray(v.tags);
     const tagsLine = tags.length ? tags.join(" • ") : "";
@@ -1142,8 +1121,9 @@ function renderVideos(){
     const card = document.createElement("div");
     card.className = "video-card";
 
-    if(avg >= 9.0) card.classList.add('gold');
-    else if(avg >= 8.0 && avg < 9.0) card.classList.add('silver');
+    // new thresholds
+    if(avg >= 9.5) card.classList.add('gold');
+    else if(avg >= 8.5 && avg < 9.5) card.classList.add('silver');
 
     const thumb = v.thumbnail || '';
     const titleEsc = (v.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1154,14 +1134,7 @@ function renderVideos(){
       <div class="card-tags">${tagsLine ? escapeHtml(tagsLine) : ''}</div>
       <div class="card-footer">
         <div class="status-row">
-          <div class="status-circles" aria-hidden="true">
-            <span class="status-circle ${hasGallery ? 'gallery' : 'unavailable'}" title="Gallery"></span>
-            <span class="status-circle ${hasTrailer ? 'trailer' : 'unavailable'}" title="Trailer"></span>
-            <span class="status-circle ${hasCensored ? 'censored' : 'unavailable'}" title="Censored"></span>
-            <span class="status-circle ${hasUncensored ? 'uncensored' : 'unavailable'}" title="Uncensored"></span>
-            <span class="status-circle ${hasEnglish ? 'english' : 'unavailable'}" title="English Sub"></span>
-          </div>
-          <span class="status-clock ${hasTimestamps ? 'has-timestamps' : 'no-timestamps'}" title="${hasTimestamps ? 'Timestamps available' : 'No timestamps'}">${hasTimestamps ? '🕒' : ''}</span>
+          <div class="chapter-count" title="Number of chapters">${chaptersCount} ${chaptersCount===1?'chapter':'chapters'}</div>
         </div>
         <div class="mini-rating" title="Main rating">
           <div class="star" aria-hidden="true">★</div>
@@ -1170,15 +1143,6 @@ function renderVideos(){
       </div>
     `;
     card.onclick = ()=>openVideo(v);
-
-    const mini = card.querySelector('.mini-rating');
-    if(mini){
-      mini.addEventListener('click', function(ev){
-        ev.stopPropagation();
-        const explanation = getRatingExplanation(v, 'main') || getRatingExplanationFromCommon(v) || `Overall rating: ${avg.toFixed(1)}`;
-        showExplainPopup(explanation, this, { title: 'Overall Rating' });
-      });
-    }
 
     grid.appendChild(card);
   });
@@ -1229,128 +1193,6 @@ function ratingGradientFor(key){
   return `linear-gradient(90deg, var(--rating-${key}-start), var(--rating-${key}-end))`;
 }
 
-/* ================== Rating explanation lookup ================== */
-function findExplanationsMap(v){
-  const candidateNames = [
-    'rating_explanations','rating_explain','ratingDescriptions','rating_descriptions','explanations',
-    'rating_explains','ratingExplain','rating_description','rating_desc'
-  ];
-  for(const n of candidateNames){
-    if(v && typeof v[n] === 'object' && v[n] !== null) return v[n];
-  }
-  if(v && v.ratingsInfo && typeof v.ratingsInfo === 'object') return v.ratingsInfo;
-  if(v && v.meta && typeof v.meta === 'object' && v.meta.ratings) return v.meta.ratings;
-  return null;
-}
-
-function getRatingExplanation(v, key){
-  if(!v) return null;
-  const map = findExplanationsMap(v);
-  if(map && (map[key] || map[key.toLowerCase()] || map[key.toUpperCase()])) return (map[key] || map[key.toLowerCase()] || map[key.toUpperCase()]);
-  const altKeys = [
-    `explain_${key}`, `explain${capitalize(key)}`, `${key}_explain`, `${key}_explanation`, `${key}Explanation`
-  ];
-  for(const ak of altKeys){
-    if(typeof v[ak] === 'string') return v[ak];
-  }
-  return null;
-}
-
-function getRatingExplanationFromCommon(v){
-  const fallbackFields = ['overallExplanation','overall_explanation','mainExplanation','main_explanation','explain','explain_main','description'];
-  for(const f of fallbackFields){
-    if(typeof v[f] === 'string' && v[f].trim()) return v[f];
-  }
-  return null;
-}
-
-function capitalize(s){
-  if(!s) return s;
-  return String(s).charAt(0).toUpperCase() + String(s).slice(1);
-}
-
-/* ================== Explain popup ================== */
-const explainPopupEl = document.getElementById('explainPopup');
-const explainTitleEl = document.getElementById('explainTitle');
-const explainBodyEl = document.getElementById('explainBody');
-
-function showExplainPopup(text, anchorEl, opts = {}){
-  if(!explainPopupEl) return;
-  const title = opts.title || '';
-  explainTitleEl.textContent = title;
-  explainBodyEl.textContent = text || '';
-
-  explainPopupEl.style.display = 'block';
-  explainPopupEl.style.opacity = '0';
-  explainPopupEl.classList.remove('open');
-  explainPopupEl.style.visibility = 'hidden';
-  explainPopupEl.style.left = '-9999px';
-  explainPopupEl.style.top = '-9999px';
-
-  let popupRect = explainPopupEl.getBoundingClientRect();
-  let popupWidth = popupRect.width || explainPopupEl.offsetWidth || 240;
-  let popupHeight = popupRect.height || explainPopupEl.offsetHeight || 120;
-
-  requestAnimationFrame(()=>{
-    const measured = explainPopupEl.getBoundingClientRect();
-    popupWidth = measured.width || popupWidth;
-    popupHeight = measured.height || popupHeight;
-
-    const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-    const viewportH = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-
-    let left = 12;
-    let top = 80;
-
-    if(anchorEl && anchorEl.getBoundingClientRect){
-      const rect = anchorEl.getBoundingClientRect();
-      left = rect.left + (rect.width / 2) - (popupWidth / 2);
-      top = rect.top + rect.height + 8;
-      if(top + popupHeight > viewportH - 8){
-        const altTop = rect.top - popupHeight - 8;
-        if(altTop >= 8) top = altTop;
-        else top = Math.max(8, viewportH - popupHeight - 8);
-      }
-      left = Math.min(Math.max(8, left), Math.max(8, viewportW - popupWidth - 8));
-    } else {
-      left = Math.max(8, (viewportW - popupWidth) / 2);
-      top = 80;
-    }
-
-    explainPopupEl.style.left = left + 'px';
-    explainPopupEl.style.top = top + 'px';
-    explainPopupEl.style.visibility = '';
-    requestAnimationFrame(()=>{
-      explainPopupEl.classList.add('open');
-      explainPopupEl.style.opacity = '';
-    });
-
-    setTimeout(()=>{
-      document.addEventListener('click', explainOutsideClickHandler);
-      document.addEventListener('keydown', explainEscapeHandler);
-    }, 0);
-  });
-}
-
-function closeExplainPopup(){
-  if(!explainPopupEl || explainPopupEl.style.display === 'none') return;
-  explainPopupEl.classList.remove('open');
-  setTimeout(()=>{
-    explainPopupEl.style.display = 'none';
-    explainPopupEl.style.left = '-9999px';
-    explainPopupEl.style.top = '-9999px';
-  }, 180);
-  document.removeEventListener('click', explainOutsideClickHandler);
-  document.removeEventListener('keydown', explainEscapeHandler);
-}
-function explainOutsideClickHandler(e){
-  if(!explainPopupEl) return;
-  if(!explainPopupEl.contains(e.target)) closeExplainPopup();
-}
-function explainEscapeHandler(e){
-  if(e.key === 'Escape') closeExplainPopup();
-}
-
 /* ================== Description Show More/Less ================== */
 function setupDescription(descText){
   const descEl = document.getElementById("modalDescription");
@@ -1381,19 +1223,21 @@ function setupDescription(descText){
   }
 }
 
-/* ================== openVideo ================== */
+/* ================== openVideo (with chapters) ================== */
 function openVideo(v){
-  closeExplainPopup();
   closeEmbedded();
 
-  const player = document.getElementById("videoPlayer");
-  if(player) player.src = v.videoUrl || "";
-
-  const thumb = document.getElementById("modalThumb");
+  const topIframe = document.getElementById("modalTopIframe");
+  const topThumb = document.getElementById("modalTopThumb");
+  if(topIframe) topIframe.src = ""; // default empty (shows thumb)
+  // default: show thumb cropped to 16:9
   const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') ||
     (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
-  thumb.src = thumbSrc;
-  thumb.alt = v.title || "Thumbnail";
+  if(topThumb) {
+    topThumb.src = thumbSrc;
+    topThumb.alt = v.title || "Thumbnail";
+    topThumb.style.display = ''; // visible by default
+  }
 
   document.getElementById("modalTitle").textContent = v.title || "";
 
@@ -1429,6 +1273,39 @@ function openVideo(v){
   const descText = getField(v, 'description', 'desc') || '';
   setupDescription(descText);
 
+  // Chapters: populate horizontal strip
+  const chaptersEl = document.getElementById('chaptersContainer');
+  chaptersEl.innerHTML = '';
+  const chapters = Array.isArray(v.chapters) ? v.chapters : [];
+  if(chapters && chapters.length){
+    chapters.forEach((ch, idx)=>{
+      const img = getField(ch, 'image', 'thumb', 'thumbnail') || '';
+      const title = getField(ch, 'title', 'name') || (`Chapter ${idx+1}`);
+      const desc = getField(ch, 'desc', 'description') || '';
+      const iframeUrl = getField(ch, 'iframe', 'videoUrl', 'url') || '';
+      const card = document.createElement('div');
+      card.className = 'chapter-card';
+      card.innerHTML = `
+        <img src="${img}" loading="lazy" alt="${escapeHtml(title)}" />
+        <div class="ch-title">${escapeHtml(title)}</div>
+        <div class="ch-desc">${escapeHtml(desc)}</div>
+      `;
+      card.onclick = function(e){
+        e.stopPropagation();
+        // set top iframe to chapter's iframe (or videoUrl)
+        if(topIframe){
+          topIframe.src = iframeUrl || '';
+          topThumb.style.display = (iframeUrl ? 'none' : '');
+        }
+      };
+      chaptersEl.appendChild(card);
+    });
+    chaptersEl.style.display = 'none'; // hidden by default per requirement
+  } else {
+    chaptersEl.style.display = 'none';
+  }
+
+  // Ratings
   const ratingContainer = document.getElementById("ratingBars");
   ratingContainer.innerHTML = "";
 
@@ -1452,29 +1329,13 @@ function openVideo(v){
     `;
     const fillEl = row.querySelector('.fill');
     if(fillEl) fillEl.style.background = ratingGradientFor(k);
-
-    const barEl = row.querySelector('.bar');
-    if(barEl){
-      barEl.addEventListener('click', function(e){
-        e.stopPropagation();
-        const explanation = getRatingExplanation(v, k) ||
-          getRatingExplanationFromCommon(v) ||
-          `${labelsPretty[k] || k} rating: ${numeric.toFixed(1)}`;
-        showExplainPopup(explanation, this, { title: `${labelsPretty[k] || k} Rating` });
-      });
-    }
     ratingContainer.appendChild(row);
   });
 
   const mainRatingBox = document.getElementById('mainRatingBox');
   if(mainRatingBox){
-    mainRatingBox.onclick = function(e){
-      e.stopPropagation();
-      const explanation = getRatingExplanation(v, 'main') ||
-        getRatingExplanationFromCommon(v) ||
-        `Overall rating: ${avg.toFixed(1)}`;
-      showExplainPopup(explanation, this, { title: 'Overall Rating' });
-    };
+    // no popup (removed), so no onClick explanation
+    mainRatingBox.onclick = function(e){ e.stopPropagation(); };
   }
 
   const coverImg = document.getElementById("modalCoverImage");
@@ -1486,88 +1347,66 @@ function openVideo(v){
 
   const galleryBtn = document.getElementById("btnGallery");
   const trailerBtn = document.getElementById("btnTrailer");
-  const censoredBtn = document.getElementById("btnCensored");
-  const uncensoredBtn = document.getElementById("btnUncensored");
-  const englishBtn = document.getElementById("btnEnglish");
 
-  [galleryBtn, trailerBtn, censoredBtn, uncensoredBtn, englishBtn].forEach(b=>{
+  [galleryBtn, trailerBtn].forEach(b=>{
     if(!b) return;
     b.onmousedown = ()=> b.style.opacity = '0.92';
     b.onmouseup = ()=> b.style.opacity = '';
     b.onmouseleave = ()=> b.style.opacity = '';
   });
 
-  const galleryUrl = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
+  // Trailer -> loads iframe video in the top video area
   const trailerUrl = getFirstUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
-  const censoredUrl = getFirstUrl(v, ['censoredurl','censoredUrl','censored_url','censored','censored_link']);
-  const uncensoredUrl = getFirstUrl(v, ['uncensoredurl','uncensoredUrl','uncensored_url','uncensored','uncensored_link']);
-  const englishUrl = getFirstUrl(v, ['englishurl','englishUrl','english_url','english','english_link','englishurl']);
+  trailerBtn.onclick = ()=> {
+    const topIframe = document.getElementById("modalTopIframe");
+    const topThumb = document.getElementById("modalTopThumb");
+    if(topIframe){
+      topIframe.src = trailerUrl || '';
+      topThumb.style.display = (trailerUrl ? 'none' : '');
+    }
+  };
 
-  galleryBtn.onclick = ()=> { openEmbeddedInModal(galleryUrl || thumbSrc || v.videoUrl || '', 'portrait', 'Gallery'); };
-  trailerBtn.onclick = ()=> { openEmbeddedInModal(trailerUrl || v.videoUrl || '', 'landscape', 'Trailer'); };
-  censoredBtn.onclick = ()=> { openEmbeddedInModal(censoredUrl || v.censored || v.censoredUrl || '', 'landscape', 'Censored Video'); };
-  uncensoredBtn.onclick = ()=> { openEmbeddedInModal(uncensoredUrl || v.uncensored || v.uncensoredUrl || '', 'landscape', 'Uncensored Video'); };
-  englishBtn.onclick = ()=> { openEmbeddedInModal(englishUrl || v.english || v.englishUrl || '', 'landscape', 'English Sub Video'); };
+  // Gallery -> open Google Drive PDF (below the buttons, using embed area)
+  galleryBtn.onclick = ()=> {
+    const driveId = findDriveIdFromObj(v);
+    if(driveId){
+      const url = `https://drive.google.com/file/d/${driveId}/preview`;
+      openEmbeddedInModal(url, 'portrait', 'Gallery');
+    } else {
+      // fallback: try gallery url
+      const galleryUrl = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
+      if(galleryUrl) openEmbeddedInModal(galleryUrl, 'portrait', 'Gallery');
+      else {
+        // no gallery found - do nothing or open blank
+        openEmbeddedInModal('', 'portrait', 'Gallery');
+      }
+    }
+  };
 
+  // modal content class: gold / silver thresholds updated
   const modalContent = document.getElementById('modalContentElement');
   modalContent.classList.remove('gold-modal','silver-modal');
-  if(avg >= 9.0) modalContent.classList.add('gold-modal');
-  else if(avg >= 8.0 && avg < 9.0) modalContent.classList.add('silver-modal');
+  if(avg >= 9.5) modalContent.classList.add('gold-modal');
+  else if(avg >= 8.5 && avg < 9.5) modalContent.classList.add('silver-modal');
 
-  const timestampsEl = document.getElementById('timestampsContainer');
-  timestampsEl.innerHTML = '';
-  const timestamps = (v.timestamps && Array.isArray(v.timestamps))
-    ? v.timestamps
-    : (v.timepoints && Array.isArray(v.timepoints) ? v.timepoints : []);
-  const hasTimestamps = timestamps && timestamps.length;
-
-  if(hasTimestamps){
-    timestamps.forEach(tp=>{
-      let timeStr, title;
-      if(typeof tp === 'string'){
-        timeStr = tp;
-        title = '';
-      } else {
-        timeStr = getField(tp, 'time', 't', 'timestamp') || '';
-        title   = getField(tp, 'scene', 'title', 'desc', 'label') || '';
-      }
-      const isStar = String(title || '').trim().startsWith('★') ||
-        String(title || '').toLowerCase().includes('scene');
-      const row = document.createElement('div');
-      row.className = 'time-row';
-      row.innerHTML = `
-        <div class="time">${escapeHtml(String(timeStr || '00:00'))}</div>
-        <div class="title">${escapeHtml(String(title || ''))}${isStar ? '<span class="badge-star">★</span>' : ''}</div>
-      `;
-      row.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        try { navigator.clipboard && navigator.clipboard.writeText(timeStr || ''); } catch(e){}
-        showExplainPopup(`Timestamp: ${timeStr}${title ? ' — ' + title : ''}`, row, { title: 'Timestamp' });
-      });
-      timestampsEl.appendChild(row);
-    });
-    timestampsEl.style.display = 'none';
-  } else {
-    timestampsEl.style.display = 'none';
-  }
-
+  // Chapters toggle button (clock icon): show/hide chapter strip
   const toggleBtn = document.getElementById('timestampsToggle');
   if(toggleBtn){
-    if(hasTimestamps){
+    if(chapters && chapters.length){
       toggleBtn.style.display = 'flex';
       toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('title','Show timestamps');
+      toggleBtn.setAttribute('title','Show chapters');
       toggleBtn.onclick = function(e){
         e.stopPropagation();
-        const isVisible = timestampsEl.style.display === 'flex';
+        const isVisible = chaptersEl.style.display === 'flex';
         if(isVisible){
-          timestampsEl.style.display = 'none';
+          chaptersEl.style.display = 'none';
           toggleBtn.classList.remove('active');
-          toggleBtn.setAttribute('title','Show timestamps');
+          toggleBtn.setAttribute('title','Show chapters');
         } else {
-          timestampsEl.style.display = 'flex';
+          chaptersEl.style.display = 'flex';
           toggleBtn.classList.add('active');
-          toggleBtn.setAttribute('title','Hide timestamps');
+          toggleBtn.setAttribute('title','Hide chapters');
         }
       };
     } else {
@@ -1591,12 +1430,11 @@ function escapeHtml(str){
 function closeModal(id){
   document.getElementById(id).style.display = "none";
   if(id === "videoModal"){
-    const player = document.getElementById("videoPlayer");
+    const player = document.getElementById("modalTopIframe");
     if(player) player.src = "";
     document.getElementById('modalContentElement').classList.remove('gold-modal','silver-modal');
     closeEmbedded();
   }
-  closeExplainPopup();
 }
 
 /* ================== Filter Modal ================== */
@@ -1747,8 +1585,7 @@ function closeOnBackgroundClick(e, id){
 document.getElementById("videoModal").addEventListener("click", e=>closeOnBackgroundClick(e, "videoModal"));
 document.getElementById("filterModal").addEventListener("click", e=>closeOnBackgroundClick(e, "filterModal"));
 
-window.addEventListener('scroll', ()=> closeExplainPopup(), { passive:true });
-window.addEventListener('resize', ()=> closeExplainPopup());
+/* remove leftover listeners referencing removed popup - none remain */
 </script>
 </body>
 </html>
