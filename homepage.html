@@ -65,15 +65,20 @@
     /* Unavailable circle color */
     --circle-unavailable: #cbd5e1; /* slate-300 */
 
-    /* Gold / Blue card/modal backgrounds (darker & more prominent) */
+    /* Gold / Blue / White card/modal backgrounds */
     --gold-card-start: rgba(255,200,0,0.18);
     --gold-card-end:   rgba(255,170,30,0.06);
     --gold-modal-overlay: linear-gradient(135deg, rgba(255,200,0,0.14), rgba(255,170,30,0.06));
 
-    /* Blue (cyan-rich) */
-    --silver-card-start: rgba(12,160,170,0.18);
-    --silver-card-end:   rgba(150,220,230,0.06);
-    --silver-modal-overlay: linear-gradient(135deg, rgba(10,140,150,0.12), rgba(160,220,230,0.05));
+    /* Blue */
+    --blue-card-start: rgba(59,130,246,0.18);
+    --blue-card-end:   rgba(96,165,250,0.06);
+    --blue-modal-overlay: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(96,165,250,0.05));
+
+    /* White (default) */
+    --white-card-start: rgba(148,163,184,0.05);
+    --white-card-end:   rgba(148,163,184,0.02);
+    --white-modal-overlay: linear-gradient(135deg, rgba(148,163,184,0.03), rgba(148,163,184,0.01));
   }
 
   /* =============== BASE =============== */
@@ -150,8 +155,8 @@
   .filter-buttons button.gold-btn.active {
     background-image: linear-gradient(90deg, rgba(120,80,0,0.95), rgba(80,50,0,0.95));
   }
-  .filter-buttons button.silver-btn.active {
-    background-image: linear-gradient(90deg, rgba(6,120,130,0.95), rgba(18,140,150,0.95));
+  .filter-buttons button.blue-btn.active {
+    background-image: linear-gradient(90deg, rgba(30,64,175,0.95), rgba(59,130,246,0.95));
   }
 
   /* =============== GRID / CARDS =============== */
@@ -185,10 +190,14 @@
     background-image: linear-gradient(135deg, var(--gold-card-start), var(--gold-card-end));
     border: 1px solid rgba(220,170,10,0.12);
   }
-  .video-card.silver {
-    background-image: linear-gradient(135deg, var(--silver-card-start), var(--silver-card-end));
-    border: 1px solid rgba(10,130,140,0.12);
-    box-shadow: 0 8px 18px rgba(8,80,90,0.04);
+  .video-card.blue {
+    background-image: linear-gradient(135deg, var(--blue-card-start), var(--blue-card-end));
+    border: 1px solid rgba(59,130,246,0.12);
+    box-shadow: 0 8px 18px rgba(30,64,175,0.04);
+  }
+  .video-card.white {
+    background-image: linear-gradient(135deg, var(--white-card-start), var(--white-card-end));
+    border: 1px solid rgba(148,163,184,0.08);
   }
 
   .video-card img.thumb {
@@ -231,22 +240,21 @@
     gap:8px;
   }
 
-  .status-row {
+  .chapters-badge {
     display:flex;
     align-items:center;
-    gap:10px; /* extra gap so clock isn't stuck to last circle */
-  }
-
-  .chapter-count {
-    font-size:13px;
+    gap:4px;
+    font-size:12px;
+    font-weight:600;
     color:#475569;
-    font-weight:700;
+    background:rgba(148,163,184,0.1);
+    padding:4px 8px;
+    border-radius:999px;
   }
 
   .mini-rating {
     display:flex; align-items:center; gap:6px;
     color:var(--text); font-weight:800; font-size:14px;
-    cursor:default;
   }
   .mini-rating .star {
     width:16px; height:16px; display:inline-block;
@@ -301,10 +309,14 @@
     background-image: var(--gold-modal-overlay);
     border: 1px solid rgba(220,170,10,0.12);
   }
-  .modal-content.silver-modal {
-    background-image: var(--silver-modal-overlay);
-    border: 1px solid rgba(10,130,140,0.12);
-    box-shadow: 0 14px 30px rgba(8,80,90,0.04);
+  .modal-content.blue-modal {
+    background-image: var(--blue-modal-overlay);
+    border: 1px solid rgba(59,130,246,0.12);
+    box-shadow: 0 14px 30px rgba(30,64,175,0.04);
+  }
+  .modal-content.white-modal {
+    background-image: var(--white-modal-overlay);
+    border: 1px solid rgba(148,163,184,0.08);
   }
 
   .close {
@@ -312,32 +324,35 @@
     font-size: 34px; color: #fff; cursor: pointer; z-index: 1100;
   }
 
-  /* Top video area - 16:9 iframe + fallback thumbnail */
+  /* Video area at top of modal */
   .modal-video-area {
-    width:100%;
-    position:relative;
+    width: 100%;
     aspect-ratio: 16/9;
-    background:#000;
-    overflow:hidden;
+    background: #000;
+    position: relative;
+    overflow: hidden;
   }
-  #modalTopIframe {
-    position:absolute; inset:0; width:100%; height:100%; border:0; display:block;
-    background:#000;
+  
+  .modal-video-area .video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
-  #modalTopThumb {
-    position:absolute; inset:0; width:100%; height:100%;
-    object-fit:cover; display:block;
-    border-radius:0;
+  
+  .modal-video-area .video-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: none;
   }
 
-  .modal-inner { padding: 6px; }
-  .modal-thumb {
-    width:100%; aspect-ratio: 3/2; object-fit: cover;
-    border-radius: 12px; display:block; margin-bottom:10px;
-  }
+  .modal-inner { padding: 12px; }
+
   .modal-title {
-    font-size: 16px; font-weight:700;
-    padding: 4px 2px 8px;
+    font-size: 18px; font-weight:700;
+    padding: 12px 0 8px;
+    margin: 0;
   }
   .meta-line {
     display:block; font-size:14px;
@@ -377,9 +392,107 @@
     white-space:nowrap;
   }
 
+  /* Chapters section */
+  .chapters-section {
+    margin-top: 16px;
+    display: none;
+  }
+  
+  .chapters-section.visible {
+    display: block;
+  }
+  
+  .chapters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(148,163,184,0.15);
+  }
+  
+  .chapter-title {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 12px 4px 12px; /* Changed bottom padding from 8px to 4px */
+  color: var(--text);
+  border-bottom: 1px solid rgba(148,163,184,0.1);
+}
+  
+  .chapters-container {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 8px 0 16px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148,163,184,0.3) transparent;
+  }
+  
+  .chapters-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .chapters-container::-webkit-scrollbar-track {
+    background: rgba(148,163,184,0.1);
+    border-radius: 3px;
+  }
+  
+  .chapters-container::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,0.3);
+    border-radius: 3px;
+  }
+  
+  .chapter-item {
+    flex: 0 0 auto;
+    width: 55%;
+    min-width: 300px;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--card-bg);
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+  
+  .chapter-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  
+  .chapter-item.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
+  }
+  
+  .chapter-number {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 12px;
+    background: rgba(148,163,184,0.08);
+    color: var(--text);
+  }
+  
+  .chapter-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .chapter-text {
+    padding: 4px 12px 12px 12px; 
+    font-size: 13px;
+    line-height: 1.4;
+    color: #475569;
+    overflow: visible;
+  display: block;
+  /* Allow text to wrap naturally */
+  white-space: normal;
+  }
+
   .rating-image-row {
     display:flex; gap:3px; align-items:stretch;
-    margin-top:12px;
+    margin-top:16px;
     height:var(--row-height);
     flex-direction:row;
   }
@@ -400,7 +513,6 @@
   .main-rating {
     display:flex; align-items:center;
     gap:16px; margin:0;
-    cursor:default;
     flex:1;
   }
   .main-rating .star-wrap {
@@ -466,7 +578,7 @@
     flex:1; height:10px;
     background: rgba(148,163,184,.08);
     border-radius:999px; overflow:hidden;
-    position:relative; cursor:default;
+    position:relative; cursor:pointer;
   }
   .rating-row .bar .fill {
     height:100%; width:0%;
@@ -493,53 +605,15 @@
     display:block; background:transparent;
   }
 
-  /* Chapters strip (horizontal scroll) */
-  .chapters {
-    margin-top:12px;
-    display:flex;
-    gap:10px;
-    padding:6px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling: touch;
-    align-items:flex-start;
-  }
-  .chapter-card {
-    flex: 0 0 55%; /* 50-60% modal width as requested */
-    max-width: 60%;
-    min-width: 45%;
-    box-sizing:border-box;
-    border-radius:12px;
-    background: var(--card-bg);
-    padding:6px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    cursor:pointer;
-  }
-  .chapter-card img {
-    width:100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius:8px;
-  }
-  .chapter-card .ch-title {
-    font-weight:800; font-size:13px; color:#0f172a;
-    line-height:1.2;
-  }
-  .chapter-card .ch-desc {
-    font-size:13px; color:#475569; line-height:1.2;
-    max-height:3.2em; overflow:hidden;
-  }
-
   .modal-buttons {
-    margin-top: 12px;
+    margin-top: 16px;
     display:flex; gap:8px; flex-wrap:wrap;
   }
   .modal-buttons .side-btn {
-    flex:1; min-width:120px; padding:10px;
+    flex:1; min-width:120px; padding:12px;
     border-radius:10px; border:none;
     cursor:pointer; color:#fff; font-weight:700;
+    font-size:14px;
     transition: transform .15s ease, box-shadow .15s ease, opacity .12s ease;
   }
   .modal-buttons .side-btn:hover {
@@ -550,36 +624,31 @@
   #btnGallery { background-image:linear-gradient(90deg, var(--btn-gallery-start), var(--btn-gallery-end)); }
   #btnTrailer { background-image:linear-gradient(90deg, var(--btn-trailer-start), var(--btn-trailer-end)); }
 
-  .modal-full-buttons {
-    margin-top:10px;
-    display:flex; flex-direction:column;
-    gap:8px;
+  /* PDF container */
+  .pdf-container {
+    margin-top:16px;
+    display:none;
   }
-  .modal-full-buttons .full-btn {
-    width:100%; padding:12px;
-    border-radius:12px; border:none;
-    cursor:pointer; font-weight:800;
-    color:var(--text);
-    background:var(--card-bg);
-    border:1px solid var(--full-btn-border);
-    transition: transform .12s ease, box-shadow .12s ease;
+  
+  .pdf-container.visible {
+    display:block;
   }
-  .modal-full-buttons .full-btn:hover {
-    transform: translateY(-2px);
-    box-shadow:0 10px 24px rgba(0,0,0,.08);
+  
+  .pdf-inner {
+    position:relative;
+    width:100%;
+    aspect-ratio: 1.414 / 1; /* A4 aspect ratio */
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    border:1px solid rgba(148,163,184,0.15);
   }
-
-  #btnCensored {
-    background-image:linear-gradient(90deg, var(--btn-censored-start), var(--btn-censored-end));
-    color:#fff; border-color:transparent;
-  }
-  #btnUncensored {
-    background-image:linear-gradient(90deg, var(--btn-uncensored-start), var(--btn-uncensored-end));
-    color:#fff; border-color:transparent;
-  }
-  #btnEnglish {
-    background-image:linear-gradient(90deg, var(--btn-english-start), var(--btn-english-end));
-    color:#fff; border-color:transparent;
+  
+  .pdf-inner iframe {
+    width:100%;
+    height:100%;
+    border:0;
   }
 
   /* =============== EMBEDDED WEBSITE AREA =============== */
@@ -649,7 +718,7 @@
     padding-top:170%; /* tall vertical */
   }
   .embed-body.landscape {
-    padding-top:80%;
+    padding-top:80%; 
   }
   .embed-body iframe {
     position:absolute;
@@ -758,14 +827,14 @@
   @media (max-width:600px){
     .rating-image-right { width:40%; }
     .rating-left .label { width:90px; }
-    .status-circle { width:10px; height:10px; }
-    .status-clock { width:12px; height:12px; }
     .mini-rating { font-size:12px; }
     .grid-3 { gap:2px; }
     .filter-top { padding:8px; }
-    .chapter-card { flex: 0 0 80%; min-width: 70%; }
+    .chapter-item {
+      width: 70%;
+      min-width: 260px;
+    }
   }
-
 </style>
 </head>
 <body>
@@ -791,7 +860,7 @@
 <div class="filter-buttons">
   <button onclick="openFilter('actress')" id="btn-actress" aria-label="Filter Actress">Actress: All</button>
   <button id="btn-gold" class="gold-btn" onclick="toggleRatingCategory('gold')" aria-label="Gold">Gold</button>
-  <button id="btn-silver" class="silver-btn" onclick="toggleRatingCategory('silver')" aria-label="Blue">Blue</button>
+  <button id="btn-blue" class="blue-btn" onclick="toggleRatingCategory('blue')" aria-label="Blue">Blue</button>
 </div>
 
 <div class="video-grid" id="videoGrid"></div>
@@ -801,14 +870,14 @@
 <div class="modal" id="videoModal" role="dialog" aria-modal="true">
   <span class="close" onclick="closeModal('videoModal')" aria-label="Close">&times;</span>
   <div class="modal-content" id="modalContentElement">
-    <!-- Top video area (16:9). iframe loads chapter/trailer; thumbnail shown initially -->
-    <div class="modal-video-area">
-      <iframe id="modalTopIframe" class="player" src="" frameborder="0" allowfullscreen loading="lazy" title="Player"></iframe>
-      <img id="modalTopThumb" src="" alt="Thumbnail" />
+    <!-- Video area at the top -->
+    <div class="modal-video-area" id="modalVideoArea">
+      <img id="videoThumbnail" class="video-thumbnail" src="" alt="Video thumbnail">
+      <iframe id="videoIframe" class="video-iframe" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
     </div>
 
     <div class="modal-inner" id="modalInner">
-      <div class="modal-title" id="modalTitle"></div>
+      <div id="modalTitle" class="modal-title"></div>
 
       <div id="modalMeta">
         <div class="meta-line" id="metaActress"></div>
@@ -817,13 +886,18 @@
         <div class="meta-line" id="modalDescription"></div>
       </div>
 
-      <!-- Chapters (hidden by default) -->
-      <div id="chaptersContainer" class="chapters" aria-live="polite" style="display:none;"></div>
+      <!-- Chapters section -->
+      <div class="chapters-section" id="chaptersSection">
+        <div class="chapters-header">
+          <div class="chapters-title">Chapters</div>
+        </div>
+        <div class="chapters-container" id="chaptersContainer"></div>
+      </div>
 
       <div class="rating-image-row">
         <div class="rating-left">
           <div class="rating-header">
-            <div class="main-rating" id="mainRatingBox" title="Overall rating">
+            <div class="main-rating" id="mainRatingBox">
               <div class="star-wrap" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path d="M12 2.5l2.59 5.25 5.79.84-4.19 4.08.99 5.77L12 17.77 6.82 19.44l.99-5.77L3.62 9.59l5.79-.84L12 2.5z" stroke="none" fill="url(#g)"/>
@@ -840,7 +914,7 @@
                 <div class="max">/ 10</div>
               </div>
             </div>
-            <button type="button" class="rating-clock-btn" id="timestampsToggle" title="Show chapters">🕒</button>
+            <button type="button" class="rating-clock-btn" id="timestampsToggle" title="Show/hide chapters">🕒</button>
           </div>
 
           <div class="rating-bars" id="ratingBars"></div>
@@ -856,7 +930,15 @@
         <button class="side-btn" id="btnTrailer">Trailer</button>
       </div>
 
-      <div class="embed-container" id="embedContainer">
+      <!-- PDF container -->
+      <div id="pdfContainer" class="pdf-container">
+        <div class="pdf-inner">
+          <iframe id="pdfIframe" src="" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- Embedded website area -->
+      <div id="embedContainer" class="embed-container">
         <div id="embedInner" class="embed-inner">
           <div class="embed-header">
             <div id="embedTitle" class="embed-title">Preview</div>
@@ -942,28 +1024,6 @@ function hasUrl(obj, candidates){
   return !!(u && String(u).trim());
 }
 
-/* Attempt to find a Drive file ID for gallery PDFs */
-function findDriveIdFromObj(v){
-  // common fields: galleryDriveId, driveId, gallery_drive_id, galleryDrive, gallery (if full Drive URL)
-  const candidates = ['galleryDriveId','galleryDrive','driveId','gallery_drive_id','gallery_drive','galleryId','gallery_id'];
-  for(const c of candidates){
-    const val = getField(v, c);
-    if(val && String(val).trim()){
-      return String(val).trim();
-    }
-  }
-  // If gallery contains a full Drive URL like https://drive.google.com/file/d/ID/view
-  const maybe = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
-  if(maybe){
-    const m = maybe.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
-    if(m && m[1]) return m[1];
-    // alternative forms: open?id=ID
-    const q = maybe.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
-    if(q && q[1]) return q[1];
-  }
-  return null;
-}
-
 /* ================== Embedded website helpers ================== */
 function closeEmbedded(){
   const container = document.getElementById('embedContainer');
@@ -1038,6 +1098,10 @@ const actressFontForCols = {1: '18px', 2: '15px', 3: '12px', 4: '11px'};
 
 let activeSearch = '';
 
+/* Current video modal state */
+let currentVideo = null;
+let currentChapterIndex = -1; // -1 means no chapter selected
+
 /* ================== Init ================== */
 function init(){
   filtered = shuffleArray([...videos]);
@@ -1052,9 +1116,9 @@ function toggleRatingCategory(cat){
   if(idx >= 0) activeFilters.ratingCategories.splice(idx,1);
   else activeFilters.ratingCategories.push(cat);
   const btnGold = document.getElementById('btn-gold');
-  const btnSilver = document.getElementById('btn-silver');
+  const btnBlue = document.getElementById('btn-blue');
   btnGold.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold'));
-  btnSilver.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver'));
+  btnBlue.classList.toggle('active', activeFilters.ratingCategories && activeFilters.ratingCategories.includes('blue'));
   applyAllFilters();
 }
 
@@ -1087,8 +1151,8 @@ function applyAllFilters(){
       const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
       const { avg } = computeAverageRating(ratingSource);
       const matches = activeFilters.ratingCategories.some(cat=>{
-        if(cat === 'gold') return avg >= 9.5;                // updated threshold
-        if(cat === 'silver') return avg >= 8.5 && avg < 9.5; // updated threshold (blue)
+        if(cat === 'gold') return avg >= 9.5;
+        if(cat === 'blue') return avg >= 8.5 && avg < 9.5;
         return false;
       });
       if(!matches) return false;
@@ -1112,18 +1176,16 @@ function renderVideos(){
     const ratingSource = v.ratings || { actress: v.rating_actress, production: v.rating_production, ex: v.rating_ex, plot: v.rating_plot };
     const { avg } = computeAverageRating(ratingSource);
 
-    // chapters count
-    const chaptersCount = (Array.isArray(v.chapters) ? v.chapters.length : (Number(v.chaptersCount) || Number(v.chapter_count) || 0)) || 0;
-
-    const tags = toArray(v.tags);
-    const tagsLine = tags.length ? tags.join(" • ") : "";
+    const chapters = v.chapters || [];
+    const chapterCount = chapters.length;
 
     const card = document.createElement("div");
     card.className = "video-card";
 
-    // new thresholds
+    // Apply rating color system
     if(avg >= 9.5) card.classList.add('gold');
-    else if(avg >= 8.5 && avg < 9.5) card.classList.add('silver');
+    else if(avg >= 8.5 && avg < 9.5) card.classList.add('blue');
+    else card.classList.add('white');
 
     const thumb = v.thumbnail || '';
     const titleEsc = (v.title || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1131,10 +1193,10 @@ function renderVideos(){
     card.innerHTML = `
       <img class="thumb" src="${thumb}" loading="lazy" alt="">
       <b>${titleEsc}</b>
-      <div class="card-tags">${tagsLine ? escapeHtml(tagsLine) : ''}</div>
+      <div class="card-tags">${chapterCount} chapter${chapterCount !== 1 ? 's' : ''} available</div>
       <div class="card-footer">
-        <div class="status-row">
-          <div class="chapter-count" title="Number of chapters">${chaptersCount} ${chaptersCount===1?'chapter':'chapters'}</div>
+        <div class="chapters-badge">
+          <span>${chapterCount} chapter${chapterCount !== 1 ? 's' : ''}</span>
         </div>
         <div class="mini-rating" title="Main rating">
           <div class="star" aria-hidden="true">★</div>
@@ -1143,7 +1205,6 @@ function renderVideos(){
       </div>
     `;
     card.onclick = ()=>openVideo(v);
-
     grid.appendChild(card);
   });
 
@@ -1223,21 +1284,163 @@ function setupDescription(descText){
   }
 }
 
-/* ================== openVideo (with chapters) ================== */
+/* ================== Video Player Functions ================== */
+function showVideoThumbnail(){
+  const thumbnail = document.getElementById('videoThumbnail');
+  const iframe = document.getElementById('videoIframe');
+  if(thumbnail && iframe){
+    thumbnail.style.display = 'block';
+    iframe.style.display = 'none';
+    iframe.src = '';
+  }
+}
+
+function playVideoInModal(url){
+  const thumbnail = document.getElementById('videoThumbnail');
+  const iframe = document.getElementById('videoIframe');
+  if(thumbnail && iframe && url){
+    thumbnail.style.display = 'none';
+    iframe.style.display = 'block';
+    iframe.src = url;
+  }
+}
+
+/* ================== PDF Functions ================== */
+function showPdf(url){
+  const pdfContainer = document.getElementById('pdfContainer');
+  const pdfIframe = document.getElementById('pdfIframe');
+  if(pdfContainer && pdfIframe && url){
+    pdfIframe.src = url;
+    pdfContainer.classList.add('visible');
+  } else if(pdfContainer){
+    pdfContainer.classList.remove('visible');
+  }
+}
+
+function hidePdf(){
+  const pdfContainer = document.getElementById('pdfContainer');
+  const pdfIframe = document.getElementById('pdfIframe');
+  if(pdfContainer){
+    pdfContainer.classList.remove('visible');
+  }
+  if(pdfIframe){
+    pdfIframe.src = '';
+  }
+}
+
+/* ================== Chapters Functions ================== */
+function renderChapters(chapters){
+  const container = document.getElementById('chaptersContainer');
+  const section = document.getElementById('chaptersSection');
+  if(!container || !section) return;
+  
+  container.innerHTML = '';
+  
+  if(!chapters || chapters.length === 0){
+    section.style.display = 'none';
+    return;
+  }
+  
+  chapters.forEach((chapter, index) => {
+    const chapterDiv = document.createElement('div');
+    chapterDiv.className = 'chapter-item';
+    if(index === currentChapterIndex){
+      chapterDiv.classList.add('active');
+    }
+    
+    // Add chapter title between image and text
+    chapterDiv.innerHTML = `
+      <div class="chapter-number">Chapter-${index + 1}</div>
+      <img class="chapter-image" src="${chapter.image || ''}" alt="Chapter ${index + 1}">
+      <div class="chapter-title">${escapeHtml(chapter.title || '')}</div>
+      <div class="chapter-text">${escapeHtml(chapter.text || '')}</div>
+    `;
+    
+    chapterDiv.onclick = (e) => {
+      e.stopPropagation();
+      selectChapter(index, chapter);
+    };
+    
+    container.appendChild(chapterDiv);
+  });
+}
+
+function selectChapter(index, chapter){
+  currentChapterIndex = index;
+  
+  // Update active state in chapters
+  const chapterItems = document.querySelectorAll('.chapter-item');
+  chapterItems.forEach((item, i) => {
+    if(i === index){
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+  
+  // Play the chapter video if available
+  if(chapter && chapter.videoUrl){
+    playVideoInModal(chapter.videoUrl);
+  }
+  
+  // Show the corresponding PDF if available
+  if(chapter && chapter.pdfUrl){
+    showPdf(chapter.pdfUrl);
+  } else if(currentVideo && currentVideo.defaultPdf){
+    showPdf(currentVideo.defaultPdf);
+  } else {
+    hidePdf();
+  }
+}
+
+function toggleChaptersVisibility(){
+  const section = document.getElementById('chaptersSection');
+  const toggleBtn = document.getElementById('timestampsToggle');
+  
+  if(section.classList.contains('visible')){
+    section.classList.remove('visible');
+    toggleBtn.classList.remove('active');
+    toggleBtn.setAttribute('title', 'Show chapters');
+    
+    // When hiding chapters, also hide PDF if showing
+    hidePdf();
+    // Reset to showing thumbnail
+    showVideoThumbnail();
+    currentChapterIndex = -1;
+    
+    // Remove active state from all chapters
+    const chapterItems = document.querySelectorAll('.chapter-item');
+    chapterItems.forEach(item => {
+      item.classList.remove('active');
+    });
+  } else {
+    section.classList.add('visible');
+    toggleBtn.classList.add('active');
+    toggleBtn.setAttribute('title', 'Hide chapters');
+    
+    // Show default PDF if no chapter selected
+    if(currentChapterIndex === -1 && currentVideo && currentVideo.defaultPdf){
+      showPdf(currentVideo.defaultPdf);
+    }
+  }
+}
+
+/* ================== openVideo ================== */
 function openVideo(v){
   closeEmbedded();
-
-  const topIframe = document.getElementById("modalTopIframe");
-  const topThumb = document.getElementById("modalTopThumb");
-  if(topIframe) topIframe.src = ""; // default empty (shows thumb)
-  // default: show thumb cropped to 16:9
+  
+  currentVideo = v;
+  currentChapterIndex = -1;
+  
+  // Set up video area
+  const thumbnail = document.getElementById('videoThumbnail');
   const thumbSrc = getField(v, 'thumbnail', 'thumb', 'coverImage', 'coverimage', 'cover_image') ||
     (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) || '';
-  if(topThumb) {
-    topThumb.src = thumbSrc;
-    topThumb.alt = v.title || "Thumbnail";
-    topThumb.style.display = ''; // visible by default
-  }
+  thumbnail.src = thumbSrc;
+  thumbnail.alt = v.title || "Video thumbnail";
+  
+  // Show thumbnail by default
+  showVideoThumbnail();
 
   document.getElementById("modalTitle").textContent = v.title || "";
 
@@ -1273,39 +1476,23 @@ function openVideo(v){
   const descText = getField(v, 'description', 'desc') || '';
   setupDescription(descText);
 
-  // Chapters: populate horizontal strip
-  const chaptersEl = document.getElementById('chaptersContainer');
-  chaptersEl.innerHTML = '';
-  const chapters = Array.isArray(v.chapters) ? v.chapters : [];
-  if(chapters && chapters.length){
-    chapters.forEach((ch, idx)=>{
-      const img = getField(ch, 'image', 'thumb', 'thumbnail') || '';
-      const title = getField(ch, 'title', 'name') || (`Chapter ${idx+1}`);
-      const desc = getField(ch, 'desc', 'description') || '';
-      const iframeUrl = getField(ch, 'iframe', 'videoUrl', 'url') || '';
-      const card = document.createElement('div');
-      card.className = 'chapter-card';
-      card.innerHTML = `
-        <img src="${img}" loading="lazy" alt="${escapeHtml(title)}" />
-        <div class="ch-title">${escapeHtml(title)}</div>
-        <div class="ch-desc">${escapeHtml(desc)}</div>
-      `;
-      card.onclick = function(e){
-        e.stopPropagation();
-        // set top iframe to chapter's iframe (or videoUrl)
-        if(topIframe){
-          topIframe.src = iframeUrl || '';
-          topThumb.style.display = (iframeUrl ? 'none' : '');
-        }
-      };
-      chaptersEl.appendChild(card);
-    });
-    chaptersEl.style.display = 'none'; // hidden by default per requirement
-  } else {
-    chaptersEl.style.display = 'none';
+  // Set up chapters
+  const chapters = v.chapters || [];
+  renderChapters(chapters);
+  
+  // Reset chapters section to hidden by default
+  const chaptersSection = document.getElementById('chaptersSection');
+  const toggleBtn = document.getElementById('timestampsToggle');
+  if(chaptersSection){
+    chaptersSection.classList.remove('visible');
+  }
+  if(toggleBtn){
+    toggleBtn.classList.remove('active');
+    toggleBtn.setAttribute('title', 'Show chapters');
+    toggleBtn.onclick = toggleChaptersVisibility;
+    toggleBtn.style.display = chapters.length > 0 ? 'flex' : 'none';
   }
 
-  // Ratings
   const ratingContainer = document.getElementById("ratingBars");
   ratingContainer.innerHTML = "";
 
@@ -1332,12 +1519,6 @@ function openVideo(v){
     ratingContainer.appendChild(row);
   });
 
-  const mainRatingBox = document.getElementById('mainRatingBox');
-  if(mainRatingBox){
-    // no popup (removed), so no onClick explanation
-    mainRatingBox.onclick = function(e){ e.stopPropagation(); };
-  }
-
   const coverImg = document.getElementById("modalCoverImage");
   const coverSrc = getField(v, 'coverimage', 'coverImage', 'cover_image') ||
     (Array.isArray(v.gallery) ? v.gallery[0] : (typeof v.gallery === 'string' ? v.gallery : '')) ||
@@ -1355,64 +1536,31 @@ function openVideo(v){
     b.onmouseleave = ()=> b.style.opacity = '';
   });
 
-  // Trailer -> loads iframe video in the top video area
   const trailerUrl = getFirstUrl(v, ['trailer','trailerUrl','trailer_url','preview','previewUrl','preview_url']);
-  trailerBtn.onclick = ()=> {
-    const topIframe = document.getElementById("modalTopIframe");
-    const topThumb = document.getElementById("modalTopThumb");
-    if(topIframe){
-      topIframe.src = trailerUrl || '';
-      topThumb.style.display = (trailerUrl ? 'none' : '');
+
+  galleryBtn.onclick = () => {
+    // Show default PDF if available
+    if(v.defaultPdf){
+      showPdf(v.defaultPdf);
+    }
+  };
+  
+  trailerBtn.onclick = () => {
+    if(trailerUrl){
+      playVideoInModal(trailerUrl);
     }
   };
 
-  // Gallery -> open Google Drive PDF (below the buttons, using embed area)
-  galleryBtn.onclick = ()=> {
-    const driveId = findDriveIdFromObj(v);
-    if(driveId){
-      const url = `https://drive.google.com/file/d/${driveId}/preview`;
-      openEmbeddedInModal(url, 'portrait', 'Gallery');
-    } else {
-      // fallback: try gallery url
-      const galleryUrl = getFirstUrl(v, ['gallery','galleryUrl','gallery_url','gallerylink','gallery_link']);
-      if(galleryUrl) openEmbeddedInModal(galleryUrl, 'portrait', 'Gallery');
-      else {
-        // no gallery found - do nothing or open blank
-        openEmbeddedInModal('', 'portrait', 'Gallery');
-      }
-    }
-  };
-
-  // modal content class: gold / silver thresholds updated
   const modalContent = document.getElementById('modalContentElement');
-  modalContent.classList.remove('gold-modal','silver-modal');
+  modalContent.classList.remove('gold-modal','blue-modal','white-modal');
+  
+  // Apply new rating color system
   if(avg >= 9.5) modalContent.classList.add('gold-modal');
-  else if(avg >= 8.5 && avg < 9.5) modalContent.classList.add('silver-modal');
+  else if(avg >= 8.5 && avg < 9.5) modalContent.classList.add('blue-modal');
+  else modalContent.classList.add('white-modal');
 
-  // Chapters toggle button (clock icon): show/hide chapter strip
-  const toggleBtn = document.getElementById('timestampsToggle');
-  if(toggleBtn){
-    if(chapters && chapters.length){
-      toggleBtn.style.display = 'flex';
-      toggleBtn.classList.remove('active');
-      toggleBtn.setAttribute('title','Show chapters');
-      toggleBtn.onclick = function(e){
-        e.stopPropagation();
-        const isVisible = chaptersEl.style.display === 'flex';
-        if(isVisible){
-          chaptersEl.style.display = 'none';
-          toggleBtn.classList.remove('active');
-          toggleBtn.setAttribute('title','Show chapters');
-        } else {
-          chaptersEl.style.display = 'flex';
-          toggleBtn.classList.add('active');
-          toggleBtn.setAttribute('title','Hide chapters');
-        }
-      };
-    } else {
-      toggleBtn.style.display = 'none';
-    }
-  }
+  // Hide PDF initially
+  hidePdf();
 
   document.getElementById("videoModal").style.display = "flex";
 }
@@ -1430,10 +1578,12 @@ function escapeHtml(str){
 function closeModal(id){
   document.getElementById(id).style.display = "none";
   if(id === "videoModal"){
-    const player = document.getElementById("modalTopIframe");
-    if(player) player.src = "";
-    document.getElementById('modalContentElement').classList.remove('gold-modal','silver-modal');
+    showVideoThumbnail();
+    document.getElementById('modalContentElement').classList.remove('gold-modal','blue-modal','white-modal');
     closeEmbedded();
+    hidePdf();
+    currentVideo = null;
+    currentChapterIndex = -1;
   }
 }
 
@@ -1548,8 +1698,8 @@ function updateFilterButtonsUI(){
 function updateRatingButtonsUI(){
   document.getElementById('btn-gold').classList.toggle('active',
     !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('gold')));
-  document.getElementById('btn-silver').classList.toggle('active',
-    !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('silver')));
+  document.getElementById('btn-blue').classList.toggle('active',
+    !!(activeFilters.ratingCategories && activeFilters.ratingCategories.includes('blue')));
 }
 
 /* ================== Header Buttons ================== */
@@ -1585,7 +1735,7 @@ function closeOnBackgroundClick(e, id){
 document.getElementById("videoModal").addEventListener("click", e=>closeOnBackgroundClick(e, "videoModal"));
 document.getElementById("filterModal").addEventListener("click", e=>closeOnBackgroundClick(e, "filterModal"));
 
-/* remove leftover listeners referencing removed popup - none remain */
+window.addEventListener('scroll', ()=> {}, { passive:true });
 </script>
 </body>
 </html>
