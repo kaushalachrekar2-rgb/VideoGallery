@@ -1,174 +1,123 @@
-// videos.js - sample dataset (5 videos with chapters, gallery Drive IDs, ratings, etc.)
-window.videos = [
-  {
-    id: "vid001",
-    code: "ABC-001",
-    title: "Midnight Escape",
-    thumbnail: "https://via.placeholder.com/1280x720.png?text=Midnight+Escape+Thumb",
-    coverImage: "https://via.placeholder.com/1280x720.png?text=Midnight+Escape+Cover",
-    galleryDriveId: "1AaBbCcDdEeFfGgH1", // sample Drive file ID
-    tags: ["drama", "romance"],
-    actress: ["Aiko Tanaka"],
-    studio: ["Luna Films"],
-    label: ["Premium"],
-    ratings: { actress: 9.8, production: 9.6, ex: 9.7, plot: 9.6 }, // avg >= 9.5 -> Gold
-    chapters: [
-      {
-        title: "Opening — City Lights",
-        desc: "Intro sequence and character setup.",
-        image: "https://via.placeholder.com/1280x720.png?text=Chapter+1+-+City+Lights",
-        iframe: "https://player.example.com/embed/midnight-escape/ch1"
-      },
-      {
-        title: "Unexpected Meeting",
-        desc: "The two leads cross paths.",
-        image: "https://via.placeholder.com/1280x720.png?text=Chapter+2+-+Meeting",
-        iframe: "https://player.example.com/embed/midnight-escape/ch2"
-      },
-      {
-        title: "Cliffside Confession",
-        desc: "Emotional turning point.",
-        image: "https://via.placeholder.com/1280x720.png?text=Chapter+3+-+Confession",
-        iframe: "https://player.example.com/embed/midnight-escape/ch3"
-      }
-    ]
-  },
 
+const videos = [
   {
-    id: "vid002",
-    code: "BLU-210",
-    title: "Neon Highway",
-    thumbnail: "https://via.placeholder.com/1280x720.png?text=Neon+Highway+Thumb",
-    coverImage: "https://via.placeholder.com/1280x720.png?text=Neon+Highway+Cover",
-    galleryDriveId: "1BbCcDdEeFfGgHh2",
-    tags: ["action", "sci-fi"],
-    actress: ["Maya Rivera"],
-    studio: ["Nova Pictures"],
-    label: ["Standard"],
-    ratings: { actress: 8.7, production: 8.5, ex: 8.6, plot: 8.7 }, // avg between 8.5 and 9.5 -> Blue
-    chapters: [
+    "id": 1,
+    "title": "[FNS-132] The Beginning: Masaki Juku 28 Hours of Complete Slut Awakening Training Nene Yoshitaka",
+    "actress": [
+      "Yoshitaka Nene"
+    ],
+    "studio": "FALENO",
+    "label": [
+      "FNS"
+    ],
+    "tags": [
+      "Dominant Woman",
+      "Training",
+      "Outdoor",
+      "Cowgirl",
+      "Slut",
+      "Masochistic Men"
+    ],
+    "thumbnail": "",
+    "coverimage": "",
+    "ratings": {
+      "actress": 10,
+      "production": 10,
+      "ex": 10,
+      "plot": 9
+    },
+    "description": "Nene Yoshitaka, a seasoned actress marking her eighth year in the industry, embarks on an ambitious journey to redefine her sensual boundaries in this immersive production. Released on November 20, 2025, with a runtime of approximately 3 hours and 31 minutes, the film captures her participation in a rigorous two-day, one-night training camp designed to awaken and refine her dominant, seductive side. Under the guidance of renowned director Nao Masaki, Nene explores new depths of confidence and control, breaking through previous limitations to emerge as a more empowered performer.\nThe storyline revolves around the \"Masaki Juku\" academy, a special bootcamp focused on slut awakening through structured lessons on acceptance, motherhood in sensuality, openness, and relentless effort. Nene arrives eager yet reserved, gradually transforming as she engages in challenging exercises that test her physical stamina, vocal expression, hip movements, and emotional vulnerability. The camp's philosophy emphasizes embracing one's partner fully while shedding inhibitions, creating a dynamic atmosphere of growth and discovery.\nWhat makes this release particularly enjoyable is Nene's authentic progression—from initial shyness to bold dominance—showcased through strong acting and palpable chemistry with her partners. The moody blend of intense training sessions and outdoor elements adds a fresh, liberating tone, while the high production values enhance the dramatic buildup. The film's style stands out for its coherent character development and engaging pacing, offering a narrative-driven experience that feels like a personal evolution story.\nThe overall atmosphere combines Spartan discipline with playful exploration, resulting in a captivating mood that highlights Nene's natural charisma and the director's vision for overturning conventional dynamics. Fans appreciate the thoughtful buildup, emotional layers, and the way it celebrates empowerment, making it a standout in transformative themes.",
+    "defaultPdf": "",
+    "trailer": "https://www.eporner.com/embed/ThhGALnVptz/",
+    "chapters": [
       {
-        title: "Start: The Chase",
-        desc: "Intro chase with neon visuals.",
-        image: "https://via.placeholder.com/1280x720.png?text=Neon+Chase",
-        iframe: "https://player.example.com/embed/neon-highway/ch1"
+        "chapter": 1,
+        "title": "Arrival and Camp Introduction",
+        "text": "Nene Yoshitaka arrives at the secluded Masaki Juku training facility, greeted by the director and staff. Initial interviews explore her motivations after eight years in the industry, revealing her desire to break through limitations. The camp's philosophy of dominance through maternal love, full acceptance, and relentless effort is outlined, setting an atmosphere of anticipation and determination.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Factory Skirmish",
-        desc: "Fight in the abandoned factory.",
-        image: "https://via.placeholder.com/1280x720.png?text=Factory+Skirmish",
-        iframe: "https://player.example.com/embed/neon-highway/ch2"
-      }
-    ]
-  },
-
-  {
-    id: "vid003",
-    code: "WHI-777",
-    title: "Quiet Rain",
-    thumbnail: "https://via.placeholder.com/1280x720.png?text=Quiet+Rain+Thumb",
-    coverImage: "https://via.placeholder.com/1280x720.png?text=Quiet+Rain+Cover",
-    galleryDriveId: "1CcDdEeFfGgHhIi3",
-    tags: ["slice-of-life", "art"],
-    actress: ["Lina Park"],
-    studio: ["Stillwater"],
-    label: ["Indie"],
-    ratings: { actress: 7.9, production: 7.8, ex: 8.0, plot: 8.1 }, // avg < 8.5 -> White
-    chapters: [
-      {
-        title: "Morning Rituals",
-        desc: "A quiet morning routine scene.",
-        image: "https://via.placeholder.com/1280x720.png?text=Morning+Rituals",
-        iframe: "https://player.example.com/embed/quiet-rain/ch1"
+        "chapter": 2,
+        "title": "First Group Session Awakening",
+        "text": "Intensive opening session with multiple trainees and masochistic partners in a group setting. Nene engages in shared exercises focused on vocal expression, mutual acceptance, and initial dominant interactions. The dynamic builds confidence as she practices embracing partners fully, blending tenderness with emerging control in a high-energy environment.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Letter",
-        desc: "A letter changes everything.",
-        image: "https://via.placeholder.com/1280x720.png?text=Letter",
-        iframe: "https://player.example.com/embed/quiet-rain/ch2"
+        "chapter": 3,
+        "title": "Intense Outdoor Training Drills",
+        "text": "Transition to outdoor challenges emphasizing physical stamina and hip movements under natural conditions. Nene pushes her limits with rigorous exercises alongside trainees, incorporating fresh air and Spartan elements to intensify effort. Her growing assertiveness shines through improved fluidity and bold presence in the liberating setting.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Evening Walk",
-        desc: "Reflective ending on the bridge.",
-        image: "https://via.placeholder.com/1280x720.png?text=Evening+Walk",
-        iframe: "https://player.example.com/embed/quiet-rain/ch3"
-      }
-    ]
-  },
-
-  {
-    id: "vid004",
-    code: "BLU-999",
-    title: "Skyline Protocol",
-    thumbnail: "https://via.placeholder.com/1280x720.png?text=Skyline+Protocol+Thumb",
-    coverImage: "https://via.placeholder.com/1280x720.png?text=Skyline+Protocol+Cover",
-    galleryDriveId: "1DdEeFfGgHhIiJ4",
-    tags: ["thriller", "mystery"],
-    actress: ["Sana Ito"],
-    studio: ["Argent Studios"],
-    label: ["Premium"],
-    ratings: { actress: 8.9, production: 9.0, ex: 8.6, plot: 9.1 }, // avg between 8.5 and 9.5 -> Blue
-    chapters: [
-      {
-        title: "Briefing",
-        desc: "The team receives instructions.",
-        image: "https://via.placeholder.com/1280x720.png?text=Briefing",
-        iframe: "https://player.example.com/embed/skyline-protocol/ch1"
+        "chapter": 4,
+        "title": "Indoor Technique Practice",
+        "text": "Focused indoor session using training aids and a submissive partner to refine movements and dominance. Nene hones cowgirl techniques and emotional exposure, guided by the director's feedback. The intimate setup allows for detailed refinement, highlighting her evolving chemistry and commitment to overturning past styles.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "The Heist",
-        desc: "Execution of the risky operation.",
-        image: "https://via.placeholder.com/1280x720.png?text=The+Heist",
-        iframe: "https://player.example.com/embed/skyline-protocol/ch2"
+        "chapter": 5,
+        "title": "Midpoint Break and Reflection",
+        "text": "Brief respite with casual conversation among participants and staff. Nene discusses her progress, vulnerabilities, and insights gained so far, fostering deeper emotional connections. The relaxed mood provides contrast, allowing recharge while reinforcing the camp's themes of openness and heart exposure.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Aftermath",
-        desc: "Consequences and revelations.",
-        image: "https://via.placeholder.com/1280x720.png?text=Aftermath",
-        iframe: "https://player.example.com/embed/skyline-protocol/ch3"
+        "chapter": 6,
+        "title": "Advanced Indoor Dominance Exercises",
+        "text": "Resumed intensive indoor training with heightened focus on voice, stamina, and full partner acceptance. Nene leads more assertive interactions, testing endurance and expressive control. The session builds palpable tension and chemistry, showcasing her transformation through passionate and disciplined performances.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Epilogue",
-        desc: "Short epilogue scene.",
-        image: "https://via.placeholder.com/1280x720.png?text=Epilogue",
-        iframe: "https://player.example.com/embed/skyline-protocol/ch4"
-      }
-    ]
-  },
-
-  {
-    id: "vid005",
-    code: "GOLD-42",
-    title: "Aurora Bloom",
-    thumbnail: "https://via.placeholder.com/1280x720.png?text=Aurora+Bloom+Thumb",
-    coverImage: "https://via.placeholder.com/1280x720.png?text=Aurora+Bloom+Cover",
-    galleryDriveId: "1EeFfGgHhIiJjK5",
-    tags: ["fantasy", "visual"],
-    actress: ["Rina Kovac"],
-    studio: ["Celeste Works"],
-    label: ["Collector"],
-    ratings: { actress: 9.6, production: 9.7, ex: 9.5, plot: 9.8 }, // avg >= 9.5 -> Gold
-    chapters: [
-      {
-        title: "Blooming Night",
-        desc: "Opening visual sequence with aurora.",
-        image: "https://via.placeholder.com/1280x720.png?text=Blooming+Night",
-        iframe: "https://player.example.com/embed/aurora-bloom/ch1"
+        "chapter": 7,
+        "title": "Nighttime Pool Immersion Challenge",
+        "text": "Evening shift to the pool for unique aquatic trials blending sensuality and physical demands. Nene explores dominance in a moody, watery atmosphere with masochistic partners. The nighttime setting adds intimacy and intensity, pushing boundaries of effort and emotional vulnerability under dim lights.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Garden of Stars",
-        desc: "Magical garden exploration.",
-        image: "https://via.placeholder.com/1280x720.png?text=Garden+of+Stars",
-        iframe: "https://player.example.com/embed/aurora-bloom/ch2"
+        "chapter": 8,
+        "title": "Private Night Room Exploration",
+        "text": "Late-night one-on-one session in a private room with a devoted partner. Deep focus on tenderness, control, and mutual acceptance in an intimate space. Nene's acting conveys profound chemistry and growth, creating a captivating blend of passion and empowerment.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       },
       {
-        title: "Crown",
-        desc: "Climactic reveal with orchestra.",
-        image: "https://via.placeholder.com/1280x720.png?text=Crown",
-        iframe: "https://player.example.com/embed/aurora-bloom/ch3"
+        "chapter": 9,
+        "title": "Unexpected Lesbian Bonding",
+        "text": "Surprising collaborative segment featuring tender yet dominant interactions with a female participant. Exploration of openness and acceptance extends to same-gender dynamics, adding layers of vulnerability and discovery. Nene's natural charisma enhances the emotional depth and atmospheric mood.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
+      },
+      {
+        "chapter": 10,
+        "title": "Ultimate Climax and Full Awakening",
+        "text": "Extended final trials integrating all lessons in a high-intensity dominant performance with a partner. Varied pacing and dynamics culminate in Nene's complete transformation, showcasing peak confidence and control. The sequence celebrates her rebirth with empowering energy and strong character resolution.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
+      },
+      {
+        "chapter": 11,
+        "title": "Closing Reflections and Departure",
+        "text": "Wrap-up conversation reflecting on the 28-hour journey's impact and personal growth. Nene shares final thoughts on her awakened state, ending on an inspiring note of empowerment. Credits and lingering atmosphere reinforce the film's themes of evolution and dominance.",
+        "image": "",
+        "videoUrl": "",
+        "pdfUrl": ""
       }
     ]
   }
 ]
-
-
