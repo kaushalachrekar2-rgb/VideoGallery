@@ -873,7 +873,7 @@
     <!-- Video area at the top -->
     <div class="modal-video-area" id="modalVideoArea">
       <img id="videoThumbnail" class="video-thumbnail" src="" alt="Video thumbnail">
-      <iframe id="videoIframe" class="video-iframe" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+<iframe id="videoIframe" class="video-iframe" src="" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
     </div>
 
     <div class="modal-inner" id="modalInner">
@@ -1296,12 +1296,25 @@ function showVideoThumbnail(){
 }
 
 function playVideoInModal(url){
+  console.log("Loading video URL:", url);  // For debugging
+  
   const thumbnail = document.getElementById('videoThumbnail');
   const iframe = document.getElementById('videoIframe');
   if(thumbnail && iframe && url){
     thumbnail.style.display = 'none';
     iframe.style.display = 'block';
-    iframe.src = url;
+    
+    // Clear previous video
+    iframe.src = '';
+    
+    // Add a small delay to ensure iframe is ready
+    setTimeout(() => {
+      // Set the new source with proper attributes
+      iframe.src = url;
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    }, 100);
   }
 }
 
